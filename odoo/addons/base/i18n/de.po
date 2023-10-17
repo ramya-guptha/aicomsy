@@ -3020,7 +3020,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Generieren Sie Aufgaben in der Projekt-App aus einem auf Ihrer Website veröffentlichten Formular. Dieses Modul erfordert die Verwendung des Moduls *Formulargenerator* (verfügbar in Odoo Enterprise), um das Formular zu erstellen."
+"Generieren Sie Aufgaben in der Projekt-App aus einem auf Ihrer Website veröffentlichten Formular. Dieses Modul erfordert die Verwendung des Moduls *Formular-Builder* (verfügbar in Odoo Enterprise), um das Formular zu erstellen."
 
 #. module: base
 #: model:ir.module.module,description:base.module_hw_drivers
@@ -9306,7 +9306,7 @@ msgstr "Asset"
 #: model_terms:ir.ui.view,arch_db:base.asset_view_search
 #: model_terms:ir.ui.view,arch_db:base.asset_view_tree
 msgid "Assets"
-msgstr "Vermögensgegenstände"
+msgstr "Assets"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_partner_category_form
@@ -16229,7 +16229,7 @@ msgstr "Fehlerhafter „group by“-Parameter"
 #: code:addons/template_inheritance.py:0
 #, python-format
 msgid "Invalid Expression while parsing xpath %r"
-msgstr ""
+msgstr "Ungültiger Ausdruck beim Parsen von xpath %r"
 
 #. module: base
 #: code:addons/base/models/ir_default.py:0

@@ -556,7 +556,7 @@ msgstr "Jurnal Pengeluaran Default"
 #. module: hr_expense
 #: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
 msgid "Default Journals"
-msgstr ""
+msgstr "Jurnal Default"
 
 #. module: hr_expense
 #: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
@@ -2312,6 +2312,8 @@ msgstr ""
 #, python-format
 msgid "You cannot report expenses for different companies in the same report."
 msgstr ""
+"Anda tidak dapat melaporkan pengeluaran untuk perusahaan-perusahaan yang "
+"berbeda di laporan yang sama."
 
 #. module: hr_expense
 #: code:addons/hr_expense/models/hr_expense.py:0
