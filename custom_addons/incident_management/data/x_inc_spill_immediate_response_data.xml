@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+        <record id="im1" model="x.inc.material.spill.immediate.response">
+            <field name="name">Alarm Activated</field>
+        </record>
+        <record id="im1" model="x.inc.material.spill.immediate.response">
+            <field name="name">Cleaned using spill kit</field>
+        </record>
+
+    </data>
+</odoo>

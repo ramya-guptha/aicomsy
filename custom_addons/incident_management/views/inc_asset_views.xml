@@ -1,0 +1,16 @@
+<odoo>
+    <record id="inc_asset_view_tree" model="ir.ui.view">
+        <field name="name">inc.asset.tree</field>
+        <field name="model">x.inc.asset.record</field>
+        <field name="arch" type="xml">
+            <tree string="Asset Damages" editable="bottom">
+                <field name="id"/>
+                <field name="asset_id"/>
+                <field name="asset_title"/>
+                <field name="asset_type"/>
+                <field name="description"/>
+                <field name="immediate_response"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

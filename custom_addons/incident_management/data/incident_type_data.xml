@@ -1,0 +1,13 @@
+<odoo>
+    <data noupdate="1">
+        <record id="it1" model="x.inc.type">
+            <field name="name">Health and Safety (OH)</field>
+        </record>
+        <record id="it2" model="x.inc.type">
+            <field name="name">Environmental (ENV)</field>
+        </record>
+        <record id="it3" model="x.inc.type">
+            <field name="name">Asset</field>
+        </record>
+    </data>
+</odoo>

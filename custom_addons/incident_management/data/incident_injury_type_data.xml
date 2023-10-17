@@ -1,0 +1,64 @@
+<odoo>
+    <data noupdate="1">
+        <record id="iti1" model="x.inc.injury.type">
+            <field name="name">Abrasion</field>
+        </record>
+        <record id="iti2" model="x.inc.injury.type">
+            <field name="name">Acute Hearing Loss</field>
+        </record>
+        <record id="iti3" model="x.inc.injury.type">
+            <field name="name">Asphyxiation</field>
+        </record>
+        <record id="iti4" model="x.inc.injury.type">
+            <field name="name">Bruises</field>
+        </record>
+        <record id="iti5" model="x.inc.injury.type">
+            <field name="name">Fire Burn</field>
+        </record>
+        <record id="iti6" model="x.inc.injury.type">
+            <field name="name">Heat Burn</field>
+        </record>
+        <record id="iti7" model="x.inc.injury.type">
+            <field name="name">Chemical Burn</field>
+        </record>
+        <record id="iti8" model="x.inc.injury.type">
+            <field name="name">Internal Fracture</field>
+        </record>
+        <record id="iti9" model="x.inc.injury.type">
+            <field name="name">Concussion</field>
+        </record>
+        <record id="iti10" model="x.inc.injury.type">
+            <field name="name">Cut Wound</field>
+        </record>
+        <record id="iti11" model="x.inc.injury.type">
+            <field name="name">Dislocation</field>
+        </record>
+        <record id="iti12" model="x.inc.injury.type">
+            <field name="name">Eye Irritation</field>
+        </record>
+        <record id="iti13" model="x.inc.injury.type">
+            <field name="name">Skin Irritation</field>
+        </record>
+        <record id="iti14" model="x.inc.injury.type">
+            <field name="name">Loss of Body Part</field>
+        </record>
+        <record id="iti15" model="x.inc.injury.type">
+            <field name="name">Crack Wound</field>
+        </record>
+        <record id="iti16" model="x.inc.injury.type">
+            <field name="name">Sprain or Strain</field>
+        </record>
+        <record id="iti17" model="x.inc.injury.type">
+            <field name="name">Cardiac Arrest</field>
+        </record>
+        <record id="iti18" model="x.inc.injury.type">
+            <field name="name">Heat Stress</field>
+        </record>
+        <record id="iti19" model="x.inc.injury.type">
+            <field name="name">Shortness of Breath</field>
+        </record>
+        <record id="iti20" model="x.inc.injury.type">
+            <field name="name">Faint</field>
+        </record>
+    </data>
+</odoo>

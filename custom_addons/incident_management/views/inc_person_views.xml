@@ -1,0 +1,95 @@
+<odoo>
+
+    <record id="inc_person_view_tree" model="ir.ui.view">
+        <field name="name">inc.person.tree</field>
+        <field name="model">x.inc.person.record</field>
+        <field name="arch" type="xml">
+            <tree string="Person Injured or Involved"> <!--editable="bottom"> -->
+                <field name="person_name" string="Name of the Person"/>
+                <field name="employee_id"/>
+                <field name="person_category"/>
+                <field name="nationality"/>
+                <field name="age"/>
+                <field name="experience"/>
+                <field name="job_title"/>
+                <field name="involved_victim"/>
+                <field name="person_category"/>
+                <field name="person_task"/>
+                <field name="person_employer"/>
+                <field name="oh_incident_classification"/>
+                <field name="incident_injured_body_parts"/>
+                <field name="incident_type_of_illness"/>
+                <field name="involved_victim"/>
+                <field name="immediate_response"/>
+                <field name="person_employer"/>
+                <field name="visited_hospital"/>
+                <field name="person_days_off"/>
+
+
+            </tree>
+
+        </field>
+    </record>
+    <record id="inc_person_view_form" model="ir.ui.view">
+        <field name="name">inc.person.form</field>
+        <field name="model">x.inc.person.record</field>
+        <field name="arch" type="xml">
+            <form name="Incident Person Details">
+                <sheet>
+                    <group col="2">
+                        <group>
+                            <field name="person_category"/>
+                            <field name="employee"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
+                            <field name="visitor_name"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Visitor','Others'))]}"/>
+                        </group>
+                        <group>
+                            <field name="involved_victim"/>
+                            <field name="employee_id"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
+                            <field name="experience"/>
+                        </group>
+                        <group>
+                            <field name="person_task"/>
+                            <field name="immediate_response"
+                                   attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
+                        </group>
+                        <group>
+                            <field name="nationality"/>
+                            <field name="age" readonly="False"/>
+                        </group>
+                        <group>
+                            <field name="job_title"/>
+                            <field name="person_employer"
+                                   attrs="{'readonly': [('selected_category', '!=', 'Contractor')]}"/>
+                        </group>
+                        <group>
+                            <field name="visited_hospital"
+                                   attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
+                            <field name="person_days_off"
+                                   attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
+                        </group>
+                        <group>
+                            <field name="incident_type_of_illness"
+                                   attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"
+                                   widget="many2many_tags"/>
+                            <field name="incident_injured_body_parts"
+                                   attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"
+                                   widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="oh_incident_classification"/>
+                            <field name="severity"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                        </group>
+                        <field name="selected_category" invisible="1"/>
+                        <field name="person_name" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
