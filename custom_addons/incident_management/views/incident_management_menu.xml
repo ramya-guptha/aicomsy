@@ -3,7 +3,6 @@
     <menuitem  id="incidents_management" name="Incidents Management">
         <menuitem id="incidents" name="Incidents">
             <menuitem id="incidents_menu_action" action="incident_record_model_action"/>
-            <menuitem id="investigation_menu_action" action="investigation_model_action" sequence="10"/>
         </menuitem>
     </menuitem>
 </odoo>

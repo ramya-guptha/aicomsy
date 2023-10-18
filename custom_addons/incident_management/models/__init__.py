@@ -3,5 +3,4 @@ from . import x_inc_person
 from . import x_inc_asset
 from . import x_inc_material_spillage
 from . import x_inc_vehicle_accident
-from . import x_inc_investigation_team
 from . import x_location
