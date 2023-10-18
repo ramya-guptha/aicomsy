@@ -1,0 +1,56 @@
+<odoo>
+    <data>
+        <record id="email_template_incident" model="mail.template">
+            <field name="name">EMAIL TEMPLATE NAME</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_incident_record"/>
+            <field name="email_from">ramya.guptha@tisys.co.in</field>
+            <field name="email_to">
+                {{object.location.location_manager.email}},{{object.location.location_alternate_1.email}},{{object.location.location_alternate_1.email}}
+            </field>
+            <field name="subject">{{object.name}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An incident
+                                <t t-out="object.name"/>
+                                with the following details has been created:
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>Incident Number:</strong>
+                                    <t t-out="object.name"/>
+                                </li>
+                                <li>
+                                    <strong>Type of Incident:</strong>
+                                    <t t-foreach="object.type" t-as="type">
+                                        <t t-out="type.name"/>
+                                    </t>
+                                </li>
+                                <li>
+                                    <strong>Notified By:</strong>
+                                    <t t-out="object.notified_by.name"/>
+                                </li>
+                            </ul>
+                            <p>
+                                <strong>Description:</strong>
+                                <t t-out="object.description"/>
+                            </p>
+                            <p>Please take action to set up an investigation team to investigate the incident and take
+                                appropriate actions.
+                            </p>
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,82 @@
+<odoo>
+    <data noupdate="1">
+        <record id="bp1" model="x.inc.injured.body.parts">
+            <field name="name">Right Arm</field>
+        </record>
+        <record id="bp2" model="x.inc.injured.body.parts">
+            <field name="name">Left Arm</field>
+        </record>
+        <record id="bp3" model="x.inc.injured.body.parts">
+            <field name="name">Upper Back</field>
+        </record>
+        <record id="bp4" model="x.inc.injured.body.parts">
+            <field name="name">Lower Back</field>
+        </record>
+        <record id="bp5" model="x.inc.injured.body.parts">
+            <field name="name">Chest</field>
+        </record>
+        <record id="bp6" model="x.inc.injured.body.parts">
+            <field name="name">Right Ear</field>
+        </record>
+        <record id="bp7" model="x.inc.injured.body.parts">
+            <field name="name">Left Ear</field>
+        </record>
+        <record id="bp8" model="x.inc.injured.body.parts">
+            <field name="name">Right Elbow</field>
+        </record>
+        <record id="bp9" model="x.inc.injured.body.parts">
+            <field name="name">Left Elbow</field>
+        </record>
+        <record id="bp10" model="x.inc.injured.body.parts">
+            <field name="name">Right Eye</field>
+        </record>
+        <record id="bp11" model="x.inc.injured.body.parts">
+            <field name="name">Left Eye</field>
+        </record>
+        <record id="bp12" model="x.inc.injured.body.parts">
+            <field name="name">Face</field>
+        </record>
+        <record id="bp13" model="x.inc.injured.body.parts">
+            <field name="name">Finger (mention)</field>
+        </record>
+        <record id="bp14" model="x.inc.injured.body.parts">
+            <field name="name">Right Hand</field>
+        </record>
+        <record id="bp15" model="x.inc.injured.body.parts">
+            <field name="name">Left Hand</field>
+        </record>
+        <record id="bp16" model="x.inc.injured.body.parts">
+            <field name="name">Head</field>
+        </record>
+        <record id="bp17" model="x.inc.injured.body.parts">
+            <field name="name">Right Knee</field>
+        </record>
+        <record id="bp18" model="x.inc.injured.body.parts">
+            <field name="name">Left Knee</field>
+        </record>
+        <record id="bp19" model="x.inc.injured.body.parts">
+            <field name="name">Right Leg</field>
+        </record>
+        <record id="bp20" model="x.inc.injured.body.parts">
+            <field name="name">Left Leg</field>
+        </record>
+        <record id="bp21" model="x.inc.injured.body.parts">
+            <field name="name">Mouth</field>
+        </record>
+        <record id="bp22" model="x.inc.injured.body.parts">
+            <field name="name">Neck</field>
+        </record>
+        <record id="bp23" model="x.inc.injured.body.parts">
+            <field name="name">Right Shoulder</field>
+        </record>
+        <record id="bp24" model="x.inc.injured.body.parts">
+            <field name="name">Left Shoulder</field>
+        </record>
+        <record id="bp25" model="x.inc.injured.body.parts">
+            <field name="name">Stomach</field>
+        </record>
+        <record id="bp26" model="x.inc.injured.body.parts">
+            <field name="name">Multiple</field>
+        </record>
+    </data>
+</odoo>

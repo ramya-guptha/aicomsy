@@ -1,0 +1,21 @@
+<odoo>
+    <record id="inc_spill_view_tree" model="ir.ui.view">
+        <field name="name">inc.spill.tree</field>
+        <field name="model">x.inc.material.spill.record</field>
+        <field name="arch" type="xml">
+            <tree string="Spill" editable="bottom">
+                <field name="id"/>
+                <field name="material_type"/>
+                <field name="location"/>
+                <field name="quantity"/>
+                <field name="unit"/>
+                <field name="area"/>
+                <field name="area_unit"/>
+                <field name="description"/>
+                <field name="env_impact"/>
+                <field name="immediate_response"/>
+            </tree>
+
+        </field>
+    </record>
+</odoo>

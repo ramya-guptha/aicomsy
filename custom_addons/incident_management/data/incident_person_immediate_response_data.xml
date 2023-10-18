@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ipi1" model="x.inc.person.immediate.response">
+            <field name="name">First Aid</field>
+        </record>
+        <record id="ipi1" model="x.inc.person.immediate.response">
+            <field name="name">Factory Clinic</field>
+        </record>
+    </data>
+</odoo>

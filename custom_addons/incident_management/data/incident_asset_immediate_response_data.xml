@@ -1,0 +1,16 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ia1" model="x.inc.asset.immediate.response">
+            <field name="name">Operation Aborted and Isolated</field>
+        </record>
+        <record id="ia2" model="x.inc.asset.immediate.response">
+            <field name="name">Safe and Operation Uninterrupted</field>
+        </record>
+        <record id="ia3" model="x.inc.asset.immediate.response">
+            <field name="name">Repair Request Raised</field>
+        </record>
+        <record id="ia4" model="x.inc.asset.immediate.response">
+            <field name="name">Informed Rental Company</field>
+        </record>
+    </data>
+</odoo>
