@@ -11,6 +11,9 @@ class IncidentPersonRecord(models.Model):
 
     _name = "x.inc.person.record"
     _description = "Persons involved or victims in an Incident"
+    _sql_constraints = [
+        ('name_incident_uniq', 'unique(person_name, incident_id)', 'Person name must be unique per incident !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -76,6 +79,9 @@ class IncPersonCategory(models.Model):
 
     _name = "x.inc.person.category"
     _description = "Category of the person"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Category must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -87,6 +93,9 @@ class IncInjuryType(models.Model):
 
     _name = "x.inc.injury.type"
     _description = "Type of Injury"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Injury Type must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -98,10 +107,13 @@ class IncInjuredBodyParts(models.Model):
 
     _name = "x.inc.injured.body.parts"
     _description = "Persons involved or victims in an Incident"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Injured Body parts must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
-    name = fields.Char(string="Injure Body parts")
+    name = fields.Char(string="Injured Body Parts")
 
 
 class IncPersonImmediateResponse(models.Model):
@@ -109,6 +121,9 @@ class IncPersonImmediateResponse(models.Model):
 
     _name = "x.inc.person.immediate.response"
     _description = "Person Immediate response"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Immediate Response must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -120,7 +135,10 @@ class IncOHClassification(models.Model):
 
     _name = "x.inc.person.oh.classification"
     _description = "OH Incident classification"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'OH Incident classification must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
-    name = fields.Char(string="OH Incident classification")
+    name = fields.Char(string="OH Incident Classification")

@@ -14,6 +14,9 @@ class Location(models.Model):
     _rec_name = 'name'
     _rec_names_search = ['name']
     _check_company_auto = True
+    _sql_constraints = [
+        ('name_uniq', 'unique(name,location_id)', 'Location name and it\'s parent must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char('Location Name', required=True)
