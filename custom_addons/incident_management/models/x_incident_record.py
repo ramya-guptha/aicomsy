@@ -18,6 +18,7 @@ class IncidentRecord(models.Model):
     @api.model
     def create(self, vals_list):
         vals_list['name'] = self.env['ir.sequence'].next_by_code("x.incident.record")
+        vals_list['state'] = 'new'
         incident = super().create(vals_list)
         # Call the send_email method
         incident.action_send_email()
@@ -25,19 +26,20 @@ class IncidentRecord(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
-    name = fields.Char(string="Incident Reference", default='New')
-    inc_reported_date = fields.Date(string="Date Reported", default=lambda self: fields.Date.today())
-    inc_date_time = fields.Datetime(string="Date & Time")
-    shift = fields.Many2one("x.inc.shift")
-    type = fields.Many2many("x.inc.type", string="Type of Incident")
-    location = fields.Many2one("x.location", string="Location of Incident")
-    description = fields.Html(string="Description")
+    name = fields.Char(string="Incident Reference", default='New', readonly=True)
+    inc_reported_date = fields.Date(string="Date Reported", default=lambda self: fields.Date.today(), required=True)
+    inc_date_time = fields.Datetime(string="Date & Time", required=True)
+    shift = fields.Many2one("x.inc.shift", required=True)
+    type = fields.Many2many("x.inc.type", string="Type of Incident", required=True)
+    location = fields.Many2one("x.location", string="Location of Incident", required=True)
+    description = fields.Html(string="Description", required=True)
     notified_by = fields.Many2one('res.users', string="Notified By", default=lambda self: self.env.user)
     notified_by_id = fields.Integer(related="notified_by.id", string="Notified By ID")
     notified_by_type = fields.Selection(related="notified_by.employee_type")
+    severity = fields.Many2one("x.inc.severity", string="Severity Classification")
 
     incident_person_ids = fields.One2many(
-        'x.inc.person.record', 'incident_id', string='Person Involved/ Injured'
+        'x.inc.person.record', 'incident_id', string='People'
     )
 
     incident_asset_ids = fields.One2many(
@@ -48,6 +50,20 @@ class IncidentRecord(models.Model):
     )
     incident_mva_ids = fields.One2many(
         'x.inc.mva.record', 'incident_id', string='Motor Vehicle Accidents'
+    )
+    state = fields.Selection(
+        selection=[
+            ("new", "New"),
+            ("investigation_assigned", "Assigned"),
+            ("investigation_in_progress", "In Progress"),
+            ("action_review", "Action Review"),
+            ("closed", "Closed"),
+            ("canceled", "Canceled"),
+        ],
+        string="Status",
+
+        copy=False,
+
     )
 
     def action_send_email(self):
@@ -81,3 +97,17 @@ class IncidentShift(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     name = fields.Char("Shift", required="True")
+
+
+class IncSeverity(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = "x.inc.severity"
+    _description = "Severity Classification"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Severities must be unique !'),
+    ]
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    name = fields.Char(string="Severity Classification")

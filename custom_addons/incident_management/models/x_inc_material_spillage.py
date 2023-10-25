@@ -13,14 +13,14 @@ class IncidentMaterialSpillageRecord(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     incident_id = fields.Many2one('x.incident.record', required=True)
-    material_type = fields.Text(string="Type of Material")
-    # spill_rating =
-    location = fields.Text(string="Location of Spill")
-    quantity = fields.Text(string="Quantity Spilled")
-    unit = fields.Many2one('x.inc.spill.unit')
-    area = fields.Text(string="Area of Spill")
-    area_unit = fields.Many2one('x.inc.spill.unit')
-    description = fields.Text(string="Description of Spill")
+    person_reported = fields.Many2one("hr.employee", string="person_reported", required=True)
+    id_number = fields.Integer(related="person_reported.id", string="ID Number")
+    task = fields.Text(string="Task being done at the time of incident")
+    job_title = fields.Char(related='person_reported.job_id.name', string="Job Title")
+    location = fields.Many2one("x.location", string="Incident Location")
+    env_incident_classification = fields.Many2one("x.inc.env.classification", string="ENV Incident Classification")
+    qty = fields.Integer(string="QTY of Emission / Spill/ Spoilage")
+    unit = fields.Many2one("x.inc.unit", string="Unit")
     env_impact = fields.Many2one('x.inc.spill.env.impact')
     immediate_response = fields.Many2one("x.inc.material.spill.immediate.response")
 
@@ -53,15 +53,24 @@ class IncSpillDamages(models.Model):
     name = fields.Char(string="Environmental Impact")
 
 
-class IncSpillUnit(models.Model):
+class IncEnvClassification(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
 
-    _name = "x.inc.spill.unit"
-    _description = "Spill Unit"
+    _name = "x.inc.env.classification"
+    _description = "Environmental Classification"
     _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'unit must be unique !'),
+        ('name_uniq', 'unique(name)', 'Environmental Classification must be unique !'),
     ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
-    name = fields.Char(string="Spill Unit")
+    name = fields.Char(string="Environmental Classification")
+
+
+class Unit(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+    _name = "x.inc.unit"
+    _description = "Units for Incidents"
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+    name = fields.Char(string="Unit")

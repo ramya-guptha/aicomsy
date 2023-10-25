@@ -18,9 +18,9 @@ class IncidentPersonRecord(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     incident_id = fields.Many2one('x.incident.record', required=True)
-    person_category = fields.Many2one("x.inc.person.category", required="True")
+    person_category = fields.Many2one("x.inc.person.category", required=True)
     selected_category = fields.Char(compute='_compute_selected_category')
-    person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly="True")
+    person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly=True)
     employee = fields.Many2one('hr.employee', string='Employee Name')
     employee_id = fields.Integer(related="employee.id", string='Employee ID')
     visitor_name = fields.Char(string='Visitor Name')
@@ -30,7 +30,7 @@ class IncidentPersonRecord(models.Model):
     job_title = fields.Char(related='employee.job_id.name', string="Job Title")
     involved_victim = fields.Selection(
         string="Involved/ Victim",
-        selection=[('involved', "Involved"), ('victim', "Victim"), ('both', 'Both')], )
+        selection=[('involved', "Involved"), ('victim', "Victim"), ('both', 'Both')], required=True)
     person_task = fields.Text(string="Task being done at the time of incident")
     person_employer = fields.Char(string="Employer")
     incident_injured_body_parts = fields.Many2many("x.inc.injured.body.parts", string="Injured Body Part")
@@ -39,9 +39,9 @@ class IncidentPersonRecord(models.Model):
     person_days_off = fields.Integer(string="Days Off")
     is_visitor = fields.Boolean(string='Is Visitor', compute='_compute_is_visitor')
     immediate_response = fields.Many2one('x.inc.person.immediate.response', string="Immediate Response")
-    oh_incident_classification = fields.Many2one("x.inc.person.oh.classification", string="OH Incident Classification")
-    severity = fields.Char(string="Severity of Incident")
-    location = fields.Many2one("x.location", string="Location of Incident")
+    oh_incident_classification = fields.Many2one("x.inc.oh.classification", string="OH Incident Classification",
+                                                 required=True)
+    location = fields.Many2one("x.location", string="Incident Location")
     experience = fields.Integer(string="Experience")
 
     @api.depends('person_category', 'employee', 'visitor_name')
@@ -50,7 +50,7 @@ class IncidentPersonRecord(models.Model):
             if person.person_category.name in ("Employee", "Contractor") and person.employee:
                 person.person_name = person.employee.name
                 person.nationality = person.employee.country_id
-            elif person.person_category.name == "Visitor" and person.visitor_name:
+            elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
                 person.person_name = person.visitor_name
             else:
                 person.person_name = False
@@ -133,7 +133,7 @@ class IncPersonImmediateResponse(models.Model):
 class IncOHClassification(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
 
-    _name = "x.inc.person.oh.classification"
+    _name = "x.inc.oh.classification"
     _description = "OH Incident classification"
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'OH Incident classification must be unique !'),
@@ -142,3 +142,4 @@ class IncOHClassification(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     name = fields.Char(string="OH Incident Classification")
+
