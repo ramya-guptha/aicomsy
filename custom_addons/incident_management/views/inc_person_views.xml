@@ -6,26 +6,21 @@
         <field name="arch" type="xml">
             <tree string="Person Injured or Involved"> <!--editable="bottom"> -->
                 <field name="person_name" string="Name of the Person"/>
-                <field name="employee_id"/>
+                <field name="employee_id" optional="hide"/>
                 <field name="person_category"/>
                 <field name="nationality"/>
-                <field name="age"/>
-                <field name="experience"/>
-                <field name="job_title"/>
+                <field name="age" optional="hide"/>
+                <field name="experience" optional="hide"/>
+                <field name="job_title" optional="hide"/>
                 <field name="involved_victim"/>
-                <field name="person_category"/>
                 <field name="person_task"/>
-                <field name="person_employer"/>
+                <field name="person_employer" optional="hide"/>
                 <field name="oh_incident_classification"/>
                 <field name="incident_injured_body_parts"/>
                 <field name="incident_type_of_illness"/>
-                <field name="involved_victim"/>
                 <field name="immediate_response"/>
-                <field name="person_employer"/>
-                <field name="visited_hospital"/>
-                <field name="person_days_off"/>
-
-
+                <field name="visited_hospital" optional="hide"/>
+                <field name="person_days_off" optional="hide"/>
             </tree>
 
         </field>

@@ -25,6 +25,9 @@ class IncMVAImmediateAction(models.Model):
 
     _name = "x.inc.mva.immediate.action"
     _description = "Immediate Action"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Immediate Action must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -36,6 +39,9 @@ class IncMVAClassification(models.Model):
 
     _name = "x.inc.mva.classification"
     _description = "MVA Classification"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'MVA Classification must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -47,6 +53,9 @@ class IncMVADamage(models.Model):
 
     _name = "x.inc.mva.damage"
     _description = "MVA Damage"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'MVA Damage must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 

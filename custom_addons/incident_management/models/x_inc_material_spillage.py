@@ -30,6 +30,9 @@ class IncAssetImmediateResponse(models.Model):
 
     _name = "x.inc.material.spill.immediate.response"
     _description = "Immediate response"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Immediate response must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -41,6 +44,9 @@ class IncSpillDamages(models.Model):
 
     _name = "x.inc.spill.env.impact"
     _description = "Environmental Impact"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Spill damages must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -52,6 +58,9 @@ class IncSpillUnit(models.Model):
 
     _name = "x.inc.spill.unit"
     _description = "Spill Unit"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'unit must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 

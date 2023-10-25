@@ -9,6 +9,9 @@ class IncidentRecord(models.Model):
     _name = "x.incident.record"
     _description = "To Report Incidents"
     _order = "location"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Incident Id must be unique !'),
+    ]
 
     # ---------------------------------------- CRUD METHODS ---------------------------------------
 
@@ -57,6 +60,9 @@ class IncidentType(models.Model):
 
     _name = "x.inc.type"
     _description = "Incident Type"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Incident type must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -68,6 +74,9 @@ class IncidentShift(models.Model):
 
     _name = "x.inc.shift"
     _description = "Working Shift"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Shift must be unique !'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
