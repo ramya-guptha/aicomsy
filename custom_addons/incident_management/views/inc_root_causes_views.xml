@@ -1,0 +1,36 @@
+<odoo>
+    <record id="root_causes_model_action" model="ir.actions.act_window">
+        <field name="name">Root Causes</field>
+        <field name="res_model">x.inc.root.causes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="root_causes_tree_view" model="ir.ui.view">
+        <field name="name">root.causes.tree</field>
+        <field name="model">x.inc.root.causes</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="primary_root_cause_id"/>
+                <field name="secondary_root_cause_ids" widget='many2many_tags'/>
+            </tree>
+        </field>
+    </record>
+    <record id="primary_root_causes_tree_view" model="ir.ui.view">
+        <field name="name">primary.root.causes.tree</field>
+        <field name="model">x.inc.primary.root.causes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="secondary_root_causes_tree_view" model="ir.ui.view">
+        <field name="name">secondary.root.causes.tree</field>
+        <field name="model">x.inc.secondary.root.causes</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="primary_root_causes_id"/>
+                <field name="name" widget='many2many_tags'/>
+            </tree>
+        </field>
+    </record>
+</odoo>

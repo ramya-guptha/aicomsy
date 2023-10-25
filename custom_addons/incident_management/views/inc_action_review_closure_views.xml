@@ -1,0 +1,105 @@
+<odoo>
+    <record id="action_review_model_action" model="ir.actions.act_window">
+        <field name="name">All Action Reviews</field>
+        <field name="res_model">x.inc.inv.action.review</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_review_form_view" model="ir.ui.view">
+        <field name="name">x.inc.inv.action.review.form</field>
+        <field name="model">x.inc.inv.action.review</field>
+        <field name="arch" type="xml">
+            <form string="Action Review">
+                <header>
+                    <h1>Action Review</h1>
+                </header>
+                <sheet>
+                    <group col="3">
+
+                        <group>
+                            <field name="reviewer"/>
+                            <field name="review_completion_date"/>
+                        </group>
+
+                        <group>
+                            <field name="risks_and_opportunities_reviewed" widget="radio"
+                                   options="{'horizontal': true}"/>
+                            <field name="job_hazard_analysis_reviewed" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+
+                        <group>
+                            <field name="status"/>
+                        </group>
+
+                    </group>
+                    <group>
+                        <button name="action_confirm" string="Confirm" class="btn-primary"/>
+                        <button name="action_return" string="Return" class="btn-primary"/>
+                    </group>
+                    <br/>
+                    <group col="3">
+                        <group>
+                            <field name="report_closed_by"/>
+
+                        </group>
+                        <group>
+                            <field name="comments"/>
+                        </group>
+                        <group>
+                            <field name="closure_date"/>
+
+
+                        </group>
+
+                        <group>
+                            <field name="action_follow_up_required" widget="radio" options="{'horizontal': true}"/>
+                            <field name="review_by_ceo_vp_gm_required" widget="radio" options="{'horizontal': true}"/>
+                            <field name="justification"/>
+                        </group>
+                    </group>
+                    <group>
+                        <button name="action_close" string="Close" class="btn-primary"/>
+                        <button name="action_return_for_review" string="Return for Review" class="btn-primary"/>
+                    </group>
+                    <br/>
+                    <group col="3">
+                        <group>
+                            <field name="reviewed_by_ceo_vp_gm"/>
+                        </group>
+                        <group>
+                            <field name="reviewed_comments"/>
+                        </group>
+                        <group>
+                            <field name="review_date"/>
+                        </group>
+                        <group>
+                            <button name="action_close" string="Close" class="btn-primary"/>
+                            <button name="action_return_for_review" string="Return for Review" class="btn-primary"/>
+                        </group>
+                    </group>
+                </sheet>
+
+
+            </form>
+        </field>
+    </record>
+
+    <record id="view_action_review_tree" model="ir.ui.view">
+        <field name="name">x.inc.inv.action.review.tree</field>
+        <field name="model">x.inc.inv.action.review</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reviewer"/>
+                <field name="review_completion_date"/>
+                <field name="risks_and_opportunities_reviewed"/>
+                <field name="job_hazard_analysis_reviewed"/>
+                <field name="status"/>
+                <field name="report_closed_by"/>
+                <field name="closure_date"/>
+                <field name="comments"/>
+                <field name="action_follow_up_required"/>
+                <field name="review_by_ceo_vp_gm_required"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

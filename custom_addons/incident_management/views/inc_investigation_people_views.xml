@@ -1,0 +1,54 @@
+<odoo>
+    <record id="people_interviewed_model_action" model="ir.actions.act_window">
+        <field name="name">Interview</field>
+        <field name="res_model">x.inc.investigation.people.interview</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="people_interviewed_list_view" model="ir.ui.view">
+        <field name="name">people.interview.tree</field>
+        <field name="model">x.inc.investigation.people.interview</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="person_category"/>
+                <field name="person_name"/>
+                <field name="employee_id"/>
+                <field name="person_employer"/>
+                <field name="relation_to_incident"/>
+                <field name="details_of_interview"/>
+                <field name="remarks"/>
+            </tree>
+        </field>
+    </record>
+    <record id="people_interviewed_form_view" model="ir.ui.view">
+        <field name="name">people.interview.form</field>
+        <field name="model">x.inc.investigation.people.interview</field>
+        <field name="arch" type="xml">
+            <form name="Investigation Details">
+                <sheet>
+                    <group col="2">
+                        <group>
+                            <field name="person_category"/>
+                            <field name="employee"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
+                            <field name="visitor_name"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Visitor','Others'))]}"/>
+                        </group>
+                        <group>
+                            <field name="employee_id"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
+                            <field name="person_employer"
+                                   attrs="{'readonly': [('selected_category', '!=', 'Contractor')]}"/>
+                            <field name="relation_to_incident"/>
+                        </group>
+                        <group>
+                            <field name="details_of_interview"/>
+                            <field name="remarks"/>
+                        </group>
+                        <field name="selected_category" invisible="1"/>
+                        <field name="person_name" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

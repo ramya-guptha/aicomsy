@@ -48,9 +48,6 @@ class IncidentRecord(models.Model):
     incident_spill_ids = fields.One2many(
         'x.inc.material.spill.record', 'incident_id', string='Material Spill'
     )
-    incident_mva_ids = fields.One2many(
-        'x.inc.mva.record', 'incident_id', string='Motor Vehicle Accidents'
-    )
     state = fields.Selection(
         selection=[
             ("new", "New"),
@@ -69,6 +66,22 @@ class IncidentRecord(models.Model):
     def action_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_incident')
         mail_template.send_mail(self.id, force_send=True)
+
+    def assign_team(self):
+        self.write({"state": "investigation_assigned"})
+        return {
+            'name': 'Investigation Team',
+            'res_model': 'x.inc.investigation',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_id': self.env.ref('incident_management.inc_investigation_view_form').id,
+
+            'context': {
+                'default_incident_id': self.id,
+            }
+
+        }
+
 
 
 class IncidentType(models.Model):
