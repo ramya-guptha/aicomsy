@@ -4,5 +4,8 @@
         <menuitem id="incidents" name="Incidents">
             <menuitem id="incidents_menu_action" action="incident_record_model_action"/>
         </menuitem>
+        <menuitem id="investigation" name="Investigation">
+            <menuitem id="investigation_menu_action" action="investigation_model_action"/>
+        </menuitem>
     </menuitem>
 </odoo>

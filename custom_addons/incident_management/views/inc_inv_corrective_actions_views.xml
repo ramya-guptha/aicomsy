@@ -1,0 +1,39 @@
+<odoo>
+    <record id="corrective_action_form_view" model="ir.ui.view">
+        <field name="name">x.inc.inv.corrective.actions.form</field>
+        <field name="model">x.inc.inv.corrective.actions</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="action_number"/>
+                        <field name="corrective_action"/>
+                        <field name="root_cause"/>
+                        <field name="action_type"/>
+                        <field name="hierarchy_of_control"/>
+                        <field name="action_party"/>
+                        <field name="target_date"/>
+                        <field name="action_status"/>
+                        <field name="remarks"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="corrective_action_tree_view" model="ir.ui.view">
+        <field name="name">x.inc.inv.corrective.actions.tree</field>
+        <field name="model">x.inc.inv.corrective.actions</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="action_number"/>
+                <field name="root_cause"/>
+                <field name="action_type"/>
+                <field name="hierarchy_of_control"/>
+                <field name="action_party"/>
+                <field name="target_date"/>
+                <field name="action_status"/>
+                <field name="remarks"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
