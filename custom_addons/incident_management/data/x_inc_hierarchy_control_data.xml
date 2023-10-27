@@ -1,0 +1,19 @@
+<odoo>
+    <data noupdate="1">
+        <record id="hc1" model="x.inc.inv.ca.hierarchy.control">
+            <field name="name">Elimination</field>
+        </record>
+        <record id="hc2" model="x.inc.inv.ca.hierarchy.control">
+            <field name="name">Substitution</field>
+        </record>
+        <record id="hc3" model="x.inc.inv.ca.hierarchy.control">
+            <field name="name">Engineering Control</field>
+        </record>
+        <record id="hc4" model="x.inc.inv.ca.hierarchy.control">
+            <field name="name">Administrative Control</field>
+        </record>
+        <record id="hc5" model="x.inc.inv.ca.hierarchy.control">
+            <field name="name">PPE</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+    <data noupdate="1">
+        <record id="u1" model="x.inc.unit">
+            <field name="name">Cost</field>
+        </record>
+        <record id="u2" model="x.inc.unit">
+            <field name="name">Liters</field>
+        </record>
+        <record id="u3" model="x.inc.unit">
+            <field name="name">Cubic Meter</field>
+        </record>
+        <record id="u4" model="x.inc.unit">
+            <field name="name">Man-hour</field>
+        </record>
+        <record id="u5" model="x.inc.unit">
+            <field name="name">Kg</field>
+        </record>
+        <record id="u6" model="x.inc.unit">
+            <field name="name">MT</field>
+        </record>
+        <record id="u7" model="x.inc.unit">
+            <field name="name">Hour</field>
+        </record>
+        <record id="u8" model="x.inc.unit">
+            <field name="name">Days</field>
+        </record>
+    </data>
+</odoo>

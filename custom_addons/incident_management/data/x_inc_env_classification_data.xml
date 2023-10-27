@@ -1,0 +1,28 @@
+<odoo>
+    <data noupdate="1">
+        <record id="envc1" model="x.inc.env.classification">
+            <field name="name">Radioactive Material</field>
+        </record>
+        <record id="envc2" model="x.inc.env.classification">
+            <field name="name">Significant Air Emission</field>
+        </record>
+        <record id="envc3" model="x.inc.env.classification">
+            <field name="name">Fire and Explosion</field>
+        </record>
+        <record id="envc4" model="x.inc.env.classification">
+            <field name="name">Non-Hazardous Chemical Spill</field>
+        </record>
+        <record id="envc5" model="x.inc.env.classification">
+            <field name="name">Non-Hazardous Substance Spill</field>
+        </record>
+        <record id="envc6" model="x.inc.env.classification">
+            <field name="name">Hazardous Chemical Spill</field>
+        </record>
+        <record id="envc7" model="x.inc.env.classification">
+            <field name="name">Hazardous Substance Spill</field>
+        </record>
+        <record id="envc8" model="x.inc.env.classification">
+            <field name="name">Regulatory Violation</field>
+        </record>
+    </data>
+</odoo>

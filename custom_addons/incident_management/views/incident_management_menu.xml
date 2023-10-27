@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem  id="incidents_management" name="Incidents Management">
+    <menuitem id="incidents_management" name="Incidents Management">
         <menuitem id="incidents" name="Incidents">
             <menuitem id="incidents_menu_action" action="incident_record_model_action"/>
         </menuitem>
         <menuitem id="investigation" name="Investigation">
             <menuitem id="investigation_menu_action" action="investigation_model_action"/>
+        </menuitem>
+        <menuitem id="settings" name="Settings">
+            <menuitem id="shift_menu_action" action="shift_action"/>
+            <menuitem id="incident_type_menu_action" action="incident_type_action"/>
+            <menuitem id="location_menu_action" action="location_action"/>
+            <menuitem id="person_category_menu_action" action="person_category_action"/>
+            <menuitem id="person_immediate_response_menu_action" action="person_immediate_response_action"/>
+            <menuitem id="injury_type_menu_action" action="injury_type_action"/>
+            <menuitem id="injured_body_parts_menu_action" action="injured_body_parts_action"/>
+            <menuitem id="oh_incident_classification_menu_action" action="oh_incident_classification_action"/>
+            <menuitem id="asset_immediate_response_menu_action" action="asset_immediate_response_action"/>
+            <menuitem id="env_classification_menu_action" action="env_classification_action"/>
+            <menuitem id="env_impact_menu_action" action="env_impact_action"/>
+            <menuitem id="spill_immediate_response_menu_action" action="spill_immediate_response_action"/>
+            <menuitem id="action_damage_menu_action" action="action_damage_action"/>
+            <menuitem id="unit_menu_action" action="unit_action"/>
+            <menuitem id="primary_root_causes_menu_action" action="primary_root_causes_action"/>
+            <menuitem id="secondary_root_causes_menu_action" action="secondary_root_causes_action"/>
+            <menuitem id="action_type_menu_action" action="action_type_action"/>
+            <menuitem id="hierarchy_control_menu_action" action="hierarchy_control_action"/>
+
+
         </menuitem>
     </menuitem>
 </odoo>

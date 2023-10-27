@@ -3,8 +3,56 @@
         <record id="ipi1" model="x.inc.person.immediate.response">
             <field name="name">First Aid</field>
         </record>
-        <record id="ipi1" model="x.inc.person.immediate.response">
+        <record id="ipi2" model="x.inc.person.immediate.response">
             <field name="name">Factory Clinic</field>
+        </record>
+        <record id="ipi3" model="x.inc.person.immediate.response">
+            <field name="name">Visited Hospital</field>
+        </record>
+        <record id="ipi4" model="x.inc.person.immediate.response">
+            <field name="name">Evacuated from work</field>
+        </record>
+        <record id="ipi5" model="x.inc.person.immediate.response">
+            <field name="name">Returned to work</field>
+        </record>
+        <record id="ipi6" model="x.inc.person.immediate.response">
+            <field name="name">Informed the Employer (Contractors)</field>
+        </record>
+        <record id="ipi7" model="x.inc.person.immediate.response">
+            <field name="name">Operation Aborted and Isolated</field>
+        </record>
+        <record id="ipi8" model="x.inc.person.immediate.response">
+            <field name="name">Safe and Operation Uninterrupted</field>
+        </record>
+        <record id="ipi9" model="x.inc.person.immediate.response">
+            <field name="name">Repair Request Raised</field>
+        </record>
+        <record id="ipi10" model="x.inc.person.immediate.response">
+            <field name="name">Informed Rental Company</field>
+        </record>
+        <record id="ipi11" model="x.inc.person.immediate.response">
+            <field name="name">Inspection by Safety Authority</field>
+        </record>
+        <record id="ipi12" model="x.inc.person.immediate.response">
+            <field name="name">Equipment Isolated</field>
+        </record>
+        <record id="ipi13" model="x.inc.person.immediate.response">
+            <field name="name">Victim evacuated to hospital</field>
+        </record>
+        <record id="ipi14" model="x.inc.person.immediate.response">
+            <field name="name">Informed Traffic Authority</field>
+        </record>
+        <record id="ipi15" model="x.inc.person.immediate.response">
+            <field name="name">Personnel Evacuated</field>
+        </record>
+        <record id="ipi16" model="x.inc.person.immediate.response">
+            <field name="name">Notified Authorities</field>
+        </record>
+        <record id="ipi17" model="x.inc.person.immediate.response">
+            <field name="name">Other (Give Details)</field>
+        </record>
+        <record id="ipi18" model="x.inc.person.immediate.response">
+            <field name="name">Vehicle evacuated to garage</field>
         </record>
     </data>
 </odoo>

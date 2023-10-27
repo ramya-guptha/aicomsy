@@ -1,0 +1,58 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ei1" model="x.inc.spill.env.impact">
+            <field name="name">Environment Impact</field>
+        </record>
+        <record id="ei2" model="x.inc.spill.env.impact">
+            <field name="name">Operation Aborted</field>
+        </record>
+        <record id="ei3" model="x.inc.spill.env.impact">
+            <field name="name">Chemical Burn Injury</field>
+        </record>
+        <record id="ei4" model="x.inc.spill.env.impact">
+            <field name="name">Equipment Damage</field>
+        </record>
+        <record id="ei5" model="x.inc.spill.env.impact">
+            <field name="name">Soil Contamination</field>
+        </record>
+        <record id="ei6" model="x.inc.spill.env.impact">
+            <field name="name">Work Area Unusable</field>
+        </record>
+        <record id="ei7" model="x.inc.spill.env.impact">
+            <field name="name">Fire</field>
+        </record>
+        <record id="ei8" model="x.inc.spill.env.impact">
+            <field name="name">Radiation Exposure</field>
+        </record>
+        <record id="ei9" model="x.inc.spill.env.impact">
+            <field name="name">Water Contamination</field>
+        </record>
+        <record id="ei10" model="x.inc.spill.env.impact">
+            <field name="name">Sewage Contamination</field>
+        </record>
+        <record id="ei11" model="x.inc.spill.env.impact">
+            <field name="name">Significant Air Pollution</field>
+        </record>
+        <record id="ei12" model="x.inc.spill.env.impact">
+            <field name="name">Chemical Odor</field>
+        </record>
+        <record id="ei13" model="x.inc.spill.env.impact">
+            <field name="name">VOC Emissions</field>
+        </record>
+        <record id="ei14" model="x.inc.spill.env.impact">
+            <field name="name">Fugitive Emissions</field>
+        </record>
+        <record id="ei15" model="x.inc.spill.env.impact">
+            <field name="name">Infrastructure Damage</field>
+        </record>
+        <record id="ei16" model="x.inc.spill.env.impact">
+            <field name="name">Power Outage</field>
+        </record>
+        <record id="ei17" model="x.inc.spill.env.impact">
+            <field name="name">Toxicant</field>
+        </record>
+        <record id="ei18" model="x.inc.spill.env.impact">
+            <field name="name">Other (Give Details)</field>
+        </record>
+    </data>
+</odoo>
