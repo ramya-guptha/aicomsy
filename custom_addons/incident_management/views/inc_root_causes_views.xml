@@ -16,22 +16,36 @@
             </tree>
         </field>
     </record>
+
+
+    <record id="primary_root_causes_action" model="ir.actions.act_window">
+        <field name="name">Primary Root Causes</field>
+        <field name="res_model">x.inc.primary.root.causes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
     <record id="primary_root_causes_tree_view" model="ir.ui.view">
         <field name="name">primary.root.causes.tree</field>
         <field name="model">x.inc.primary.root.causes</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Primary Root Causes" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>
+    </record>
+
+
+    <record id="secondary_root_causes_action" model="ir.actions.act_window">
+        <field name="name">Secondary Root Causes</field>
+        <field name="res_model">x.inc.secondary.root.causes</field>
+        <field name="view_mode">tree,form</field>
     </record>
     <record id="secondary_root_causes_tree_view" model="ir.ui.view">
         <field name="name">secondary.root.causes.tree</field>
         <field name="model">x.inc.secondary.root.causes</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="Secondary Root Causes" editable="bottom">
                 <field name="primary_root_causes_id"/>
-                <field name="name" widget='many2many_tags'/>
+                <field name="name"/>
             </tree>
         </field>
     </record>

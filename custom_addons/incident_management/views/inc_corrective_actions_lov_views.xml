@@ -1,0 +1,30 @@
+<odoo>
+    <record id="hierarchy_control_action" model="ir.actions.act_window">
+        <field name="name">Hierarchy of Control</field>
+        <field name="res_model">x.inc.inv.ca.hierarchy.control</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="x_inc_inv_ca_hierarchy_control_tree_view" model="ir.ui.view">
+        <field name="name">Hierarchy of Control</field>
+        <field name="model">x.inc.inv.ca.hierarchy.control</field>
+        <field name="arch" type="xml">
+            <tree string="Hierarchy of Control" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_type_action" model="ir.actions.act_window">
+        <field name="name">Action Types</field>
+        <field name="res_model">x.inc.inv.ca.action.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="x_inc_inv_ca_action_type_tree_view" model="ir.ui.view">
+        <field name="name">Action Types</field>
+        <field name="model">x.inc.inv.ca.action.type</field>
+        <field name="arch" type="xml">
+            <tree string="Action Types" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
