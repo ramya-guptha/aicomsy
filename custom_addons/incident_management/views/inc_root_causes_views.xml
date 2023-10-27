@@ -11,6 +11,8 @@
             <tree editable="bottom">
                 <field name="primary_root_cause_id"/>
                 <field name="secondary_root_cause_ids" widget='many2many_tags'/>
+                <field name="comments"/>
+                <button name="corrective_action" type="object" string="Take Action" class="oe_highlight"/>
             </tree>
         </field>
     </record>

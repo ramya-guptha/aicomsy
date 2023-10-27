@@ -6,6 +6,10 @@ class ActionReview(models.Model):
 
     _name = "x.inc.inv.action.review"
     _description = "Action Review"
+    _sql_constraints = [
+        ('action_review_uniq', 'unique(investigation_id, corrective_action_id)',
+         'Review already exist'),
+    ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
