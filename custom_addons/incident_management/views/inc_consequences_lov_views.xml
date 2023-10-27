@@ -1,0 +1,30 @@
+<odoo>
+    <record id="action_damage_action" model="ir.actions.act_window">
+        <field name="name">Action/Damage</field>
+        <field name="res_model">x.inc.action.damage</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="x_inc_action_damage_tree_view" model="ir.ui.view">
+        <field name="name">Action/Damage</field>
+        <field name="model">x.inc.action.damage</field>
+        <field name="arch" type="xml">
+            <tree string="Action/Damage" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="unit_action" model="ir.actions.act_window">
+        <field name="name">Units</field>
+        <field name="res_model">x.inc.unit</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="x_inc_unit_tree_view" model="ir.ui.view">
+        <field name="name">Units</field>
+        <field name="model">x.inc.unit</field>
+        <field name="arch" type="xml">
+            <tree string="Units" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

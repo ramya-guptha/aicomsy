@@ -1,0 +1,76 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ad1" model="x.inc.action.damage">
+            <field name="name">Increase in Insurance Premium</field>
+        </record>
+        <record id="ad2" model="x.inc.action.damage">
+            <field name="name">Legal Expenses</field>
+        </record>
+        <record id="ad3" model="x.inc.action.damage">
+            <field name="name">Assessing the Extent of Damage</field>
+        </record>
+        <record id="ad4" model="x.inc.action.damage">
+            <field name="name">First aid treatment</field>
+        </record>
+        <record id="ad5" model="x.inc.action.damage">
+            <field name="name">Other Treatment Cost</field>
+        </record>
+        <record id="ad6" model="x.inc.action.damage">
+            <field name="name">Compensation Claim Payments</field>
+        </record>
+        <record id="ad7" model="x.inc.action.damage">
+            <field name="name">Conducting Investigation and Reporting</field>
+        </record>
+        <record id="ad8" model="x.inc.action.damage">
+            <field name="name">Legal Penalties</field>
+        </record>
+        <record id="ad9" model="x.inc.action.damage">
+            <field name="name">Lost Work Days</field>
+        </record>
+        <record id="ad10" model="x.inc.action.damage">
+            <field name="name">Productivity</field>
+        </record>
+        <record id="ad11" model="x.inc.action.damage">
+            <field name="name">Making the area safe</field>
+        </record>
+        <record id="ad12" model="x.inc.action.damage">
+            <field name="name">Meetings to Discuss Incident and Lessons</field>
+        </record>
+        <record id="ad13" model="x.inc.action.damage">
+            <field name="name">Outsourcing Job Order to a Contractor</field>
+        </record>
+        <record id="ad14" model="x.inc.action.damage">
+            <field name="name">Compensation paid to the Contractor</field>
+        </record>
+        <record id="ad15" model="x.inc.action.damage">
+            <field name="name">Downtime/Repair of Equipment</field>
+        </record>
+        <record id="ad16" model="x.inc.action.damage">
+            <field name="name">Replacement of Parts or Equipment or Product</field>
+        </record>
+        <record id="ad17" model="x.inc.action.damage">
+            <field name="name">Sick Pay</field>
+        </record>
+        <record id="ad18" model="x.inc.action.damage">
+            <field name="name">Transporting injured person to Home or Country</field>
+        </record>
+        <record id="ad19" model="x.inc.action.damage">
+            <field name="name">Transporting injured person to hospital</field>
+        </record>
+        <record id="ad20" model="x.inc.action.damage">
+            <field name="name">Mobilisation of alternate resource</field>
+        </record>
+        <record id="ad21" model="x.inc.action.damage">
+            <field name="name">Lost Material</field>
+        </record>
+        <record id="ad22" model="x.inc.action.damage">
+            <field name="name">Other Losses due to factory/unit downtime</field>
+        </record>
+        <record id="ad23" model="x.inc.action.damage">
+            <field name="name">Cleanup Cost (including waste disposal)</field>
+        </record>
+        <record id="ad24" model="x.inc.action.damage">
+            <field name="name">Others</field>
+        </record>
+    </data>
+</odoo>

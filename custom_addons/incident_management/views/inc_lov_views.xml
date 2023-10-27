@@ -1,0 +1,182 @@
+<odoo>
+    <record id="shift_action" model="ir.actions.act_window">
+        <field name="name">Shifts</field>
+        <field name="res_model">x.inc.shift</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="shift_tree_view" model="ir.ui.view">
+        <field name="name">shifts</field>
+        <field name="model">x.inc.shift</field>
+        <field name="arch" type="xml">
+            <tree string="Shift" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="incident_type_action" model="ir.actions.act_window">
+        <field name="name">Incident Type</field>
+        <field name="res_model">x.inc.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="incident_type_tree_view" model="ir.ui.view">
+        <field name="name">Type of Incident</field>
+        <field name="model">x.inc.type</field>
+        <field name="arch" type="xml">
+            <tree string=" Type of Incident" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="location_action" model="ir.actions.act_window">
+        <field name="name">Location of Incident</field>
+        <field name="res_model">x.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="location_tree_view"/>
+        <field name="context">{'create': False}</field>
+    </record>
+    <record id="location_tree_view" model="ir.ui.view">
+        <field name="name">Location of Incident</field>
+        <field name="model">x.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location of Incident">
+                <field name="name"/>
+                <field name="active"/>
+                <field name="usage"/>
+                <field name="location_id"/>
+                <field name="child_ids"/>
+                <field name="child_internal_location_ids"/>
+                <field name="company_id"/>
+                <field name="location_manager"/>
+                <field name="location_alternate_1"/>
+                <field name="location_alternate_2"/>
+                <field name="parent_path"/>
+            </tree>
+        </field>
+    </record>
+    <record id="person_category_action" model="ir.actions.act_window">
+        <field name="name">Person Category</field>
+        <field name="res_model">x.inc.person.category</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="person_category_tree_view" model="ir.ui.view">
+        <field name="name">Person Category</field>
+        <field name="model">x.inc.person.category</field>
+        <field name="arch" type="xml">
+            <tree string="Person Category" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="person_immediate_response_action" model="ir.actions.act_window">
+        <field name="name">Person Immediate response</field>
+        <field name="res_model">x.inc.person.immediate.response</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="person_immediate_response_tree_view" model="ir.ui.view">
+        <field name="name">Person Immediate response</field>
+        <field name="model">x.inc.person.immediate.response</field>
+        <field name="arch" type="xml">
+            <tree string="Person Immediate response" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="injured_body_parts_action" model="ir.actions.act_window">
+        <field name="name">Injured Body parts</field>
+        <field name="res_model">x.inc.injured.body.parts</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="injured_body_parts_tree_view" model="ir.ui.view">
+        <field name="name">Injured Body parts</field>
+        <field name="model">x.inc.injured.body.parts</field>
+        <field name="arch" type="xml">
+            <tree string="Injured Body parts" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="injury_type_action" model="ir.actions.act_window">
+        <field name="name">Nature of Injury</field>
+        <field name="res_model">x.inc.injury.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="injury_type_tree_view" model="ir.ui.view">
+        <field name="name">Nature of Injury</field>
+        <field name="model">x.inc.injury.type</field>
+        <field name="arch" type="xml">
+            <tree string="Nature of Injury" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="oh_incident_classification_action" model="ir.actions.act_window">
+        <field name="name">OH Incident Classification</field>
+        <field name="res_model">x.inc.oh.classification</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="oh_incident_classification_tree_view" model="ir.ui.view">
+        <field name="name">OH Incident Classification</field>
+        <field name="model">x.inc.oh.classification</field>
+        <field name="arch" type="xml">
+            <tree string="OH Incident Classification" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="env_classification_action" model="ir.actions.act_window">
+        <field name="name">ENV Incident Classification</field>
+        <field name="res_model">x.inc.env.classification</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="env_classification_tree_view" model="ir.ui.view">
+        <field name="name">ENV Incident Classification</field>
+        <field name="model">x.inc.env.classification</field>
+        <field name="arch" type="xml">
+            <tree string="ENV Incident Classification" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="env_impact_action" model="ir.actions.act_window">
+        <field name="name">Environmental Impacts</field>
+        <field name="res_model">x.inc.spill.env.impact</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="env_impact_tree_view" model="ir.ui.view">
+        <field name="name">Environmental Impacts</field>
+        <field name="model">x.inc.spill.env.impact</field>
+        <field name="arch" type="xml">
+            <tree string="Environmental Impacts" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="spill_immediate_response_action" model="ir.actions.act_window">
+        <field name="name">Material Spill Immediate Responses</field>
+        <field name="res_model">x.inc.material.spill.immediate.response</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="spill_immediate_response_tree_view" model="ir.ui.view">
+        <field name="name">Material Spill Immediate Responses</field>
+        <field name="model">x.inc.material.spill.immediate.response</field>
+        <field name="arch" type="xml">
+            <tree string="Material Spill Immediate Responses" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="asset_immediate_response_action" model="ir.actions.act_window">
+        <field name="name">Asset Immediate Response</field>
+        <field name="res_model">x.inc.asset.immediate.response</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="asset_immediate_response_tree_view" model="ir.ui.view">
+        <field name="name">asset.immediate.response.tree</field>
+        <field name="model">x.inc.asset.immediate.response</field>
+        <field name="arch" type="xml">
+            <tree string="Asset Immediate Response" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
