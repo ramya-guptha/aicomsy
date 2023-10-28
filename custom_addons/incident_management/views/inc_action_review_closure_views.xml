@@ -15,13 +15,11 @@
                             <field name="reviewer"/>
                             <field name="review_completion_date"/>
                         </group>
-
                         <group>
                             <field name="risks_and_opportunities_reviewed" widget="radio"
                                    options="{'horizontal': true}"/>
                             <field name="job_hazard_analysis_reviewed" widget="radio" options="{'horizontal': true}"/>
                         </group>
-
                         <group>
                             <field name="status"/>
                         </group>
@@ -41,7 +39,6 @@
                         <group>
                             <field name="closure_date"/>
                         </group>
-
                         <group>
                             <field name="action_follow_up_required" widget="radio" options="{'horizontal': true}"/>
                         </group>
@@ -71,12 +68,9 @@
                         <button name="action_return_for_review" string="Return for Review" class="btn-primary"/>
                     </group>
                 </sheet>
-
-
             </form>
         </field>
     </record>
-
     <record id="view_action_review_tree" model="ir.ui.view">
         <field name="name">x.inc.inv.action.review.tree</field>
         <field name="model">x.inc.inv.action.review</field>
@@ -95,5 +89,4 @@
             </tree>
         </field>
     </record>
-
 </odoo>
