@@ -17,6 +17,7 @@
         'views/inc_consequences_views.xml',
         'views/inc_investigation_people_views.xml',
         'views/inc_root_causes_views.xml',
+        'views/inc_action_review_closure_views.xml',
         'views/inc_investigation_views.xml',
         'views/inc_lov_views.xml',
         'views/inc_consequences_lov_views.xml',
