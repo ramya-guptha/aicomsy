@@ -37,8 +37,6 @@
                 <field name="active"/>
                 <field name="usage"/>
                 <field name="location_id"/>
-                <field name="child_ids"/>
-                <field name="child_internal_location_ids"/>
                 <field name="company_id"/>
                 <field name="location_manager"/>
                 <field name="location_alternate_1"/>
@@ -51,8 +49,26 @@
         <field name="name">Location of Incident</field>
         <field name="res_model">x.location</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="location_tree_view"/>
-        <field name="context">{'create': False}</field>
+    </record>
+    <record id="location_view_form" model="ir.ui.view">
+        <field name="name">x.location.form</field>
+        <field name="model">x.location</field>
+        <field name="arch" type="xml">
+            <form name="Location Details">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="usage"/>
+                        <field name="location_id"/>
+                        <field name="company_id"/>
+                        <field name="location_manager"/>
+                        <field name="location_alternate_1"/>
+                        <field name="location_alternate_2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
     </record>
     <record id="person_category_action" model="ir.actions.act_window">
         <field name="name">Person Category</field>

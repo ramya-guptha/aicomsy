@@ -41,6 +41,11 @@
         'data/x_inc_env_classification_data.xml',
         'data/x_inc_env_impact_data.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'incident_management/static/src/scss/custom_style.scss',
+        ],
+    },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
