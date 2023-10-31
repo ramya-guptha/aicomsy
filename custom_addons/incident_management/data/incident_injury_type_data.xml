@@ -46,18 +46,21 @@
             <field name="name">Crack Wound</field>
         </record>
         <record id="iti16" model="x.inc.injury.type">
-            <field name="name">Sprain or Strain</field>
+            <field name="name">Sprain</field>
         </record>
         <record id="iti17" model="x.inc.injury.type">
-            <field name="name">Cardiac Arrest</field>
+            <field name="name">Strain</field>
         </record>
         <record id="iti18" model="x.inc.injury.type">
-            <field name="name">Heat Stress</field>
+            <field name="name">Cardiac Arrest</field>
         </record>
         <record id="iti19" model="x.inc.injury.type">
-            <field name="name">Shortness of Breath</field>
+            <field name="name">Heat Stress</field>
         </record>
         <record id="iti20" model="x.inc.injury.type">
+            <field name="name">Shortness of Breath</field>
+        </record>
+        <record id="iti21" model="x.inc.injury.type">
             <field name="name">Faint</field>
         </record>
     </data>

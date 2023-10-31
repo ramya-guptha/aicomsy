@@ -140,6 +140,34 @@
             </tree>
         </field>
     </record>
+    <record id="oh_severity_classification_action" model="ir.actions.act_window">
+        <field name="name">OH Severity Classification</field>
+        <field name="res_model">x.inc.oh.severity.classification</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="oh_severity_classification_tree_view" model="ir.ui.view">
+        <field name="name">OH Severity Classification</field>
+        <field name="model">x.inc.oh.severity.classification</field>
+        <field name="arch" type="xml">
+            <tree string="OH Severity Classification" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="oh_severity_consequence_action" model="ir.actions.act_window">
+        <field name="name">OH Severity Consequence</field>
+        <field name="res_model">x.inc.oh.severity.consequence</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="oh_severity_consequence_tree_view" model="ir.ui.view">
+        <field name="name">OH Severity Consequence</field>
+        <field name="model">x.inc.oh.severity.consequence</field>
+        <field name="arch" type="xml">
+            <tree string="OH Severity Consequence" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
     <record id="env_classification_action" model="ir.actions.act_window">
         <field name="name">ENV Incident Classification</field>
         <field name="res_model">x.inc.env.classification</field>
@@ -168,16 +196,16 @@
             </tree>
         </field>
     </record>
-    <record id="spill_immediate_response_action" model="ir.actions.act_window">
-        <field name="name">Material Spill Immediate Responses</field>
+    <record id="env_immediate_response_action" model="ir.actions.act_window">
+        <field name="name">ENV Immediate Response</field>
         <field name="res_model">x.inc.material.spill.immediate.response</field>
         <field name="view_mode">tree,form</field>
     </record>
-    <record id="spill_immediate_response_tree_view" model="ir.ui.view">
-        <field name="name">Material Spill Immediate Responses</field>
+    <record id="env_immediate_response_tree_view" model="ir.ui.view">
+        <field name="name">ENV Immediate Response</field>
         <field name="model">x.inc.material.spill.immediate.response</field>
         <field name="arch" type="xml">
-            <tree string="Material Spill Immediate Responses" editable="bottom">
+            <tree string="ENV Immediate Response" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>
@@ -192,6 +220,34 @@
         <field name="model">x.inc.asset.immediate.response</field>
         <field name="arch" type="xml">
             <tree string="Asset Immediate Response" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="env_severity_classification_action" model="ir.actions.act_window">
+        <field name="name">ENV Severity Classification</field>
+        <field name="res_model">x.inc.env.severity.classification</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="env_severity_classification_tree_view" model="ir.ui.view">
+        <field name="name">ENV Severity Classification</field>
+        <field name="model">x.inc.env.severity.classification</field>
+        <field name="arch" type="xml">
+            <tree string="ENV Severity Classification" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="env_severity_consequence_action" model="ir.actions.act_window">
+        <field name="name">ENV Severity Consequence</field>
+        <field name="res_model">x.inc.env.severity.consequence</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="env_severity_consequence_tree_view" model="ir.ui.view">
+        <field name="name">ENV Severity Consequence</field>
+        <field name="model">x.inc.env.severity.consequence</field>
+        <field name="arch" type="xml">
+            <tree string="ENV Severity Consequence" editable="bottom">
                 <field name="name"/>
             </tree>
         </field>

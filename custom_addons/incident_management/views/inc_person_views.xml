@@ -16,6 +16,8 @@
                 <field name="person_task"/>
                 <field name="person_employer" optional="hide"/>
                 <field name="oh_incident_classification"/>
+                <field name="oh_severity_classification"/>
+                <field name="oh_severity_consequence"/>
                 <field name="incident_injured_body_parts" widget="many2many_tags"/>
                 <field name="incident_type_of_illness" widget="many2many_tags"/>
                 <field name="immediate_response"/>
@@ -75,6 +77,8 @@
                         </group>
                         <group>
                             <field name="oh_incident_classification" widget="selection"/>
+                            <field name="oh_severity_classification" widget="selection"/>
+                            <field name="oh_severity_consequence" widget="selection"/>
                         </group>
                         <group>
                             <field name="location" widget="selection"/>

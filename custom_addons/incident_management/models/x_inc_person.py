@@ -41,6 +41,10 @@ class IncidentPersonRecord(models.Model):
     immediate_response = fields.Many2one('x.inc.person.immediate.response', string="Immediate Response")
     oh_incident_classification = fields.Many2one("x.inc.oh.classification", string="OH Incident Classification",
                                                  required=True)
+    oh_severity_classification = fields.Many2one("x.inc.oh.severity.classification",
+                                                 string="Severity Classification (OH)", required=True)
+    oh_severity_consequence = fields.Many2one("x.inc.oh.severity.consequence",
+                                              string="Severity Consequence (OH)", required=True)
     location = fields.Many2one("x.location", string="Incident Location")
     experience = fields.Integer(string="Experience")
 
@@ -143,3 +147,30 @@ class IncOHClassification(models.Model):
 
     name = fields.Char(string="OH Incident Classification")
 
+
+class IncOHSeverityClassification(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = "x.inc.oh.severity.classification"
+    _description = "OH Severity classification"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'OH Severity classification must be unique !'),
+    ]
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    name = fields.Char(string="OH Severity Classification")
+
+
+class IncOHSeverityConsequence(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = "x.inc.oh.severity.consequence"
+    _description = "OH Severity Consequence"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'OH Severity Consequence must be unique !'),
+    ]
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    name = fields.Char(string="OH Severity Consequence")

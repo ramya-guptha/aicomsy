@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # import from odoo
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class IncidentMaterialSpillageRecord(models.Model):
@@ -23,6 +23,10 @@ class IncidentMaterialSpillageRecord(models.Model):
     unit = fields.Many2one("x.inc.unit", string="Unit")
     env_impact = fields.Many2one('x.inc.spill.env.impact')
     immediate_response = fields.Many2one("x.inc.material.spill.immediate.response")
+    env_severity_classification = fields.Many2one("x.inc.env.severity.classification",
+                                                  string="Severity Classification (ENV)", required=True)
+    env_severity_consequence = fields.Many2one("x.inc.env.severity.consequence",
+                                               string="Severity Consequence (ENV)", required=True)
 
 
 class IncAssetImmediateResponse(models.Model):
@@ -74,3 +78,31 @@ class Unit(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char(string="Unit")
+
+
+class ENVSeverityClassification(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = "x.inc.env.severity.classification"
+    _description = "ENV Severity classification"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'ENV Severity classification must be unique !'),
+    ]
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    name = fields.Char(string="Severity Classification (ENV)")
+
+
+class IncENVSeverityConsequence(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = "x.inc.env.severity.consequence"
+    _description = "ENV Severity Consequence"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'ENV Severity Consequence must be unique !'),
+    ]
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    name = fields.Char(string="Severity Consequence(ENV)")

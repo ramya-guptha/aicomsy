@@ -24,5 +24,8 @@
         <record id="envc8" model="x.inc.env.classification">
             <field name="name">Regulatory Violation</field>
         </record>
+        <record id="envc8" model="x.inc.env.classification">
+            <field name="name">Property Damage</field>
+        </record>
     </data>
 </odoo>
