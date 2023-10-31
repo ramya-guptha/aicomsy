@@ -1,10 +1,58 @@
 <odoo>
     <data noupdate="1">
-        <record id="im1" model="x.inc.material.spill.immediate.response">
+        <record id="ir1" model="x.inc.material.spill.immediate.response">
+            <field name="name">Evacuated from work</field>
+        </record>
+        <record id="ir2" model="x.inc.material.spill.immediate.response">
+            <field name="name">Informed the Contractors</field>
+        </record>
+        <record id="ir3" model="x.inc.material.spill.immediate.response">
+            <field name="name">Operation Aborted and Isolated</field>
+        </record>
+        <record id="ir4" model="x.inc.material.spill.immediate.response">
+            <field name="name">Repair Request Raised</field>
+        </record>
+        <record id="ir5" model="x.inc.material.spill.immediate.response">
+            <field name="name">Informed Rental Company</field>
+        </record>
+        <record id="ir6" model="x.inc.material.spill.immediate.response">
             <field name="name">Alarm Activated</field>
         </record>
-        <record id="im2" model="x.inc.material.spill.immediate.response">
+        <record id="ir7" model="x.inc.material.spill.immediate.response">
             <field name="name">Cleaned using spill kit</field>
+        </record>
+        <record id="ir8" model="x.inc.material.spill.immediate.response">
+            <field name="name">Spill Contained</field>
+        </record>
+        <record id="ir9" model="x.inc.material.spill.immediate.response">
+            <field name="name">Location Isolated</field>
+        </record>
+        <record id="ir10" model="x.inc.material.spill.immediate.response">
+            <field name="name">Personnel Evacuated</field>
+        </record>
+        <record id="ir11" model="x.inc.material.spill.immediate.response">
+            <field name="name">Notified Authorities</field>
+        </record>
+        <record id="ir12" model="x.inc.material.spill.immediate.response">
+            <field name="name">Seeked Medical Attention</field>
+        </record>
+        <record id="ir13" model="x.inc.material.spill.immediate.response">
+            <field name="name">Clean-up done by Authorities</field>
+        </record>
+        <record id="ir14" model="x.inc.material.spill.immediate.response">
+            <field name="name">Other (Give Details)</field>
+        </record>
+        <record id="ir15" model="x.inc.material.spill.immediate.response">
+            <field name="name">Isolated the Area</field>
+        </record>
+        <record id="ir16" model="x.inc.material.spill.immediate.response">
+            <field name="name">Extinguished with FE</field>
+        </record>
+        <record id="ir17" model="x.inc.material.spill.immediate.response">
+            <field name="name">Seeked Civil Defense Aid</field>
+        </record>
+        <record id="ir18" model="x.inc.material.spill.immediate.response">
+            <field name="name">Informed Insurance Agency</field>
         </record>
     </data>
 </odoo>

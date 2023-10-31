@@ -39,6 +39,12 @@
         'data/x_inc_action_damage_data.xml',
         'data/x_inc_env_classification_data.xml',
         'data/x_inc_env_impact_data.xml',
+        'data/x_inc_rootcause_data.xml',
+        'data/x_inc_oh_severity_classifications_data.xml',
+        'data/x_inc_oh_severity_consequence_data.xml',
+        'data/x_inc_env_severity_classification_data.xml',
+        'data/x_inc_env_severity_consequence_data.xml',
+
     ],
     'installable': True,
     'application': True,

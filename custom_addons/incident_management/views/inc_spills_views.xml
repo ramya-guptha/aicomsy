@@ -3,18 +3,20 @@
         <field name="name">inc.spill.tree</field>
         <field name="model">x.inc.material.spill.record</field>
         <field name="arch" type="xml">
-           <tree string="Spill" editable="bottom">
+            <tree string="Spill" editable="bottom">
                 <field name="person_reported"/>
                 <field name="id_number"/>
                 <field name="task"/>
                 <field name="job_title"/>
                 <field name="location"/>
                 <field name="env_incident_classification"/>
+                <field name="env_severity_classification"/>
+                <field name="env_severity_consequence"/>
                 <field name="qty"/>
                 <field name="unit"/>
                 <field name="env_impact"/>
                 <field name="immediate_response"/>
-           </tree>
+            </tree>
         </field>
     </record>
 </odoo>

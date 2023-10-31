@@ -1,0 +1,16 @@
+<odoo>
+    <data noupdate="1">
+        <record id="o1" model="x.inc.oh.severity.classification">
+            <field name="name">Class A</field>
+        </record>
+        <record id="o2" model="x.inc.oh.severity.classification">
+            <field name="name">Class B</field>
+        </record>
+        <record id="o3" model="x.inc.oh.severity.classification">
+            <field name="name">Class C</field>
+        </record>
+        <record id="o4" model="x.inc.oh.severity.classification">
+            <field name="name">Class D</field>
+        </record>
+    </data>
+</odoo>

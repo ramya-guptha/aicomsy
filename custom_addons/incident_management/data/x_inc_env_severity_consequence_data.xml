@@ -1,0 +1,29 @@
+<odoo>
+    <data noupdate="1">
+        <record id="sc1" model="x.inc.env.severity.consequence">
+            <field name="name">External Spill</field>
+        </record>
+        <record id="sc2" model="x.inc.env.severity.consequence">
+            <field name="name">Contained Spill</field>
+        </record>
+        <record id="sc3" model="x.inc.env.severity.consequence">
+            <field name="name">Toxic Gas Release</field>
+        </record>
+        <record id="sc4" model="x.inc.env.severity.consequence">
+            <field name="name">Flammable Gas Release</field>
+        </record>
+        <record id="sc5" model="x.inc.env.severity.consequence">
+            <field name="name">Radioactive Material Spill</field>
+        </record>
+        <record id="sc6" model="x.inc.env.severity.consequence">
+            <field name="name">Significant Dust Emission</field>
+        </record>
+        <record id="sc7" model="x.inc.env.severity.consequence">
+            <field name="name">Significant Smoke Emission</field>
+        </record>
+        <record id="sc8" model="x.inc.env.severity.consequence">
+            <field name="name">Property Damage (Work ENV)</field>
+        </record>
+    </data>
+</odoo>
+

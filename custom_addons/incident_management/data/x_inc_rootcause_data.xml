@@ -1,0 +1,318 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="pc1" model="x.inc.primary.root.causes">
+            <field name="name">Procedure/Policy/Pre-Job Planning</field>
+        </record>
+        <record id="pc2" model="x.inc.primary.root.causes">
+            <field name="name">Tool/Equipment/PPE</field>
+        </record>
+        <record id="pc3" model="x.inc.primary.root.causes">
+            <field name="name">Physical Capabilities/Condition</field>
+        </record>
+        <record id="pc4" model="x.inc.primary.root.causes">
+            <field name="name">Other Party Action</field>
+        </record>
+        <record id="pc5" model="x.inc.primary.root.causes">
+            <field name="name">Maintenance/Repair</field>
+        </record>
+        <record id="pc6" model="x.inc.primary.root.causes">
+            <field name="name">Watch Keeping</field>
+        </record>
+        <record id="pc7" model="x.inc.primary.root.causes">
+            <field name="name">Engineering/Design</field>
+        </record>
+        <record id="pc8" model="x.inc.primary.root.causes">
+            <field name="name">Haste</field>
+        </record>
+        <record id="pc9" model="x.inc.primary.root.causes">
+            <field name="name">Knowledge/Training</field>
+        </record>
+        <record id="pc10" model="x.inc.primary.root.causes">
+            <field name="name">Skill Level</field>
+        </record>
+        <record id="pc11" model="x.inc.primary.root.causes">
+            <field name="name">House Keeping</field>
+        </record>
+        <record id="secondary_cause_1_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Not following procedure/policy</field>
+        </record>
+        <record id="secondary_cause_1_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Use of wrong procedure</field>
+        </record>
+        <record id="secondary_cause_1_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Lack of communication</field>
+        </record>
+        <record id="secondary_cause_1_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Inadequate pre-job planning</field>
+        </record>
+        <record id="secondary_cause_1_5" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">No pre-job planning</field>
+        </record>
+        <record id="secondary_cause_1_6" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Inadequate procedures</field>
+        </record>
+        <record id="secondary_cause_1_7" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Lack of understanding procedures</field>
+        </record>
+        <record id="secondary_cause_1_8" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">Inadequate MOC</field>
+        </record>
+        <record id="secondary_cause_1_9" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc1"/>
+            <field name="name">LOTO Failure</field>
+        </record>
+
+        <record id="secondary_cause_2_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Equipment failure/defect</field>
+        </record>
+        <record id="secondary_cause_2_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Improper use</field>
+        </record>
+        <record id="secondary_cause_2_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate adjustment/repair/maintenance</field>
+        </record>
+        <record id="secondary_cause_2_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate assessment of needs</field>
+        </record>
+        <record id="secondary_cause_2_5" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate removal/replacement</field>
+        </record>
+        <record id="secondary_cause_2_6" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate human factors/ergonomics considerations</field>
+        </record>
+        <record id="secondary_cause_2_7" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Improper or not using PPE</field>
+        </record>
+        <record id="secondary_cause_2_8" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Failure of PPE</field>
+        </record>
+        <record id="secondary_cause_2_9" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate standards or specifications</field>
+        </record>
+        <record id="secondary_cause_2_10" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate secondary containment</field>
+        </record>
+        <record id="secondary_cause_2_11" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Inadequate packaging (chemicals)</field>
+        </record>
+        <record id="secondary_cause_2_12" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc2"/>
+            <field name="name">Safety Sensor/Emergency Cut-off Failure</field>
+        </record>
+
+        <record id="secondary_cause_3_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Improper body placement/position</field>
+        </record>
+        <record id="secondary_cause_3_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Sensory deficiency</field>
+        </record>
+        <record id="secondary_cause_3_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Restricted range of body movement</field>
+        </record>
+        <record id="secondary_cause_3_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Exposure to hazardous materials</field>
+        </record>
+        <record id="secondary_cause_3_5" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Physical Fatigue</field>
+        </record>
+        <record id="secondary_cause_3_6" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Improper/lack of hygiene</field>
+        </record>
+        <record id="secondary_cause_3_7" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Overexertion</field>
+        </record>
+        <record id="secondary_cause_3_8" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Permanent/temporary disability</field>
+        </record>
+        <record id="secondary_cause_3_9" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Previous injury or illness</field>
+        </record>
+        <record id="secondary_cause_3_10" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Use/abuse of medication or drugs</field>
+        </record>
+        <record id="secondary_cause_3_11" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Inability to sustain body position</field>
+        </record>
+        <record id="secondary_cause_3_12" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc3"/>
+            <field name="name">Physical disabilities</field>
+        </record>
+
+        <record id="secondary_cause_4_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Actions by other crew member</field>
+        </record>
+        <record id="secondary_cause_4_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Weather</field>
+        </record>
+        <record id="secondary_cause_4_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Sea state</field>
+        </record>
+        <record id="secondary_cause_4_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Underwater hazards</field>
+        </record>
+        <record id="secondary_cause_4_5" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Actions by non-company personnel</field>
+        </record>
+        <record id="secondary_cause_4_6" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Acts of God (error-enforcing conditions)</field>
+        </record>
+        <record id="secondary_cause_4_7" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Actions by management</field>
+        </record>
+        <record id="secondary_cause_4_8" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Riot, civil unrest</field>
+        </record>
+        <record id="secondary_cause_4_9" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc4"/>
+            <field name="name">Visibility</field>
+        </record>
+
+        <record id="secondary_cause_5_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc5"/>
+            <field name="name">Inadequate preventative maintenance</field>
+        </record>
+        <record id="secondary_cause_5_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc5"/>
+            <field name="name">Inadequate audit/inspection/monitoring</field>
+        </record>
+        <record id="secondary_cause_5_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc5"/>
+            <field name="name">Inadequate corrective maintenance</field>
+        </record>
+        <record id="secondary_cause_5_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc5"/>
+            <field name="name">Wrong maintenance/repair</field>
+        </record>
+        <record id="secondary_cause_5_5" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc5"/>
+            <field name="name">Over maintenance</field>
+        </record>
+        <record id="secondary_cause_6_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc6"/>
+            <field name="name">Improper watch keeping</field>
+        </record>
+        <record id="secondary_cause_6_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc6"/>
+            <field name="name">Judgmental error</field>
+        </record>
+        <record id="secondary_cause_6_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc6"/>
+            <field name="name">Inadequate watch keeping</field>
+        </record>
+        <record id="secondary_cause_6_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc6"/>
+            <field name="name">No watch keeping</field>
+        </record>
+        <record id="secondary_cause_7_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc7"/>
+            <field name="name">Design failure/flaw</field>
+        </record>
+        <record id="secondary_cause_7_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc7"/>
+            <field name="name">Inadequate design</field>
+        </record>
+        <record id="secondary_cause_7_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc7"/>
+            <field name="name">Improperly designed</field>
+        </record>
+        <record id="secondary_cause_8_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc8"/>
+            <field name="name">Self-applied haste</field>
+        </record>
+        <record id="secondary_cause_8_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc8"/>
+            <field name="name">Preoccupation with other tasks/events</field>
+        </record>
+        <record id="secondary_cause_8_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc8"/>
+            <field name="name">Perceived haste</field>
+        </record>
+        <record id="secondary_cause_8_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc8"/>
+            <field name="name">Horseplay</field>
+        </record>
+        <record id="secondary_cause_9_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc9"/>
+            <field name="name">Lack of experience</field>
+        </record>
+        <record id="secondary_cause_9_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc9"/>
+            <field name="name">Inadequate training</field>
+        </record>
+        <record id="secondary_cause_9_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc9"/>
+            <field name="name">Inadequate Training</field>
+        </record>
+        <record id="secondary_cause_9_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc9"/>
+            <field name="name">Misunderstood instruction</field>
+        </record>
+        <record id="secondary_cause_9_5" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc9"/>
+            <field name="name">No training provided</field>
+        </record>
+        <record id="secondary_cause_10_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc10"/>
+            <field name="name">Inadequate assessment of required skills</field>
+        </record>
+        <record id="secondary_cause_10_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc10"/>
+            <field name="name">Inadequate practice/performance of skills</field>
+        </record>
+        <record id="secondary_cause_11_1" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc11"/>
+            <field name="name">Improper storage/securing</field>
+        </record>
+        <record id="secondary_cause_11_2" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc11"/>
+            <field name="name">Improper house keeping</field>
+        </record>
+        <record id="secondary_cause_11_3" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc11"/>
+            <field name="name">Lack of timely house keeping</field>
+        </record>
+        <record id="secondary_cause_11_4" model="x.inc.secondary.root.causes">
+            <field name="primary_root_causes_id" ref="pc11"/>
+            <field name="name">Lack of house keeping</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<odoo>
+    <data noupdate="1">
+        <record id="soc1" model="x.inc.oh.severity.consequence">
+            <field name="name">Fatality</field>
+        </record>
+        <record id="soc2" model="x.inc.oh.severity.consequence">
+            <field name="name">Loss Time Injury</field>
+        </record>
+        <record id="soc3" model="x.inc.oh.severity.consequence">
+            <field name="name">Restricted Work</field>
+        </record>
+        <record id="soc4" model="x.inc.oh.severity.consequence">
+            <field name="name">Medical Treatment Case</field>
+        </record>
+        <record id="soc5" model="x.inc.oh.severity.consequence">
+            <field name="name">First Aid Case</field>
+        </record>
+        <record id="soc6" model="x.inc.oh.severity.consequence">
+            <field name="name">Property Damage (MV / Machine/Tools)</field>
+        </record>
+        <record id="soc7" model="x.inc.oh.severity.consequence">
+            <field name="name">Near Miss</field>
+        </record>
+        <record id="soc8" model="x.inc.oh.severity.consequence">
+            <field name="name">Dropped Object</field>
+        </record>
+        <record id="soc9" model="x.inc.oh.severity.consequence">
+            <field name="name">Non-Work Related</field>
+        </record>
+    </data>
+</odoo>
