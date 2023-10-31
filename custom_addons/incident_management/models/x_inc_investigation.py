@@ -76,7 +76,6 @@ class IncInvestigation(models.Model):
         incident_id.write({'state': 'investigation_in_progress'})
 
 
-
 class InvestigationTeam(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
 
@@ -171,19 +170,7 @@ class IncidentRootCauses(models.Model):
     comments = fields.Text(string="Comments")
 
     def corrective_action(self):
-        print(self.primary_root_cause_id.name)
-        print(self.secondary_root_cause_ids)
-        appended_string = ""
-        for record in self.secondary_root_cause_ids:
-            print(record)
-            print(record.primary_root_causes_id)
-            print(record.name)
-            appended_string += record.name + ", "  # Assuming 'name' is the field you want to append
 
-        # Remove the trailing comma and space, if any
-        if appended_string:
-            appended_string = appended_string[:-2]
-            print(appended_string)
         return {
             'name': 'Corrective Action',
             'res_model': 'x.inc.inv.corrective.actions',
@@ -194,8 +181,9 @@ class IncidentRootCauses(models.Model):
 
             'context': {
                 'default_investigation_id': self.investigation_id.id,
-                'default_primary_root_cause': self.primary_root_cause_id.name,
-                'default_secondary_root_cause': appended_string,
+                'default_action_party': self.investigation_id.incident_id.location.location_manager.id,
+                'default_primary_root_cause_id': self.primary_root_cause_id.id,
+                'default_secondary_root_cause_ids': self.secondary_root_cause_ids.ids,
             },
 
         }
@@ -236,21 +224,51 @@ class CorrectiveAction(models.Model):
     _description = "Corrective Actions"
 
     _sql_constraints = [
-        ('corrective_action_uniq', 'unique(investigation_id, primary_root_cause)',
+        ('corrective_action_uniq', 'unique(investigation_id, primary_root_cause_id)',
          'Corrective action already exists'),
     ]
+
+    # ---------------------------------------- CRUD METHODS ---------------------------------------
+
+    @api.model
+    def create(self, vals_list):
+        corrective_action = super().create(vals_list)
+        # Call the send_email method
+        corrective_action.action_send_email()
+        return corrective_action
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
     investigation_id = fields.Many2one("x.inc.investigation")
-    primary_root_cause = fields.Char(string="Primary Root Cause", readonly=True)
-    secondary_root_cause = fields.Char(string='Secondary Root Causes', readonly=True)
+    primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True, readonly=True)
+    secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
+                                                domain="[('primary_root_causes_id', '=', primary_root_cause_id)]",
+                                                required=True, readonly=True)
     action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type")
     hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control")
-    action_party = fields.Many2one('hr.employee', string="Action Party")
+    action_party = fields.Many2one('res.users', string="Action Party")
     target_date = fields.Date(string="Target Date of Completion")
     action_status = fields.Char(string="Action Status")
     remarks = fields.Text(string="Remarks")
+    attachment_id = fields.Binary(string="Attachment")
+    attachment_id_name = fields.Char(string="File Name")
+    proposed_action = fields.Text(string="Proposed Action", required=True)
+    state = fields.Selection(
+        selection=[
+            ("new", "New"),
+            ("in_progress", "In Progress"),
+            ("returned", "Returned"),
+            ("completed", "Completed"),
+        ],
+        string="Status",
+        copy=False,
+    )
+
+    def action_send_email(self):
+        incident = self.env['x.incident.record'].browse(
+            self.investigation_id.incident_id.location.location_manager.name)
+        mail_template = self.env.ref('incident_management.email_template_corrective_action')
+        mail_template.send_mail(self.id, force_send=True)
 
     def review_action(self):
         return {
