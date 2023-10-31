@@ -25,7 +25,7 @@ class IncidentMaterialSpillageRecord(models.Model):
     immediate_response = fields.Many2one("x.inc.material.spill.immediate.response")
     env_severity_classification = fields.Many2one("x.inc.env.severity.classification",
                                                   string="Severity Classification (ENV)", required=True)
-    env_severity_consequence = fields.Many2one("x.inc.oh.severity.consequence",
+    env_severity_consequence = fields.Many2one("x.inc.env.severity.consequence",
                                                string="Severity Consequence (ENV)", required=True)
 
 
