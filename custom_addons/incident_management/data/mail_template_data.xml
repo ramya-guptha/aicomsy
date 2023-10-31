@@ -52,5 +52,58 @@
                 </div>
             </field>
         </record>
+         <record id="email_template_corrective_action" model="mail.template">
+            <field name="name">Investigation - Corrective Action</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_inv_corrective_actions"/>
+            <field name="email_from">ramya.guptha@tisys.co.in</field>
+            <field name="email_to">
+                {{object.investigation_id.incident_id.location.location_manager.email}},{{object.investigation_id.incident_id.location.location_alternate_1.email}},{{object.investigation_id.incident_id.location.location_alternate_1.email}}
+            </field>
+            <field name="subject">Assigned - Corrective Action for {{object.investigation_id.name}} - {{object.primary_root_cause_id.name}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.investigation_id.name"/>
+                                for incident <t t-out="object.investigation_id.name"/> with the following details has been created:
+                                <ul>
+                                    <li>
+                                        <strong>Primary Root Cause</strong>
+                                        <t t-out="object.primary_root_cause_id.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Secondary Root Cause</strong>
+                                        <t t-foreach="object.secondary_root_cause_ids" t-as="secondary_rc_id">
+                                            <t t-out="secondary_rc_id.name"/> <!-- Assuming 'name' is a field in the related model -->
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Action Type</strong>
+                                        <t t-out="object.action_type.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Hierarchy of control</strong>
+                                        <t t-out="object.hierarchy_of_control.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Action Party</strong>
+                                        <t t-out="object.action_party.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Target Date</strong>
+                                        <t t-out="object.target_date"/>
+                                    </li>
+                                </ul>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
     </data>
 </odoo>

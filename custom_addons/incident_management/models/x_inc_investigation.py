@@ -14,7 +14,14 @@ class IncInvestigation(models.Model):
     @api.model
     def create(self, vals_list):
         vals_list['name'] = self.env['ir.sequence'].next_by_code("x.inc.investigation")
-        return super().create(vals_list)
+        incident_id = self.env.context.get('default_incident_id')
+        vals_list['state'] = 'assigned'
+        investigation = super().create(vals_list)
+        # Change the state of the related incident
+        if incident_id:
+            incident = self.env['x.incident.record'].browse(incident_id)
+            incident.write({'state': 'investigation_assigned'})
+        return investigation
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -24,14 +31,16 @@ class IncInvestigation(models.Model):
     description = fields.Html(related="incident_id.description")
     # description = fields.Html(related="incident_id.description")
     # Investigation Team Details
-    hse_officer = fields.Many2one('hr.employee', string="HSE Officer")
+    hse_officer = fields.Many2one('hr.employee', string="HSE Officer", required=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
-    field_executive = fields.Many2one('hr.employee', string="Field Executive")
+    field_executive = fields.Many2one('hr.employee', string="Field Executive",  required=True)
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")
-    hr_administration = fields.Many2one('hr.employee', string="HR / Administration")
+    hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True)
     hr_administration_id = fields.Integer(related="hr_administration.id", string="ID Number")
-    finance = fields.Many2one('hr.employee', string="Finance")
+    finance = fields.Many2one('hr.employee', string="Finance",  required=True)
     finance_id = fields.Integer(related="finance.id", string="ID Number")
+    investigation_team = fields.One2many("x.inc.investigation.team", "investigation_id",
+                                         string="Investigation Team",  required=True)
 
     # Investigation Details Tab
     investigation_details = fields.Text(string='Investigation Details')
@@ -46,6 +55,36 @@ class IncInvestigation(models.Model):
     # Corrective Actions Tab
     corrective_actions_ids = fields.One2many("x.inc.inv.corrective.actions", "investigation_id",
                                              string="Corrective Actions")
+
+    # Actions Review & Closure Tab
+    actions_review_ids = fields.One2many("x.inc.inv.action.review", "investigation_id", string="Action Review & Closure ")
+    state = fields.Selection(
+        selection=[
+            ("assigned", "Assigned"),
+            ("in_progress", "In Progress"),
+            ("closed", "Closed"),
+        ],
+        string="Status",
+
+        copy=False,
+
+    )
+
+    def start_investigation(self):
+        self.write({'state': 'in_progress'})
+        incident_id = self.incident_id
+        incident_id.write({'state': 'investigation_in_progress'})
+
+
+class InvestigationTeam(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = 'x.inc.investigation.team'
+    _description = 'Investigation Team'
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+    investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
+    employee = fields.Many2one('hr.employee', string='Team Members')
 
 
 class IncidentPeopleInterviewed(models.Model):
@@ -118,7 +157,7 @@ class IncidentRootCauses(models.Model):
     _name = "x.inc.root.causes"
     _description = "Root Causes for an Incident"
     _sql_constraints = [
-        ('primary_root_cause_id', 'unique(primary_root_cause_id)', 'Primary Root Cause needs to be unique'),
+        ('primary_root_cause_id', 'unique(investigation_id, primary_root_cause_id)', 'Primary Root Cause needs to be unique'),
     ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
@@ -128,6 +167,26 @@ class IncidentRootCauses(models.Model):
     secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
                                                 domain="[('primary_root_causes_id', '=', primary_root_cause_id)]",
                                                 required=True)
+    comments = fields.Text(string="Comments")
+
+    def corrective_action(self):
+
+        return {
+            'name': 'Corrective Action',
+            'res_model': 'x.inc.inv.corrective.actions',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_id': self.env.ref('incident_management.corrective_action_form_view').id,
+            'target': 'new',
+
+            'context': {
+                'default_investigation_id': self.investigation_id.id,
+                'default_action_party': self.investigation_id.incident_id.location.location_manager.id,
+                'default_primary_root_cause_id': self.primary_root_cause_id.id,
+                'default_secondary_root_cause_ids': self.secondary_root_cause_ids.ids,
+            },
+
+        }
 
 
 class IncidentPrimaryRootCauses(models.Model):
@@ -164,18 +223,68 @@ class CorrectiveAction(models.Model):
     _name = "x.inc.inv.corrective.actions"
     _description = "Corrective Actions"
 
+    _sql_constraints = [
+        ('corrective_action_uniq', 'unique(investigation_id, primary_root_cause_id)',
+         'Corrective action already exists'),
+    ]
+
+    # ---------------------------------------- CRUD METHODS ---------------------------------------
+
+    @api.model
+    def create(self, vals_list):
+        corrective_action = super().create(vals_list)
+        # Call the send_email method
+        corrective_action.action_send_email()
+        return corrective_action
+
     # --------------------------------------- Fields Declaration ----------------------------------
 
-    investigation_id = fields.Integer(string="Investigation ID")
-    action_number = fields.Integer(string="Action")
-    corrective_action = fields.Char(string="Corrective Action")
-    root_cause = fields.Text(string="Root Cause")
+    investigation_id = fields.Many2one("x.inc.investigation")
+    primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True, readonly=True)
+    secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
+                                                domain="[('primary_root_causes_id', '=', primary_root_cause_id)]",
+                                                required=True, readonly=True)
     action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type")
     hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control")
-    action_party = fields.Many2one('hr.employee', string="Action Party")
+    action_party = fields.Many2one('res.users', string="Action Party")
     target_date = fields.Date(string="Target Date of Completion")
     action_status = fields.Char(string="Action Status")
     remarks = fields.Text(string="Remarks")
+    attachment_id = fields.Binary(string="Attachment")
+    attachment_id_name = fields.Char(string="File Name")
+    proposed_action = fields.Text(string="Proposed Action", required=True)
+    state = fields.Selection(
+        selection=[
+            ("new", "New"),
+            ("in_progress", "In Progress"),
+            ("returned", "Returned"),
+            ("completed", "Completed"),
+        ],
+        string="Status",
+        copy=False,
+    )
+
+    def action_send_email(self):
+        incident = self.env['x.incident.record'].browse(
+            self.investigation_id.incident_id.location.location_manager.name)
+        mail_template = self.env.ref('incident_management.email_template_corrective_action')
+        mail_template.send_mail(self.id, force_send=True)
+
+    def review_action(self):
+        return {
+            'name': 'Action Review & Closure',
+            'res_model': 'x.inc.inv.action.review',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_id': self.env.ref('incident_management.action_review_form_view').id,
+            'target': 'new',
+            'context': {
+                'default_investigation_id': self.investigation_id.id,
+                'default_corrective_action_id': self.id,
+
+            },
+
+        }
 
 
 class ActionType(models.Model):

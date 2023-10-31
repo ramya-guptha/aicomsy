@@ -68,7 +68,7 @@ class IncidentRecord(models.Model):
         mail_template.send_mail(self.id, force_send=True)
 
     def assign_team(self):
-        self.write({"state": "investigation_assigned"})
+
         return {
             'name': 'Investigation Team',
             'res_model': 'x.inc.investigation',

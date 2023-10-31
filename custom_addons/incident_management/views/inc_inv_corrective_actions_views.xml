@@ -6,15 +6,18 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="action_number"/>
-                        <field name="corrective_action"/>
-                        <field name="root_cause"/>
+                        <field name="investigation_id"/>
+                        <field name="primary_root_cause_id"/>
+                        <field name="secondary_root_cause_ids" widget="many2many_tags"/>
                         <field name="action_type"/>
                         <field name="hierarchy_of_control"/>
                         <field name="action_party"/>
+                        <field name="proposed_action"/>
                         <field name="target_date"/>
                         <field name="action_status"/>
                         <field name="remarks"/>
+                        <field name="attachment_id" widget="pdf_viewer"/>
+                        <button name="review_action" type="object" string="Review"/>
                     </group>
                 </sheet>
             </form>
@@ -24,15 +27,19 @@
         <field name="name">x.inc.inv.corrective.actions.tree</field>
         <field name="model">x.inc.inv.corrective.actions</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
-                <field name="action_number"/>
-                <field name="root_cause"/>
+            <tree>
+                <field name="id" string="Action Number"/>
+                <field name="primary_root_cause_id"/>
+                <field name="secondary_root_cause_ids" widget="many2many_tags"/>
                 <field name="action_type"/>
                 <field name="hierarchy_of_control"/>
+                <field name="proposed_action"/>
                 <field name="action_party"/>
                 <field name="target_date"/>
                 <field name="action_status"/>
                 <field name="remarks"/>
+                <field name="attachment_id"/>
+                <button name="review_action" type="object" string="Review" class="btn-primary"/>
             </tree>
         </field>
     </record>

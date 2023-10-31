@@ -20,6 +20,10 @@
         <field name="model">x.inc.investigation</field>
         <field name="arch" type="xml">
             <form name="Investigation Details">
+                <header>
+                    <button name="start_investigation" type="object" string="Start Investigation" states="assigned"/>
+                    <field name="state" widget="statusbar" statusbar_visible="assigned,in_progress,closed"/>
+                </header>
                 <sheet>
                     <h1>
                         <field name="name"/>
@@ -39,27 +43,43 @@
                                 <field name="hr_administration"/>
                                 <field name="finance"/>
                             </group>
+                            <group name="Investigation Team">
+                                <field name="investigation_team"/>
+                            </group>
                         </page>
-                        <page string="Investigation Details">
+                        <page string="Investigation Details" states="in_progress,closed">
                             <group name="Investigation Details">
                                 <field name="investigation_details"/>
                             </group>
-                            <group name="People Interviewed">
+                            <group name="People Interviewed" states="in_progress,closed">
                                 <field name="people_interviewed_ids"/>
                             </group>
                         </page>
-                        <page string="Consequences">
+                        <page string="Consequences" states="in_progress,closed">
                             <field name="consequences_ids"/>
                         </page>
-                        <page string="Root Causes">
+                        <page string="Root Causes" states="in_progress,closed">
                             <field name="root_causes_ids"/>
                         </page>
-                        <page string="Corrective Actions">
+                        <page string="Corrective Actions" states="in_progress,closed">
                             <field name="corrective_actions_ids"/>
+                        </page>
+                        <page string="Review Action &amp; Closure" states="in_progress,closed">
+                            <field name="actions_review_ids"/>
                         </page>
                     </notebook>
                 </sheet>
             </form>
         </field>
+    </record>
+    <record id="investigation_team_tree_view" model="ir.ui.view">
+        <field name="name">investigation.team.tree</field>
+        <field name="model">x.inc.investigation.team</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="employee"/>
+            </tree>
+        </field>
+
     </record>
 </odoo>
