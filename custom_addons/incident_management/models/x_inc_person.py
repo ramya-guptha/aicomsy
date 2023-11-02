@@ -42,9 +42,9 @@ class IncidentPersonRecord(models.Model):
     oh_incident_classification = fields.Many2one("x.inc.oh.classification", string="OH Incident Classification",
                                                  required=True)
     oh_severity_classification = fields.Many2one("x.inc.oh.severity.classification",
-                                                 string="Severity Classification (OH)", required=True)
+                                                 string="Severity Classification", required=True)
     oh_severity_consequence = fields.Many2one("x.inc.oh.severity.consequence",
-                                              string="Severity Consequence (OH)", required=True)
+                                              string="Severity Consequence", required=True)
     location = fields.Many2one("x.location", string="Incident Location")
     experience = fields.Integer(string="Experience")
 

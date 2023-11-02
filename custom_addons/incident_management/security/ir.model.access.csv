@@ -34,7 +34,7 @@ access_x_inc_inv_corrective_actions,access_x_inc_inv_corrective_actions,model_x_
 access_x_inc_inv_ca_action_type,access_x_inc_inv_ca_action_type,model_x_inc_inv_ca_action_type,base.group_user,1,1,1,1
 access_x_inc_inv_ca_hierarchy_control,access_x_inc_inv_ca_hierarchy_control,model_x_inc_inv_ca_hierarchy_control,base.group_user,1,1,1,1
 access_x_inc_inv_action_review,access_x_inc_inv_action_review,model_x_inc_inv_action_review,base.group_user,1,1,1,1
-
+access_x_inc_notification,access_x_inc_notification,model_x_inc_notification,base.group_user,1,1,1,1
 
 
 

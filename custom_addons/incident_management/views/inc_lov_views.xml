@@ -13,6 +13,23 @@
             </tree>
         </field>
     </record>
+    <record id="severity_action" model="ir.actions.act_window">
+        <field name="name">Severity Classification</field>
+        <field name="res_model">x.inc.severity</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="severity_tree_view" model="ir.ui.view">
+        <field name="name">Severity Classification</field>
+        <field name="model">x.inc.severity</field>
+        <field name="arch" type="xml">
+            <tree string="Severity Classification" editable="bottom">
+                <field name="name"/>
+                <field name="notification"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="incident_type_action" model="ir.actions.act_window">
         <field name="name">Incident Type</field>
         <field name="res_model">x.inc.type</field>

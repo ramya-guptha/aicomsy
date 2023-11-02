@@ -45,6 +45,7 @@
         'data/x_inc_oh_severity_consequence_data.xml',
         'data/x_inc_env_severity_classification_data.xml',
         'data/x_inc_env_severity_consequence_data.xml',
+        'data/x_inc_severity_classification_data.xml',
 
     ],
     'assets': {

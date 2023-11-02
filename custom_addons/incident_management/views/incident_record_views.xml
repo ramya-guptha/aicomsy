@@ -24,7 +24,9 @@
             <form name="Incident Details">
                 <header>
                     <button name="assign_team" type="object" string="Assign Team" states="new"/>
-                    <field name="state" widget="statusbar" statusbar_visible="new,investigation_assigned,investigation_in_progress,action_review,closed"/>
+                    <button string="Save" type="object" name="save"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,investigation_assigned,investigation_in_progress,action_review,closed"/>
                 </header>
                 <sheet>
                     <h1>
@@ -34,11 +36,14 @@
                         <group>
                             <field name="inc_date_time"/>
                             <field name="inc_reported_date"/>
+                            <field name="severity" options="{'no_create': True, 'no_create_edit':True}"/>
                         </group>
                         <group>
                             <field name="shift" widget="selection"/>
-                            <field name="type" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="location"/>
+                            <field name="type" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="location" options="{'no_create': True, 'no_create_edit':True}"/>
+
                         </group>
                         <group>
                             <field name="notified_by"/>
@@ -52,17 +57,26 @@
                     </group>
                     <notebook>
                         <page string="People">
-                            <field name="incident_person_ids" />
+                            <field name="incident_person_ids"/>
                         </page>
                         <page string="Assets">
-                            <field name="incident_asset_ids" />
+                            <field name="incident_asset_ids"/>
                         </page>
                         <page string="Environmental">
-                            <field name="incident_spill_ids" />
+                            <field name="incident_spill_ids"/>
                         </page>
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+    <record id="notification_tree_view" model="ir.ui.view">
+        <field name="name">x.inc.notification.tree</field>
+        <field name="model">x.inc.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Notification tree" editable="bottom">
+                <field name="officer"/>
+            </tree>
         </field>
     </record>
 </odoo>
