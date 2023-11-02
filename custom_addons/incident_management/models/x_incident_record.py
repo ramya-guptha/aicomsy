@@ -36,7 +36,7 @@ class IncidentRecord(models.Model):
     notified_by = fields.Many2one('res.users', string="Notified By", default=lambda self: self.env.user)
     notified_by_id = fields.Integer(related="notified_by.id", string="Notified By ID")
     notified_by_type = fields.Selection(related="notified_by.employee_type")
-    severity = fields.Many2one("x.inc.severity", string="Severity Classification")
+    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=True)
 
     incident_person_ids = fields.One2many(
         'x.inc.person.record', 'incident_id', string='People'
@@ -68,7 +68,6 @@ class IncidentRecord(models.Model):
         mail_template.send_mail(self.id, force_send=True)
 
     def assign_team(self):
-
         return {
             'name': 'Investigation Team',
             'res_model': 'x.inc.investigation',
@@ -82,6 +81,8 @@ class IncidentRecord(models.Model):
 
         }
 
+    def save(self):
+        return True
 
 
 class IncidentType(models.Model):
@@ -124,3 +125,15 @@ class IncSeverity(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     name = fields.Char(string="Severity Classification")
+    notification = fields.One2many('x.inc.notification', 'severity', string='Notification Team')
+
+
+class NotificationTeam(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _name = 'x.inc.notification'
+    _description = 'Notification Team'
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=True)
+    officer = fields.Many2one('res.users', string="Officer", required=True)

@@ -33,14 +33,14 @@ class IncInvestigation(models.Model):
     # Investigation Team Details
     hse_officer = fields.Many2one('res.users', string="HSE Officer", required=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
-    field_executive = fields.Many2one('hr.employee', string="Field Executive",  required=True)
+    field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True)
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")
     hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True)
     hr_administration_id = fields.Integer(related="hr_administration.id", string="ID Number")
-    finance = fields.Many2one('hr.employee', string="Finance",  required=True)
+    finance = fields.Many2one('hr.employee', string="Finance", required=True)
     finance_id = fields.Integer(related="finance.id", string="ID Number")
     investigation_team = fields.One2many("x.inc.investigation.team", "investigation_id",
-                                         string="Investigation Team",  required=True)
+                                         string="Investigation Team", required=True)
 
     # Investigation Details Tab
     investigation_details = fields.Text(string='Investigation Details')
@@ -116,7 +116,7 @@ class IncidentPeopleInterviewed(models.Model):
     # relation_to_incident = fields.Char(string='Relation to Incident')
     relation_to_incident = fields.Selection(string='Relation to Incident',
                                             selection=[('involved', "Involved"), ('affected', "Affected"),
-                                                       ('others', 'Others'), ('witness', 'Witness')], required=True)
+                                                       ('others', 'Others'), ('witness', 'Witness')])
     details_of_interview = fields.Text(string='Details of Interview(If Required)')
     remarks = fields.Text(string='Remarks')
     person_category = fields.Many2one("x.inc.person.category", required="True")
@@ -151,9 +151,14 @@ class IncidentConsequences(models.Model):
     quantity = fields.Float(string="Quantity")
     unit = fields.Many2one('x.inc.unit', string="Units")
     unit_rate = fields.Float(string="Unit Rate")
-    total_cost = fields.Float(string="Total Cost")
+    total_cost = fields.Float(string="Total Cost", compute='_compute_total_cost', store=True)
     impact = fields.Selection([('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], string="Impact")
-    investigation_id = fields.Integer(string="Investigation ID")
+    investigation_id = fields.Many2one("x.inc.investigation")
+
+    @api.depends('quantity', 'unit_rate')
+    def _compute_total_cost(self):
+        for record in self:
+            record.total_cost = record.quantity * record.unit_rate
 
 
 class ActionDamage(models.Model):
@@ -171,7 +176,8 @@ class IncidentRootCauses(models.Model):
     _name = "x.inc.root.causes"
     _description = "Root Causes for an Incident"
     _sql_constraints = [
-        ('primary_root_cause_id', 'unique(investigation_id, primary_root_cause_id)', 'Primary Root Cause needs to be unique'),
+        ('primary_root_cause_id', 'unique(investigation_id, primary_root_cause_id)',
+         'Primary Root Cause needs to be unique'),
     ]
 
     # --------------------------------------- Fields Declaration ----------------------------------
