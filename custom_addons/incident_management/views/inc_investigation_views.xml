@@ -2,6 +2,7 @@
     <record id="investigation_model_action" model="ir.actions.act_window">
         <field name="name">All Investigations</field>
         <field name="res_model">x.inc.investigation</field>
+        <field name="context">{'create': False}</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="investigation_list_view" model="ir.ui.view">
@@ -49,7 +50,7 @@
                         </page>
                         <page string="Investigation Details" states="in_progress,closed">
                             <group name="Investigation Details">
-                                <field name="investigation_details"/>
+                                <field name="investigation_details" attrs="{'required': [('state', '=', 'in_progress')]}"/>
                             </group>
                             <group name="People Interviewed" states="in_progress,closed">
                                 <field name="people_interviewed_ids"/>
@@ -63,6 +64,9 @@
                         </page>
                         <page string="Corrective Actions" states="in_progress,closed">
                             <field name="corrective_actions_ids"/>
+                            <group string="Corrective Action Attachments">
+                                <field name="corrective_action_attachments" widget="many2many_binary"/>
+                            </group>
                         </page>
                         <page string="Review Action &amp; Closure" states="in_progress,closed">
                             <field name="actions_review_ids"/>
@@ -76,10 +80,9 @@
         <field name="name">investigation.team.tree</field>
         <field name="model">x.inc.investigation.team</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable="bottom">
                 <field name="employee"/>
             </tree>
         </field>
-
     </record>
 </odoo>
