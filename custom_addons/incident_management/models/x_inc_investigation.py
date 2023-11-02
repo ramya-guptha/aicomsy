@@ -82,13 +82,8 @@ class IncInvestigation(models.Model):
     # Computed field to gather attachments from corrective actions
     def _compute_corrective_action_attachments(self):
         for investigation in self:
-            print("In for lopp>>>>>")
-            print(investigation.corrective_actions_ids.ids)
             attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions')])
-            print(attachments)
-            print(investigation.corrective_action_attachments)
             investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
-            print(investigation.corrective_action_attachments)
 
 
 class InvestigationTeam(models.Model):
