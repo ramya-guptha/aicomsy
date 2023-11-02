@@ -11,10 +11,9 @@ class IncidentMaterialSpillageRecord(models.Model):
     _description = "Oil, Paint, Chemical Spillage, Environmental Incidents or  incidents"
 
     # --------------------------------------- Fields Declaration ----------------------------------
-
-    incident_id = fields.Many2one('x.incident.record', required=True)
-    person_reported = fields.Many2one("hr.employee", string="person_reported", required=True)
     id_number = fields.Integer(related="person_reported.id", string="ID Number")
+    person_reported = fields.Many2one("hr.employee", string="Person Reported", required=True)
+    incident_id = fields.Many2one('x.incident.record', required=True)
     task = fields.Text(string="Task being done at the time of incident")
     job_title = fields.Char(related='person_reported.job_id.name', string="Job Title")
     location = fields.Many2one("x.location", string="Incident Location")
@@ -24,9 +23,9 @@ class IncidentMaterialSpillageRecord(models.Model):
     env_impact = fields.Many2one('x.inc.spill.env.impact')
     immediate_response = fields.Many2one("x.inc.material.spill.immediate.response")
     env_severity_classification = fields.Many2one("x.inc.env.severity.classification",
-                                                  string="Severity Classification (ENV)", required=True)
+                                                  string="Severity Classification", required=True)
     env_severity_consequence = fields.Many2one("x.inc.env.severity.consequence",
-                                               string="Severity Consequence (ENV)", required=True)
+                                               string="Severity Consequence", required=True)
 
 
 class IncAssetImmediateResponse(models.Model):

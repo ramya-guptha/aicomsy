@@ -36,11 +36,11 @@
                 <field name="proposed_action"/>
                 <field name="action_party"/>
                 <field name="target_date"/>
-                <field name="action_status"/>
                 <field name="remarks"/>
                 <field name="attachment_id"/>
                 <button name="review_action" type="object" string="Review" class="btn-primary"/>
             </tree>
         </field>
     </record>
+
 </odoo>
