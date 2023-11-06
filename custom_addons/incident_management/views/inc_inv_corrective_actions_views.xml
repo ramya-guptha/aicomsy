@@ -14,13 +14,13 @@
                         <field name="investigation_id"/>
                         <field name="primary_root_cause_id"/>
                         <field name="secondary_root_cause_ids" widget="many2many_tags"/>
-                        <field name="action_type"/>
-                        <field name="hierarchy_of_control"/>
                         <field name="action_party"/>
-                        <field name="proposed_action"/>
-                        <field name="target_date"/>
-                        <field name="remarks"/>
-                        <field name="attachment_ids" widget="many2many_binary"/>
+                        <field name="action_type" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"  />
+                        <field name="hierarchy_of_control" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="proposed_action" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="target_date" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="remarks" attrs="{'invisible': [('state', '=', 'new')], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="attachment_ids" widget="many2many_binary" attrs="{'invisible': [('state', '=', 'new')]}"/>
                     </group>
                 </sheet>
             </form>

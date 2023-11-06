@@ -10,6 +10,7 @@
         <field name="arch" type="xml">
             <form string="Action Review">
                 <header>
+                    <button name="start_review" type="object" string="Start" class="btn-primary" attrs="{'invisible': [('state', '!=', 'new')]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,review,followup,management,closed"/>
                 </header>
                 <sheet>
@@ -27,43 +28,43 @@
                             <field name="job_hazard_analysis_reviewed" widget="radio" options="{'horizontal': true}"  attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('state', '!=', 'review')]}">
+                    <group attrs="{'invisible': [('state', 'in', ('new', 'closed'))]}">
                         <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
                         <button name="action_return" type="object" string="Return" class="btn-primary"/>
                     </group>
                     <br/>
-                    <group col="3" string="Followup &amp; Closure" attrs="{'invisible': [('state', '=', 'review')]}">
+                    <group col="3" string="Followup &amp; Closure" attrs="{'invisible': [('state', 'in', ('new', 'review'))]}">
                         <group>
-                            <field name="report_closed_by"/>
+                            <field name="report_closed_by" attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="comments"  attrs="{'required': [('state', '=', 'followup')]}"/>
+                            <field name="comments"  attrs="{'required': [('state', '=', 'followup')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="closure_date"/>
+                            <field name="closure_date" attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="action_follow_up_required" widget="radio" options="{'horizontal': true}"/>
+                            <field name="action_follow_up_required" widget="radio"  attrs="{'readonly': [('state', '=', 'closed')]}" options="{'horizontal': true}"/>
                         </group>
                         <group>
-                            <field name="review_by_ceo_vp_gm_required" widget="radio" options="{'horizontal': true}"/>
+                            <field name="review_by_ceo_vp_gm_required" widget="radio" attrs="{'readonly': [('state', '=', 'closed')]}" options="{'horizontal': true}"/>
                             <field name="justification"/>
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('state', '=', 'review')]}">
+                    <group attrs="{'invisible': [('state', 'in', ('new','review','closed'))]}">
                         <button name="action_close" type="object" string="Close" attrs="{'readonly': [('review_by_ceo_vp_gm_required', '=', 'yes')]}" class="btn-primary"/>
                         <button name="action_resubmit_for_review" type="object" string="Resubmit for Review" class="btn-primary"/>
                     </group>
                     <br/>
-                    <group col="3" string="Management Review" attrs="{'invisible': ['|', ('state', '!=', 'followup'), ('review_by_ceo_vp_gm_required', '=', 'no')]}">
+                    <group col="3" string="Management Review" attrs="{'invisible': ['|', ('state', 'not in', ('followup', 'closed')), ('review_by_ceo_vp_gm_required', '=', 'no')]}">
                         <group>
-                            <field name="reviewed_by_ceo_vp_gm" attrs="{'required': [('state', '=', 'management')]}"/>
+                            <field name="reviewed_by_ceo_vp_gm" attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="reviewed_comments" attrs="{'required': [('state', '=', 'management')]}"/>
+                            <field name="reviewed_comments" attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="review_date" attrs="{'required': [('state', '=', 'management')]}"/>
+                            <field name="review_date" attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                     </group>
                     <group attrs="{'invisible': ['|', ('state', '!=', 'followup'), ('review_by_ceo_vp_gm_required', '=', 'no')]}">

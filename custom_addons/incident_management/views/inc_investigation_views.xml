@@ -22,7 +22,7 @@
         <field name="arch" type="xml">
             <form name="Investigation Details">
                 <header>
-                    <button name="start_investigation" type="object" string="Start Investigation" states="assigned"/>
+                    <button name="start_investigation" type="object" string="Start Investigation" states="assigned" class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="assigned,in_progress,closed"/>
                 </header>
                 <sheet>
@@ -39,8 +39,6 @@
                             <group>
                                 <field name="hse_officer"/>
                                 <field name="field_executive"/>
-                            </group>
-                            <group>
                                 <field name="hr_administration"/>
                                 <field name="finance"/>
                             </group>

@@ -60,6 +60,9 @@ class ActionReview(models.Model):
         default="new"
     )
 
+    def start_review(self):
+        self.state = 'review'
+
     def action_confirm(self):
         self.write({'state': 'followup'})
 

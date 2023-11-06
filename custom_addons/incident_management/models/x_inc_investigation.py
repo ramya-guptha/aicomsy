@@ -82,7 +82,7 @@ class IncInvestigation(models.Model):
     # Computed field to gather attachments from corrective actions
     def _compute_corrective_action_attachments(self):
         for investigation in self:
-            attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions')])
+            attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions'), ('res_id', 'in', investigation.corrective_actions_ids.ids)])
             investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
 
 
@@ -279,7 +279,7 @@ class CorrectiveAction(models.Model):
     target_date = fields.Date(string="Target Date of Completion")
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
-    proposed_action = fields.Text(string="Proposed Action", required=True)
+    proposed_action = fields.Text(string="Proposed Action")
     state = fields.Selection(
         selection=[
             ("new", "New"),
