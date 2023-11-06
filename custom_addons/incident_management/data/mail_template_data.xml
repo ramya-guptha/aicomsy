@@ -113,7 +113,7 @@
                    ref="incident_management.model_x_inc_inv_action_review"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.investigation_id.hse_officer.email}},{{object.investigation_id.field_executive.work_email}},{{object.investigation_id.hr_administration.work_email}}
+                {{object.investigation_id.hse_officer.work_email}},{{object.investigation_id.field_executive.work_email}},{{object.investigation_id.hr_administration.work_email}}
             </field>
             <field name="subject">Completed - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
             </field>
@@ -228,7 +228,7 @@
                    ref="incident_management.model_x_inc_inv_action_review"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.investigation_id.hse_officer.email}},{{object.investigation_id.field_executive.work_email}},{{object.investigation_id.hr_administration.work_email}}
+                {{object.investigation_id.hse_officer.work_email}},{{object.investigation_id.field_executive.work_email}},{{object.investigation_id.hr_administration.work_email}}
             </field>
             <field name="subject">Revisit Action Review - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
             </field>
@@ -290,7 +290,7 @@
                    ref="incident_management.model_x_inc_inv_action_review"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.investigation_id.hse_officer.email}}
+                {{object.investigation_id.hse_officer.work_email}}
             </field>
             <field name="subject">Return for further action - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
             </field>

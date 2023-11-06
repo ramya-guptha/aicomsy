@@ -31,7 +31,7 @@ class IncInvestigation(models.Model):
     description = fields.Html(related="incident_id.description")
     # description = fields.Html(related="incident_id.description")
     # Investigation Team Details
-    hse_officer = fields.Many2one('res.users', string="HSE Officer", required=True)
+    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
     field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True)
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")

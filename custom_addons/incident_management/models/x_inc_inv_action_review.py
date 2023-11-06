@@ -30,7 +30,7 @@ class ActionReview(models.Model):
 
     investigation_id = fields.Many2one("x.inc.investigation")
     corrective_action_id = fields.Many2one("x.inc.inv.corrective.actions")
-    reviewer = fields.Many2one('res.users', string="Reviewer")
+    reviewer = fields.Many2one('hr.employee', string="Reviewer")
     review_completion_date = fields.Date(string="Review Completion Date")
     risks_and_opportunities_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                         string="Risks and Opportunities Reviewed?")
