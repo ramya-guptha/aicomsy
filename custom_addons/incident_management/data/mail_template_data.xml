@@ -4,7 +4,7 @@
             <field name="name">EMAIL TEMPLATE NAME</field>
             <field name="model_id"
                    ref="incident_management.model_x_incident_record"/>
-            <field name="email_from">ramya.guptha@tisys.co.in</field>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
                 {{object.location.location_manager.email}},{{object.location.location_alternate_1.email}},{{object.location.location_alternate_1.email}}
             </field>
@@ -52,11 +52,11 @@
                 </div>
             </field>
         </record>
-         <record id="email_template_corrective_action" model="mail.template">
+        <record id="email_template_corrective_action" model="mail.template">
             <field name="name">Investigation - Corrective Action</field>
             <field name="model_id"
                    ref="incident_management.model_x_inc_inv_corrective_actions"/>
-            <field name="email_from">ramya.guptha@tisys.co.in</field>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
                 {{object.investigation_id.incident_id.location.location_manager.email}},{{object.investigation_id.incident_id.location.location_alternate_1.email}},{{object.investigation_id.incident_id.location.location_alternate_1.email}}
             </field>
@@ -70,7 +70,9 @@
                             <br/>
                             <p>An Investigation
                                 <t t-out="object.investigation_id.name"/>
-                                for incident <t t-out="object.investigation_id.name"/> with the following details has been created:
+                                for incident
+                                <t t-out="object.investigation_id.incident_id.name"/>
+                                with the following details has been created:
                                 <ul>
                                     <li>
                                         <strong>Primary Root Cause</strong>
@@ -99,6 +101,245 @@
                                         <t t-out="object.target_date"/>
                                     </li>
                                 </ul>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_corrective_action_completion" model="mail.template">
+            <field name="name">Investigation - Corrective Action</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_inv_action_review"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.investigation_id.hse_officer.work_email}},{{object.investigation_id.field_executive.work_email}},{{object.investigation_id.hr_administration.work_email}}
+            </field>
+            <field name="subject">Completed - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
+            </field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.investigation_id.name"/>
+                                for incident
+                                <t t-out="object.investigation_id.incident_id.name"/>
+                                with the following details has been completed:
+                                <ul>
+                                    <li>
+                                        <strong>Primary Root Cause</strong>
+                                        <t t-out="object.corrective_action_id.primary_root_cause_id.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Secondary Root Cause</strong>
+                                        <t t-foreach="object.corrective_action_id.secondary_root_cause_ids"
+                                           t-as="secondary_rc_id">
+                                            <t t-out="secondary_rc_id.name"/> <!-- Assuming 'name' is a field in the related model -->
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Action Type</strong>
+                                        <t t-out="object.corrective_action_id.action_type.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Hierarchy of control</strong>
+                                        <t t-out="object.corrective_action_id.hierarchy_of_control.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Action Party</strong>
+                                        <t t-out="object.corrective_action_id.action_party.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Target Date</strong>
+                                        <t t-out="object.corrective_action_id.target_date"/>
+                                    </li>
+                                </ul>
+                                Kindly review the same.
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_return_to_corrective_action" model="mail.template">
+            <field name="name">Investigation - Corrective Action</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_inv_action_review"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.corrective_action_id.action_party.email}},{{object.investigation_id.incident_id.location.location_manager.email}},{{object.investigation_id.incident_id.location.location_alternate_1.email}},{{object.investigation_id.incident_id.location.location_alternate_1.email}}
+            </field>
+            <field name="subject">Returned - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
+            </field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.investigation_id.name"/>
+                                for incident
+                                <t t-out="object.investigation_id.incident_id.name"/>
+                                with the following details has been resent by the reviewer for additional details:
+                                <ul>
+                                    <li>
+                                        <strong>Primary Root Cause</strong>
+                                        <t t-out="object.corrective_action_id.primary_root_cause_id.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Secondary Root Cause</strong>
+                                        <t t-foreach="object.corrective_action_id.secondary_root_cause_ids"
+                                           t-as="secondary_rc_id">
+                                            <t t-out="secondary_rc_id.name"/> <!-- Assuming 'name' is a field in the related model -->
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Action Type</strong>
+                                        <t t-out="object.corrective_action_id.action_type.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Hierarchy of control</strong>
+                                        <t t-out="object.corrective_action_id.hierarchy_of_control.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Action Party</strong>
+                                        <t t-out="object.corrective_action_id.action_party.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Target Date</strong>
+                                        <t t-out="object.corrective_action_id.target_date"/>
+                                    </li>
+                                </ul>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_resubmit_for_review" model="mail.template">
+            <field name="name">Investigation - Action Review</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_inv_action_review"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.investigation_id.hse_officer.work_email}},{{object.investigation_id.field_executive.work_email}},{{object.investigation_id.hr_administration.work_email}}
+            </field>
+            <field name="subject">Revisit Action Review - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
+            </field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.investigation_id.name"/>
+                                for incident
+                                <t t-out="object.investigation_id.incident_id.name"/>
+                                with the following details has been resubmitted for review:
+                                <h4>Reason for resubmission of review</h4>
+                                <p>
+                                    <t t-out="object.comments"/>
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Primary Root Cause</strong>
+                                        <t t-out="object.corrective_action_id.primary_root_cause_id.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Secondary Root Cause</strong>
+                                        <t t-foreach="object.corrective_action_id.secondary_root_cause_ids"
+                                           t-as="secondary_rc_id">
+                                            <t t-out="secondary_rc_id.name"/> <!-- Assuming 'name' is a field in the related model -->
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Action Type</strong>
+                                        <t t-out="object.corrective_action_id.action_type.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Hierarchy of control</strong>
+                                        <t t-out="object.corrective_action_id.hierarchy_of_control.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Action Party</strong>
+                                        <t t-out="object.corrective_action_id.action_party.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Target Date</strong>
+                                        <t t-out="object.corrective_action_id.target_date"/>
+                                    </li>
+                                </ul>
+                                Kindly review the same.
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_return_further_action" model="mail.template">
+            <field name="name">Investigation - Action Review</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_inv_action_review"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.investigation_id.hse_officer.work_email}}
+            </field>
+            <field name="subject">Return for further action - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}
+            </field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.investigation_id.name"/>
+                                for incident
+                                <t t-out="object.investigation_id.incident_id.name"/>
+                                with the following details has been returned for further action:
+                                <h4>Returned for further action from Management Team</h4>
+                                <p>
+                                    <t t-out="object.reviewed_comments"/>
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Primary Root Cause</strong>
+                                        <t t-out="object.corrective_action_id.primary_root_cause_id.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Secondary Root Cause</strong>
+                                        <t t-foreach="object.corrective_action_id.secondary_root_cause_ids"
+                                           t-as="secondary_rc_id">
+                                            <t t-out="secondary_rc_id.name"/> <!-- Assuming 'name' is a field in the related model -->
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Action Type</strong>
+                                        <t t-out="object.corrective_action_id.action_type.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Hierarchy of control</strong>
+                                        <t t-out="object.corrective_action_id.hierarchy_of_control.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Action Party</strong>
+                                        <t t-out="object.corrective_action_id.action_party.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Target Date</strong>
+                                        <t t-out="object.corrective_action_id.target_date"/>
+                                    </li>
+                                </ul>
+                                Kindly review the same.
                             </p>
                         </p>
                     </div>

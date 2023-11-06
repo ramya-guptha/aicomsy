@@ -4,20 +4,23 @@
         <field name="model">x.inc.inv.corrective.actions</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="start_action" type="object" string="Start" states="new" class="btn-primary"/>
+                    <button name="review_action" type="object" string="Send for Review" states="in_progress" class="btn-primary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,in_progress,completed"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="investigation_id"/>
                         <field name="primary_root_cause_id"/>
                         <field name="secondary_root_cause_ids" widget="many2many_tags"/>
-                        <field name="action_type"/>
-                        <field name="hierarchy_of_control"/>
                         <field name="action_party"/>
-                        <field name="proposed_action"/>
-                        <field name="target_date"/>
-                        <field name="action_status"/>
-                        <field name="remarks"/>
-                        <field name="attachment_id" widget="pdf_viewer"/>
-                        <button name="review_action" type="object" string="Review"/>
+                        <field name="action_type" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"  />
+                        <field name="hierarchy_of_control" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="proposed_action" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="target_date" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="remarks" attrs="{'invisible': [('state', '=', 'new')], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="attachment_ids" widget="many2many_binary" attrs="{'invisible': [('state', '=', 'new')]}"/>
                     </group>
                 </sheet>
             </form>
@@ -27,20 +30,19 @@
         <field name="name">x.inc.inv.corrective.actions.tree</field>
         <field name="model">x.inc.inv.corrective.actions</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="id" string="Action Number"/>
+            <tree create="false">
                 <field name="primary_root_cause_id"/>
                 <field name="secondary_root_cause_ids" widget="many2many_tags"/>
                 <field name="action_type"/>
                 <field name="hierarchy_of_control"/>
                 <field name="proposed_action"/>
                 <field name="action_party"/>
-                <field name="target_date"/>
+                <field name="target_date" string="Target Date"/>
                 <field name="remarks"/>
-                <field name="attachment_id"/>
-                <button name="review_action" type="object" string="Review" class="btn-primary"/>
+                <field name="attachment_ids" widget="many2many_binary"/>
+                <field name="state"/>
+                <button name="review_action" type="object" string="Review" class="btn-primary" states="in_progress"/>
             </tree>
         </field>
     </record>
-
 </odoo>

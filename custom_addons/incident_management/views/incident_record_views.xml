@@ -23,10 +23,8 @@
         <field name="arch" type="xml">
             <form name="Incident Details">
                 <header>
-                    <button name="assign_team" type="object" string="Assign Team" states="new"/>
-                    <button string="Save" type="object" name="save"/>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="new,investigation_assigned,investigation_in_progress,action_review,closed"/>
+                    <button name="assign_team" type="object" string="Assign Team" states="new" class="btn-primary"  />
+                    <field name="state" widget="statusbar" statusbar_visible="new,investigation_assigned,investigation_in_progress,action_review,closed"/>
                 </header>
                 <sheet>
                     <h1>

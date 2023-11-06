@@ -9,10 +9,17 @@
             <field name="padding">4</field>
             <field name="number_increment">1</field>
         </record>
-         <record id="ir_sequence_investigation" model="ir.sequence">
+        <record id="ir_sequence_investigation" model="ir.sequence">
             <field name="name">Investigations</field>
             <field name="code">x.inc.investigation</field>
             <field name="prefix">INV</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="ir_sequence_corrective_action" model="ir.sequence">
+            <field name="name">Corrective Actions</field>
+            <field name="code">x.inc.inv.corrective.actions</field>
+            <field name="prefix">CA</field>
             <field name="padding">4</field>
             <field name="number_increment">1</field>
         </record>

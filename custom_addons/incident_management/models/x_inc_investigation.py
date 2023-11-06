@@ -31,7 +31,7 @@ class IncInvestigation(models.Model):
     description = fields.Html(related="incident_id.description")
     # description = fields.Html(related="incident_id.description")
     # Investigation Team Details
-    hse_officer = fields.Many2one('hr.employee', string="HSE Officer", required=True)
+    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
     field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True)
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")
@@ -56,9 +56,12 @@ class IncInvestigation(models.Model):
     corrective_actions_ids = fields.One2many("x.inc.inv.corrective.actions", "investigation_id",
                                              string="Corrective Actions")
 
+    # Related field to fetch attachments from corrective actions
+    corrective_action_attachments = fields.One2many('ir.attachment', compute='_compute_corrective_action_attachments',
+                                                    string='Related Attachments')
+
     # Actions Review & Closure Tab
-    actions_review_ids = fields.One2many("x.inc.inv.action.review", "investigation_id",
-                                         string="Action Review & Closure ")
+    actions_review_ids = fields.One2many("x.inc.inv.action.review", "investigation_id", string="Action Review & Closure ")
     state = fields.Selection(
         selection=[
             ("assigned", "Assigned"),
@@ -75,6 +78,12 @@ class IncInvestigation(models.Model):
         self.write({'state': 'in_progress'})
         incident_id = self.incident_id
         incident_id.write({'state': 'investigation_in_progress'})
+
+    # Computed field to gather attachments from corrective actions
+    def _compute_corrective_action_attachments(self):
+        for investigation in self:
+            attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions'), ('res_id', 'in', investigation.corrective_actions_ids.ids)])
+            investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
 
 
 class InvestigationTeam(models.Model):
@@ -96,7 +105,6 @@ class IncidentPeopleInterviewed(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
-    # employer_name = fields.Char(string='Employer Name', required=True)
     employee = fields.Many2one('hr.employee', string='Employee Name')
     employee_id = fields.Integer(related="employee.id", string='ID Number')
     person_employer = fields.Char(string='If Contractor,Name of the Employer')
@@ -129,10 +137,12 @@ class IncidentPeopleInterviewed(models.Model):
 
 
 class IncidentConsequences(models.Model):
+    # ---------------------------------------- Private Attributes ---------------------------------
     _name = "x.inc.consequences"
     _description = "Consequences of Incidents"
 
-    actions_damages = fields.Many2one('x.inc.action.damage', string="Actions/ Damages")
+    # --------------------------------------- Fields Declaration ----------------------------------
+    actions_damages = fields.Many2one('x.inc.action.damage', string="Actions/ Damages", required=True)
     quantity = fields.Float(string="Quantity")
     unit = fields.Many2one('x.inc.unit', string="Units")
     unit_rate = fields.Float(string="Unit Rate")
@@ -175,22 +185,36 @@ class IncidentRootCauses(models.Model):
     comments = fields.Text(string="Comments")
 
     def corrective_action(self):
-        return {
-            'name': 'Corrective Action',
-            'res_model': 'x.inc.inv.corrective.actions',
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'view_id': self.env.ref('incident_management.corrective_action_form_view').id,
-            'target': 'new',
+        existing_record = self.env['x.inc.inv.corrective.actions'].search([
+            ('investigation_id', '=', self.investigation_id.id),
+            ('primary_root_cause_id', '=', self.primary_root_cause_id.id)]
+        )
+        if existing_record:
+            return {
+                'name': 'Corrective Action',
+                'res_model': 'x.inc.inv.corrective.actions',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_id': existing_record.id,
+                'target': 'new',
+            }
+        else:
+            return {
+                'name': 'Corrective Action',
+                'res_model': 'x.inc.inv.corrective.actions',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'view_id': self.env.ref('incident_management.corrective_action_form_view').id,
+                'target': 'new',
 
-            'context': {
-                'default_investigation_id': self.investigation_id.id,
-                'default_action_party': self.investigation_id.incident_id.location.location_manager.id,
-                'default_primary_root_cause_id': self.primary_root_cause_id.id,
-                'default_secondary_root_cause_ids': self.secondary_root_cause_ids.ids,
-            },
-
-        }
+                'context': {
+                    'default_investigation_id': self.investigation_id.id,
+                    'default_action_party': self.investigation_id.incident_id.location.location_manager.id,
+                    'default_primary_root_cause_id': self.primary_root_cause_id.id,
+                    'default_secondary_root_cause_ids': self.secondary_root_cause_ids.ids,
+                    'default_state': 'new'
+                },
+            }
 
 
 class IncidentPrimaryRootCauses(models.Model):
@@ -236,13 +260,14 @@ class CorrectiveAction(models.Model):
 
     @api.model
     def create(self, vals_list):
+        vals_list['name'] = self.env['ir.sequence'].next_by_code("x.inc.inv.corrective.actions")
         corrective_action = super().create(vals_list)
         # Call the send_email method
         corrective_action.action_send_email()
         return corrective_action
 
     # --------------------------------------- Fields Declaration ----------------------------------
-
+    name = fields.Char(string="Corrective Action", default='New', readonly=True)
     investigation_id = fields.Many2one("x.inc.investigation")
     primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True, readonly=True)
     secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
@@ -252,11 +277,9 @@ class CorrectiveAction(models.Model):
     hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control")
     action_party = fields.Many2one('res.users', string="Action Party")
     target_date = fields.Date(string="Target Date of Completion")
-    action_status = fields.Char(string="Action Status")
     remarks = fields.Text(string="Remarks")
-    attachment_id = fields.Binary(string="Attachment")
-    attachment_id_name = fields.Char(string="File Name")
-    proposed_action = fields.Text(string="Proposed Action", required=True)
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
+    proposed_action = fields.Text(string="Proposed Action")
     state = fields.Selection(
         selection=[
             ("new", "New"),
@@ -269,10 +292,11 @@ class CorrectiveAction(models.Model):
     )
 
     def action_send_email(self):
-        incident = self.env['x.incident.record'].browse(
-            self.investigation_id.incident_id.location.location_manager.name)
         mail_template = self.env.ref('incident_management.email_template_corrective_action')
         mail_template.send_mail(self.id, force_send=True)
+
+    def start_action(self):
+        self.state = 'in_progress'
 
     def review_action(self):
         return {
@@ -285,7 +309,7 @@ class CorrectiveAction(models.Model):
             'context': {
                 'default_investigation_id': self.investigation_id.id,
                 'default_corrective_action_id': self.id,
-
+                'default_reviewer': self.investigation_id.hse_officer.id
             },
 
         }

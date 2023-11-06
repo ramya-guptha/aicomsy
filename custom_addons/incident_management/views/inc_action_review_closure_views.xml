@@ -9,63 +9,67 @@
         <field name="model">x.inc.inv.action.review</field>
         <field name="arch" type="xml">
             <form string="Action Review">
+                <header>
+                    <button name="start_review" type="object" string="Start" class="btn-primary" attrs="{'invisible': [('state', '!=', 'new')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,review,followup,management,closed"/>
+                </header>
                 <sheet>
-                    <group col="3" string="Action Review">
+                    <group>
+                        <field name="corrective_action_id"/>
+                    </group>
+                    <group col="2" string="Action Review">
                         <group>
-                            <field name="reviewer"/>
-                            <field name="review_completion_date"/>
+                            <field name="reviewer" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+                            <field name="review_completion_date"  attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
                             <field name="risks_and_opportunities_reviewed" widget="radio"
-                                   options="{'horizontal': true}"/>
-                            <field name="job_hazard_analysis_reviewed" widget="radio" options="{'horizontal': true}"/>
-                        </group>
-                        <group>
-                            <field name="status"/>
+                                   options="{'horizontal': true}"  attrs="{'readonly': [('state', '=', 'closed')]}"/>
+                            <field name="job_hazard_analysis_reviewed" widget="radio" options="{'horizontal': true}"  attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                     </group>
-                    <group>
-                        <button name="action_confirm" string="Confirm" class="btn-primary"/>
-                        <button name="action_return" string="Return" class="btn-primary"/>
+                    <group attrs="{'invisible': [('state', 'in', ('new', 'closed'))]}">
+                        <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
+                        <button name="action_return" type="object" string="Return" class="btn-primary"/>
                     </group>
                     <br/>
-                    <group col="3" string="Followup &amp; Closure">
+                    <group col="3" string="Followup &amp; Closure" attrs="{'invisible': [('state', 'in', ('new', 'review'))]}">
                         <group>
-                            <field name="report_closed_by"/>
+                            <field name="report_closed_by" attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="comments"/>
+                            <field name="comments"  attrs="{'required': [('state', '=', 'followup')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="closure_date"/>
+                            <field name="closure_date" attrs="{'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="action_follow_up_required" widget="radio" options="{'horizontal': true}"/>
+                            <field name="action_follow_up_required" widget="radio"  attrs="{'readonly': [('state', '=', 'closed')]}" options="{'horizontal': true}"/>
                         </group>
                         <group>
-                            <field name="review_by_ceo_vp_gm_required" widget="radio" options="{'horizontal': true}"/>
+                            <field name="review_by_ceo_vp_gm_required" widget="radio" attrs="{'readonly': [('state', '=', 'closed')]}" options="{'horizontal': true}"/>
                             <field name="justification"/>
                         </group>
                     </group>
-                    <group>
-                        <button name="action_close" string="Close" class="btn-primary"/>
-                        <button name="action_return_for_review" string="Return for Review" class="btn-primary"/>
+                    <group attrs="{'invisible': [('state', 'in', ('new','review','closed'))]}">
+                        <button name="action_close" type="object" string="Close" attrs="{'readonly': [('review_by_ceo_vp_gm_required', '=', 'yes')]}" class="btn-primary"/>
+                        <button name="action_resubmit_for_review" type="object" string="Resubmit for Review" class="btn-primary"/>
                     </group>
                     <br/>
-                    <group col="3" string="Management Review">
+                    <group col="3" string="Management Review" attrs="{'invisible': ['|', ('state', 'not in', ('followup', 'closed')), ('review_by_ceo_vp_gm_required', '=', 'no')]}">
                         <group>
-                            <field name="reviewed_by_ceo_vp_gm"/>
+                            <field name="reviewed_by_ceo_vp_gm" attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="reviewed_comments"/>
+                            <field name="reviewed_comments" attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="review_date"/>
+                            <field name="review_date" attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                     </group>
-                    <group>
-                        <button name="action_close" string="Close" class="btn-primary"/>
-                        <button name="action_return_for_review" string="Return for Review" class="btn-primary"/>
+                    <group attrs="{'invisible': ['|', ('state', '!=', 'followup'), ('review_by_ceo_vp_gm_required', '=', 'no')]}">
+                        <button name="action_close" type="object" string="Close" class="btn-primary"/>
+                        <button name="action_return_further_action" type="object" string="Return for Further Action" class="btn-primary"/>
                     </group>
                 </sheet>
             </form>
@@ -75,12 +79,12 @@
         <field name="name">x.inc.inv.action.review.tree</field>
         <field name="model">x.inc.inv.action.review</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree create="false">
                 <field name="reviewer"/>
                 <field name="review_completion_date"/>
                 <field name="risks_and_opportunities_reviewed"/>
                 <field name="job_hazard_analysis_reviewed"/>
-                <field name="status"/>
+                <field name="state"/>
                 <field name="report_closed_by"/>
                 <field name="closure_date"/>
                 <field name="comments"/>
