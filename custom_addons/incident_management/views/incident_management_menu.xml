@@ -19,14 +19,10 @@
             <menuitem id="injured_body_parts_menu_action" action="injured_body_parts_action" sequence="7"/>
             <menuitem id="oh_incident_classification_menu_action" action="oh_incident_classification_action"
                       sequence="8"/>
-            <menuitem id="oh_severity_classification_menu_action" action="oh_severity_classification_action"
-                      sequence="9"/>
             <menuitem id="oh_severity_consequence_menu_action" action="oh_severity_consequence_action"
                       sequence="10"/>
             <menuitem id="asset_immediate_response_menu_action" action="asset_immediate_response_action" sequence="11"/>
             <menuitem id="env_classification_menu_action" action="env_classification_action" sequence="12"/>
-            <menuitem id="env_severity_classification_menu_action" action="env_severity_classification_action"
-                      sequence="13"/>
             <menuitem id="env_severity_consequence_menu_action" action="env_severity_consequence_action"
                       sequence="14"/>
             <menuitem id="env_impact_menu_action" action="env_impact_action" sequence="15"/>

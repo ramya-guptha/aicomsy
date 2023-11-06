@@ -157,20 +157,7 @@
             </tree>
         </field>
     </record>
-    <record id="oh_severity_classification_action" model="ir.actions.act_window">
-        <field name="name">OH Severity Classification</field>
-        <field name="res_model">x.inc.oh.severity.classification</field>
-        <field name="view_mode">tree</field>
-    </record>
-    <record id="oh_severity_classification_tree_view" model="ir.ui.view">
-        <field name="name">OH Severity Classification</field>
-        <field name="model">x.inc.oh.severity.classification</field>
-        <field name="arch" type="xml">
-            <tree string="OH Severity Classification" editable="bottom">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
+
     <record id="oh_severity_consequence_action" model="ir.actions.act_window">
         <field name="name">OH Severity Consequence</field>
         <field name="res_model">x.inc.oh.severity.consequence</field>
@@ -241,20 +228,7 @@
             </tree>
         </field>
     </record>
-    <record id="env_severity_classification_action" model="ir.actions.act_window">
-        <field name="name">ENV Severity Classification</field>
-        <field name="res_model">x.inc.env.severity.classification</field>
-        <field name="view_mode">tree</field>
-    </record>
-    <record id="env_severity_classification_tree_view" model="ir.ui.view">
-        <field name="name">ENV Severity Classification</field>
-        <field name="model">x.inc.env.severity.classification</field>
-        <field name="arch" type="xml">
-            <tree string="ENV Severity Classification" editable="bottom">
-                <field name="name"/>
-            </tree>
-        </field>
-    </record>
+
     <record id="env_severity_consequence_action" model="ir.actions.act_window">
         <field name="name">ENV Severity Consequence</field>
         <field name="res_model">x.inc.env.severity.consequence</field>

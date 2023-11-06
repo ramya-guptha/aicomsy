@@ -61,7 +61,8 @@ class IncInvestigation(models.Model):
                                                     string='Related Attachments')
 
     # Actions Review & Closure Tab
-    actions_review_ids = fields.One2many("x.inc.inv.action.review", "investigation_id", string="Action Review & Closure ")
+    actions_review_ids = fields.One2many("x.inc.inv.action.review", "investigation_id",
+                                         string="Action Review & Closure ")
     state = fields.Selection(
         selection=[
             ("assigned", "Assigned"),
@@ -82,7 +83,8 @@ class IncInvestigation(models.Model):
     # Computed field to gather attachments from corrective actions
     def _compute_corrective_action_attachments(self):
         for investigation in self:
-            attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions'), ('res_id', 'in', investigation.corrective_actions_ids.ids)])
+            attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions'),
+                                                            ('res_id', 'in', investigation.corrective_actions_ids.ids)])
             investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
 
 
@@ -275,10 +277,13 @@ class CorrectiveAction(models.Model):
                                                 required=True, readonly=True)
     action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type")
     hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control")
-    action_party = fields.Many2one('res.users', string="Action Party")
+    action_party = fields.Many2one('hr.employee', string="Action Party")
+    assigner = fields.Many2one('hr.employee', string="Assigner")
     target_date = fields.Date(string="Target Date of Completion")
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
+    attachment_id = fields.Binary(string="Attachment")
+    implementation_date = fields.Date(string="Implementation Date")
     proposed_action = fields.Text(string="Proposed Action")
     state = fields.Selection(
         selection=[
