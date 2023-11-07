@@ -18,7 +18,6 @@
                         <field name="action_party"/>
                         <field name="assigner"/>
                         <field name="implementation_date"/>
-                        <field name="attachment_id" widget="pdf_viewer"/>
                         <button name="review_action" type="object" string="Review"/>
                         <field name="action_type"
                                attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
