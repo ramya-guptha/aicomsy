@@ -6,7 +6,8 @@
             <form>
                 <header>
                     <button name="start_action" type="object" string="Start" states="new" class="btn-primary"/>
-                    <button name="review_action" type="object" string="Send for Review" states="in_progress" class="btn-primary"/>
+                    <button name="review_action" type="object" string="Send for Review" states="in_progress"
+                            class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,in_progress,completed"/>
                 </header>
                 <sheet>
@@ -15,12 +16,21 @@
                         <field name="primary_root_cause_id"/>
                         <field name="secondary_root_cause_ids" widget="many2many_tags"/>
                         <field name="action_party"/>
-                        <field name="action_type" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"  />
-                        <field name="hierarchy_of_control" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
-                        <field name="proposed_action" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
-                        <field name="target_date" attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
-                        <field name="remarks" attrs="{'invisible': [('state', '=', 'new')], 'readonly': [('state', '=', 'completed')]}"/>
-                        <field name="attachment_ids" widget="many2many_binary" attrs="{'invisible': [('state', '=', 'new')]}"/>
+                        <field name="assigner"/>
+                        <field name="implementation_date"/>
+                        <button name="review_action" type="object" string="Review"/>
+                        <field name="action_type"
+                               attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="hierarchy_of_control"
+                               attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="proposed_action"
+                               attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="target_date"
+                               attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="remarks"
+                               attrs="{'invisible': [('state', '=', 'new')], 'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="attachment_ids" widget="many2many_binary"
+                               attrs="{'invisible': [('state', '=', 'new')]}"/>
                     </group>
                 </sheet>
             </form>
@@ -38,9 +48,11 @@
                 <field name="proposed_action"/>
                 <field name="action_party"/>
                 <field name="target_date" string="Target Date"/>
+                <field name="implementation_date"/>
                 <field name="remarks"/>
                 <field name="attachment_ids" widget="many2many_binary"/>
                 <field name="state"/>
+                <field name="assigner"/>
                 <button name="review_action" type="object" string="Review" class="btn-primary" states="in_progress"/>
             </tree>
         </field>
