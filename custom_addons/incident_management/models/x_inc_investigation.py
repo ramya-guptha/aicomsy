@@ -282,7 +282,6 @@ class CorrectiveAction(models.Model):
     target_date = fields.Date(string="Target Date of Completion")
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
-    attachment_id = fields.Binary(string="Attachment")
     implementation_date = fields.Date(string="Implementation Date")
     proposed_action = fields.Text(string="Proposed Action")
     state = fields.Selection(
