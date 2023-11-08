@@ -5,7 +5,7 @@
         <field name="model">x.inc.person.record</field>
         <field name="arch" type="xml">
             <tree string="Person Injured or Involved"> <!--editable="bottom"> -->
-                <field name="person_name" string="Name of the Person"/>
+                <field name="person_name" string="Name"/>
                 <field name="employee_id" optional="hide"/>
                 <field name="person_category"/>
                 <field name="nationality" optional="1"/>
@@ -13,9 +13,9 @@
                 <field name="experience" optional="hide"/>
                 <field name="job_title" optional="hide"/>
                 <field name="involved_victim"/>
-                <field name="person_task"/>
+                <field name="person_task" optional="hide"/>
                 <field name="person_employer" optional="hide"/>
-                <field name="oh_incident_classification"/>
+                <field name="oh_incident_classification" string="Incident Classification"/>
                 <field name="oh_severity_consequence"/>
                 <field name="incident_injured_body_parts" widget="many2many_tags"
                        options="{'no_create': True, 'no_create_edit':True}"/>

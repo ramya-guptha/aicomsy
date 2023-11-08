@@ -22,7 +22,8 @@
         <field name="arch" type="xml">
             <form name="Investigation Details">
                 <header>
-                    <button name="start_investigation" type="object" string="Start Investigation" states="assigned" class="btn-primary"/>
+                    <button name="start_investigation" type="object" string="Start Investigation" states="assigned"
+                            class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="assigned,in_progress,closed"/>
                 </header>
                 <sheet>
@@ -30,7 +31,6 @@
                         <field name="name"/>
                     </h1>
                     <group>
-
                         <field name="incident_id" default="context.get('default_incident_id', False)"/>
                         <field name="description"/>
                     </group>
@@ -48,7 +48,8 @@
                         </page>
                         <page string="Investigation Details" states="in_progress,closed">
                             <group name="Investigation Details">
-                                <field name="investigation_details" attrs="{'required': [('state', '=', 'in_progress')]}"/>
+                                <field name="investigation_details"
+                                       attrs="{'required': [('state', '=', 'in_progress')]}"/>
                             </group>
                             <group name="People Interviewed" states="in_progress,closed">
                                 <field name="people_interviewed_ids"/>
@@ -79,7 +80,7 @@
         <field name="model">x.inc.investigation.team</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="employee"/>
+                <field name="employee" options="{'no_create': True, 'no_create_edit':True}"/>
             </tree>
         </field>
     </record>
