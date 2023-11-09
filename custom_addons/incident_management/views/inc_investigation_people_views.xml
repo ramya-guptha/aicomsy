@@ -11,10 +11,9 @@
             <tree>
                 <field name="person_category"/>
                 <field name="person_name"/>
-                <field name="employee_id"/>
-                <field name="person_employer"/>
+                <field name="person_employer" string="Name of the Employer"/>
                 <field name="relation_to_incident"/>
-                <field name="details_of_interview"/>
+                <field name="details_of_interview" string="Details of Interview"/>
                 <field name="remarks"/>
             </tree>
         </field>
@@ -27,25 +26,47 @@
                 <sheet>
                     <group col="2">
                         <group>
-                            <field name="person_category"/>
+                            <field name="person_category" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="employee"
                                    attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
                             <field name="visitor_name"
                                    attrs="{'invisible': [('selected_category', 'not in', ('Visitor','Others'))]}"/>
                         </group>
                         <group>
-                            <field name="employee_id"
-                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
                             <field name="person_employer"
                                    attrs="{'readonly': [('selected_category', '!=', 'Contractor')]}"/>
                             <field name="relation_to_incident"/>
                         </group>
+                        <field name="selected_category" invisible="1"/>
+                        <field name="person_name" invisible="1"/>
                         <group colspan="2">
                             <field name="details_of_interview"/>
                             <field name="remarks"/>
                         </group>
-                        <field name="selected_category" invisible="1"/>
-                        <field name="person_name" invisible="1"/>
+                        <label for="Question_1"/>
+                        <field name="Question_1"/>
+                        <label for="Question_2"/>
+                        <field name="Question_2"/>
+                        <group style="white-space: nowrap;">
+                            <field name="Question_3" widget="radio" options="{'horizontal': true}"
+                                   style="display: inline">Question 3:
+                            </field>
+                            <field name="Question_4" widget="radio" options="{'horizontal': true}"
+                                   style="display: inline">Question 4:
+                            </field>
+                            <field name="Question_5" widget="radio" options="{'horizontal': true}"
+                                   style="display: inline">Question 5:
+                            </field>
+                            <field name="Question_6" widget="radio" options="{'horizontal': true}"
+                                   style="display: inline">Question 6:
+                            </field>
+                            <field name="Question_7" widget="radio" options="{'horizontal': true}"
+                                   style="display: inline">Question 7:
+                            </field>
+                            <field name="Question_8" widget="radio" options="{'horizontal': true}"
+                                   style="display: inline">Question 8:
+                            </field>
+                        </group>
                     </group>
                 </sheet>
             </form>

@@ -108,34 +108,72 @@ class IncidentPeopleInterviewed(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
     employee = fields.Many2one('hr.employee', string='Employee Name')
-    employee_id = fields.Integer(related="employee.id", string='ID Number')
-    person_employer = fields.Char(string='If Contractor,Name of the Employer')
+    person_employer = fields.Char(string='If Contractor,Name of the Employer',
+                                  help="If Contractor,Name of the Employer")
     # relation_to_incident = fields.Char(string='Relation to Incident')
     relation_to_incident = fields.Selection(string='Relation to Incident',
                                             selection=[('involved', "Involved"), ('affected', "Affected"),
                                                        ('others', 'Others'), ('witness', 'Witness')])
-    details_of_interview = fields.Text(string='Details of Interview(If Required)')
+    details_of_interview = fields.Text(string='Details of Interview(If Required)',
+                                       help="Details of Interview(If Required)")
     remarks = fields.Text(string='Remarks')
     person_category = fields.Many2one("x.inc.person.category", required="True")
     selected_category = fields.Char(compute='_compute_selected_category')
     person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly="True")
     visitor_name = fields.Char(string='Visitor Name')
+    Question_1 = fields.Text(string='Q 1: Why did this incident happen?')
+    Question_2 = fields.Text(
+        string='Q 2: Why did nearby individuals fail to use signage, alarms, or extinguishers to control the '
+               'incident before it occurred?'
+    )
+    Question_3 = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        string='Q 3: Is the victim or person involved authorized to do such activity at present?'
+    )
+    Question_4 = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        string='Q 4: Did the victim or person involved follow work instructions or control measures to avoid '
+               'such accident?'
+    )
+    Question_5 = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        string='Q 5: Was the victim or person involved provided with appropriate PPEs as mentioned in the Job'
+               'Hazard Control Worksheet / Safe Work Instruction?'
+    )
+    Question_6 = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        string='Q 6: Did the person involved in the incident give proper signal/alarm/use proper rigging tools '
+               'around their work zone or environment before the incident occurred?'
+    )
 
-    @api.depends('person_category', 'employee', 'visitor_name')
-    def _compute_name(self):
-        for person in self:
-            if person.person_category.name in ("Employee", "Contractor") and person.employee:
-                person.person_name = person.employee.name
-                # person.nationality = person.employee.country_id
-            elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
-                person.person_name = person.visitor_name
-            else:
-                person.person_name = False
+    Question_7 = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        string='Q 7: Was the victim or person involved experienced in this activity that resulted in the '
+               'accident?'
+    )
 
-    @api.depends('person_category')
-    def _compute_selected_category(self):
-        for record in self:
-            record.selected_category = record.person_category.name
+    Question_8 = fields.Selection(
+        [('yes', 'Yes'), ('no', 'No')],
+        string='Q 8: Did the victim or person involved have a previous history of incidents?'
+    )
+
+
+@api.depends('person_category', 'employee', 'visitor_name')
+def _compute_name(self):
+    for person in self:
+        if person.person_category.name in ("Employee", "Contractor") and person.employee:
+            person.person_name = person.employee.name
+            # person.nationality = person.employee.country_id
+        elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
+            person.person_name = person.visitor_name
+        else:
+            person.person_name = False
+
+
+@api.depends('person_category')
+def _compute_selected_category(self):
+    for record in self:
+        record.selected_category = record.person_category.name
 
 
 class IncidentConsequences(models.Model):

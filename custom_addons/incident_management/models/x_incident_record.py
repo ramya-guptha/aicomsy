@@ -54,7 +54,7 @@ class IncidentRecord(models.Model):
             ("investigation_assigned", "Assigned"),
             ("investigation_in_progress", "In Progress"),
             ("action_review", "Action Review"),
-            ("closed", "Closed"),
+            ("closed", "Inc Closed"),
             ("canceled", "Canceled"),
         ],
         string="Status",
