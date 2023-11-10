@@ -22,6 +22,9 @@ class Location(models.Model):
     name = fields.Char('Location Name', required=True)
     active = fields.Boolean('Active', default=True,
                             help="By unchecking the active field, you may hide a location without deleting it.")
+    complete_name = fields.Char(
+        'Complete Name', compute='_compute_complete_name', recursive=True,
+        store=True)
     usage = fields.Selection([
         ('supplier', 'Vendor Location'),
         ('view', 'View'),
@@ -32,13 +35,19 @@ class Location(models.Model):
         ('transit', 'Transit Location'),
         ('others', 'Others')], string='Location Type',
         default='internal', index=True, required=True,
-        help="* Vendor Location: Virtual location representing the source location for products coming from your vendors"
-             "\n* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its child locations ; can't directly contain products"
+        help="* Vendor Location: Virtual location representing the source location for products coming from your "
+             "vendors"
+             "\n* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its"
+             "child locations ; can't directly contain products"
              "\n* Internal Location: Physical locations inside your own warehouses,"
-             "\n* Customer Location: Virtual location representing the destination location for products sent to your customers"
-             "\n* Inventory Loss: Virtual location serving as counterpart for inventory operations used to correct stock levels (Physical inventories)"
-             "\n* Production: Virtual counterpart location for production operations: this location consumes the components and produces finished products"
-             "\n* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses operations")
+             "\n* Customer Location: Virtual location representing the destination location for products sent to your "
+             "customers"
+             "\n* Inventory Loss: Virtual location serving as counterpart for inventory operations used to correct "
+             "stock levels (Physical inventories)"
+             "\n* Production: Virtual counterpart location for production operations: this location consumes the"
+             "components and produces finished products"
+             "\n* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses "
+             "operations")
     location_id = fields.Many2one(
         'x.location', 'Parent Location', index=True, ondelete='cascade',
         help="The parent location that includes this location. Example : The 'Dispatch Zone' is the 'Gate 1' parent "
@@ -60,6 +69,14 @@ class Location(models.Model):
     location_alternate_1 = fields.Many2one('res.users', string="Alternative Location Manager 1")
     location_alternate_2 = fields.Many2one('res.users', string="Alternative Location Manager 2")
     parent_path = fields.Char(index=True, unaccent=False)
+
+    @api.depends('name', 'location_id.complete_name')
+    def _compute_complete_name(self):
+        for location in self:
+            if location.location_id:
+                location.complete_name = '%s / %s' % (location.location_id.complete_name, location.name)
+            else:
+                location.complete_name = location.name
 
     @api.depends('child_ids.usage', 'child_ids.child_internal_location_ids')
     def _compute_child_internal_location_ids(self):

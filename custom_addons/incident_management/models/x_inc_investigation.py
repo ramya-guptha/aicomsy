@@ -108,6 +108,7 @@ class IncidentPeopleInterviewed(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
     employee = fields.Many2one('hr.employee', string='Employee Name')
+    employee_id = fields.Integer(related="employee.id", string='Id Number')
     person_employer = fields.Char(string='If Contractor,Name of the Employer',
                                   help="If Contractor,Name of the Employer")
     # relation_to_incident = fields.Char(string='Relation to Incident')

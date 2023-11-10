@@ -49,22 +49,22 @@
                         <field name="Question_2"/>
                         <group style="white-space: nowrap;">
                             <field name="Question_3" widget="radio" options="{'horizontal': true}"
-                                   style="display: inline">Question 3:
+                                   style="display: inline">
                             </field>
                             <field name="Question_4" widget="radio" options="{'horizontal': true}"
-                                   style="display: inline">Question 4:
+                                   style="display: inline">
                             </field>
                             <field name="Question_5" widget="radio" options="{'horizontal': true}"
-                                   style="display: inline">Question 5:
+                                   style="display: inline">
                             </field>
                             <field name="Question_6" widget="radio" options="{'horizontal': true}"
-                                   style="display: inline">Question 6:
+                                   style="display: inline">
                             </field>
                             <field name="Question_7" widget="radio" options="{'horizontal': true}"
-                                   style="display: inline">Question 7:
+                                   style="display: inline">
                             </field>
                             <field name="Question_8" widget="radio" options="{'horizontal': true}"
-                                   style="display: inline">Question 8:
+                                   style="display: inline">
                             </field>
                         </group>
                     </group>
