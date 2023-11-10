@@ -35,19 +35,13 @@ class Location(models.Model):
         ('transit', 'Transit Location'),
         ('others', 'Others')], string='Location Type',
         default='internal', index=True, required=True,
-        help="* Vendor Location: Virtual location representing the source location for products coming from your "
-             "vendors"
-             "\n* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its"
-             "child locations ; can't directly contain products"
+        help="* Vendor Location: Virtual location representing the source location for products coming from your vendors"
+             "\n* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its child locations ; can't directly contain products"
              "\n* Internal Location: Physical locations inside your own warehouses,"
-             "\n* Customer Location: Virtual location representing the destination location for products sent to your "
-             "customers"
-             "\n* Inventory Loss: Virtual location serving as counterpart for inventory operations used to correct "
-             "stock levels (Physical inventories)"
-             "\n* Production: Virtual counterpart location for production operations: this location consumes the"
-             "components and produces finished products"
-             "\n* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses "
-             "operations")
+             "\n* Customer Location: Virtual location representing the destination location for products sent to your customers"
+             "\n* Inventory Loss: Virtual location serving as counterpart for inventory operations used to correct stock levels (Physical inventories)"
+             "\n* Production: Virtual counterpart location for production operations: this location consumes the components and produces finished products"
+             "\n* Transit Location: Counterpart location that should be used in inter-company or inter-warehouses operations")
     location_id = fields.Many2one(
         'x.location', 'Parent Location', index=True, ondelete='cascade',
         help="The parent location that includes this location. Example : The 'Dispatch Zone' is the 'Gate 1' parent "
