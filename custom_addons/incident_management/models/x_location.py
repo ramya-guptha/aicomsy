@@ -22,6 +22,9 @@ class Location(models.Model):
     name = fields.Char('Location Name', required=True)
     active = fields.Boolean('Active', default=True,
                             help="By unchecking the active field, you may hide a location without deleting it.")
+    complete_name = fields.Char(
+        'Complete Name', compute='_compute_complete_name', recursive=True,
+        store=True)
     usage = fields.Selection([
         ('supplier', 'Vendor Location'),
         ('view', 'View'),
@@ -60,6 +63,14 @@ class Location(models.Model):
     location_alternate_1 = fields.Many2one('res.users', string="Alternative Location Manager 1")
     location_alternate_2 = fields.Many2one('res.users', string="Alternative Location Manager 2")
     parent_path = fields.Char(index=True, unaccent=False)
+
+    @api.depends('name', 'location_id.complete_name')
+    def _compute_complete_name(self):
+        for location in self:
+            if location.location_id:
+                location.complete_name = '%s / %s' % (location.location_id.complete_name, location.name)
+            else:
+                location.complete_name = location.name
 
     @api.depends('child_ids.usage', 'child_ids.child_internal_location_ids')
     def _compute_child_internal_location_ids(self):

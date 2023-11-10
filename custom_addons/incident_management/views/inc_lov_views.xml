@@ -50,15 +50,10 @@
         <field name="model">x.location</field>
         <field name="arch" type="xml">
             <tree string="Location of Incident">
-                <field name="name"/>
+                <field name="complete_name"/>
                 <field name="active"/>
-                <field name="usage"/>
-                <field name="location_id"/>
                 <field name="company_id"/>
                 <field name="location_manager"/>
-                <field name="location_alternate_1"/>
-                <field name="location_alternate_2"/>
-                <field name="parent_path"/>
             </tree>
         </field>
     </record>
@@ -77,11 +72,11 @@
                         <field name="name"/>
                         <field name="active"/>
                         <field name="usage"/>
-                        <field name="location_id"/>
+                        <field name="location_id" options="{'no_create': True, 'no_create_edit':True}"/>
                         <field name="company_id"/>
-                        <field name="location_manager"/>
-                        <field name="location_alternate_1"/>
-                        <field name="location_alternate_2"/>
+                        <field name="location_manager" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="location_alternate_1" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="location_alternate_2" options="{'no_create': True, 'no_create_edit':True}"/>
                     </group>
                 </sheet>
             </form>
