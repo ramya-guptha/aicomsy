@@ -3,14 +3,35 @@
         <field name="name">inc.asset.tree</field>
         <field name="model">x.inc.asset.record</field>
         <field name="arch" type="xml">
-            <tree string="Asset Damages" editable="bottom">
+            <tree string="Asset Damages">
                 <field name="id"/>
+                <field name="asset_category"/>
+                <field name="asset_name"/>
                 <field name="asset_id"/>
-                <field name="asset_title" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="asset_type"/>
                 <field name="description"/>
-                <field name="immediate_response" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="immediate_response"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="x_inc_asset_record_form" model="ir.ui.view">
+        <field name="name">x.inc.asset.record.form</field>
+        <field name="model">x.inc.asset.record</field>
+        <field name="arch" type="xml">
+            <form string="Assets Damages">
+                <group>
+                    <field name="asset_category"/>
+                    <field name="others_asset_category" attrs="{'invisible': [('asset_category', '!=', 'others')]}"/>
+                    <field name="asset_id" options="{'no_create': True, 'no_create_edit':True}"
+                           attrs="{'invisible': [('asset_category', '!=', 'equipment')]}"/>
+                    <field name="asset_title" options="{'no_create': True, 'no_create_edit':True}"
+                           attrs="{'invisible': [('asset_category', '!=', 'equipment')]}"/>
+                    <field name="asset_type"/>
+                    <field name="description"/>
+                    <field name="immediate_response" options="{'no_create': True, 'no_create_edit':True}"/>
+                </group>
+            </form>
         </field>
     </record>
 </odoo>

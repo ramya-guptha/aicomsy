@@ -5,7 +5,6 @@
         <field name="arch" type="xml">
             <tree string="Spill">
                 <field name="id_number" string=" ID "/>
-                <field name="person_reported" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="task" optional="1"/>
                 <field name="job_title"/>
                 <field name="env_incident_classification" options="{'no_create': True, 'no_create_edit':True}"/>
@@ -26,7 +25,6 @@
                     <group col="2">
 
                         <group>
-                            <field name="person_reported" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="id_number"/>
                             <field name="task"/>
                             <field name="job_title"/>

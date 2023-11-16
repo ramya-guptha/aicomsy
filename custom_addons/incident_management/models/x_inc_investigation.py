@@ -143,7 +143,7 @@ class IncidentPeopleInterviewed(models.Model):
     )
     Question_6 = fields.Selection(
         [('yes', 'Yes'), ('no', 'No')],
-        string='Q 6: Did the person involved in the incident give proper signal/alarm/use proper rigging tools '
+        string='Q 6: Did the person involved give proper signal/alarm/use proper rigging tools '
                'around their work zone or environment before the incident occurred?'
     )
 
@@ -251,6 +251,7 @@ class IncidentRootCauses(models.Model):
                 'context': {
                     'default_investigation_id': self.investigation_id.id,
                     'default_action_party': self.investigation_id.incident_id.location.location_manager.id,
+                    'default_assigner': self.investigation_id.incident_id.location.location_manager.id,
                     'default_primary_root_cause_id': self.primary_root_cause_id.id,
                     'default_secondary_root_cause_ids': self.secondary_root_cause_ids.ids,
                     'default_state': 'new'
