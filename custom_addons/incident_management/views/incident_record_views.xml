@@ -56,10 +56,10 @@
                         <page string="People">
                             <field name="incident_person_ids"/>
                         </page>
-                        <page string="Assets">
+                        <page string="Assets" attrs="{'invisible': [('type', 'not in', (3))]}">
                             <field name="incident_asset_ids"/>
                         </page>
-                        <page string="Environmental">
+                        <page string="Environmental" attrs="{'invisible': [('type', 'not in', (2))]}">
                             <field name="incident_spill_ids"/>
                         </page>
                     </notebook>
