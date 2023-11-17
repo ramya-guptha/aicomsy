@@ -4,10 +4,8 @@
         <field name="model">x.inc.asset.record</field>
         <field name="arch" type="xml">
             <tree string="Asset Damages">
-                <field name="id"/>
                 <field name="asset_category"/>
                 <field name="asset_name"/>
-                <field name="asset_id"/>
                 <field name="asset_type"/>
                 <field name="description"/>
                 <field name="immediate_response"/>

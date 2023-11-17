@@ -25,17 +25,14 @@
             <form name="Investigation Details">
                 <sheet>
                     <group col="2">
-                        <group>
-
-                            <field name="employee"
-                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
-                            <field name="visitor_name"
-                                   attrs="{'invisible': [('selected_category', 'not in', ('Visitor','Others'))]}"/>
-                        </group>
                         <field name="selected_category" invisible="1"/>
                         <field name="person_name" invisible="1"/>
                         <group colspan="2">
                             <field name="person_category" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="employee"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
+                            <field name="visitor_name"
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Visitor','Others'))]}"/>
                             <field name="person_employer"
                                    attrs="{'readonly': [('selected_category', '!=', 'Contractor')]}"/>
                             <field name="relation_to_incident"/>

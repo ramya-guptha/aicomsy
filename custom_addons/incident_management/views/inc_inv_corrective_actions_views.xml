@@ -15,8 +15,7 @@
                         <field name="investigation_id" readonly="1"/>
                         <field name="primary_root_cause_id"/>
                         <field name="secondary_root_cause_ids" widget="many2many_tags"/>
-                        <field name="assigner" options="{'no_create': True, 'no_create_edit':True}"
-                               attrs="{'readonly': [('state', '=', 'completed')]}"/>
+                        <field name="assigner" readonly="1"/>
                         <field name="action_party" options="{'no_create': True, 'no_create_edit':True}"
                                attrs="{'readonly': [('state', '=', 'completed')]}"/>
                         <field name="action_type"
