@@ -63,6 +63,7 @@
                                    style="display: inline">
                             </field>
                         </group>
+                        <field name="attachment_ids" widget="many2many_binary"/>
                     </group>
                 </sheet>
             </form>
