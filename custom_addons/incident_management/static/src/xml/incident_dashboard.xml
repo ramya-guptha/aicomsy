@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Template for the project dashboard -->
+<templates id="template" xml:space="preserve">
+    <t t-name="IncidentDashboard">
+        <div class="oh_dashboards"
+             style="margin-top: 20px; overflow-y: scroll;vertical-align: middle;overflow-x: clip;max-height: -webkit-fill-available;">
+            <div class="container-fluid o_pj_dashboard" style="margin-left:4%;">
+            </div>
+        </div>
+    </t>
+    <t t-name="DashboardFilterCards">
+        <div class="row main-section">
+            <div class="inner_select" style="display: flex;">
+                <p style="margin-left: -60px;">Start Date :</p>
+                <p>
+                    <input type="date" class="inner_select" id="start_date" name="start_date"/>
+                </p>
+                <p>End Date :</p>
+                <p>
+                    <input type="date" class="inner_select" id="end_date" name="end_date"/>
+                </p>
+                <p>Locations :</p>
+                <p>
+                    <select class="inner_select" id="locations_selection">
+                        <option value="null">All Locations</option>
+                    </select>
+                </p>
+                <p>Incidents :</p>
+                 <p>
+                    <select class="inner_select" id="incidents_selection">
+                        <option value="null">All Incidents</option>
+                    </select>
+                </p>
+            </div>
+
+            <div class="col-md-4 col-sm-6 oh-payslip">
+                <div class="oh-card" style="width: 410px;margin-left: -60px">
+                    <div class="oh-card-body tot_incidents" style="box-shadow:5px 11px 30px;">
+                        <div class="stat-widget-one" style="display:flex;">
+                            <div class="stat-icon"><i class="fa fa-puzzle-piece" /></div>
+                            <div class="stat-head" style="padding: 5%;width: 60%;">Total Incidents</div>
+                            <div class="stat_count" style="padding: 4%;width: 30%;" id="tot_incidents">
+                                <t t-esc="widget.total_incidents"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="DashboardIncChart">
+        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="margin-left: -60px;">
+            <div class="row main-section">
+                <div class="col-sm-4 col-lg-4">
+                     <div class="inc_cost_impact_graph_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                            <canvas class="incident_cost_impact" style="background:#fff;" width="150" height="90"/>
+                        </div>
+                    </div>
+                    <div class="inc_severity_graph_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                            <canvas class="incident_severity_rate" style="background:#fff;" width="150" height="90"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4 col-lg-4">
+
+                    <div class="inc_severity_graph_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                                <canvas class="incident_frequency_rate" style="background:#fff;" width="200"
+                                        height="120"/>
+                        </div>
+                    </div>
+                    <div class="inc_status_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                              <canvas class="incident_status" style="background:#fff;" width="150" height="90"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-4">
+                     <div class="inc_normal_days_graph_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+
+                            <canvas class="normal_days_mom" style="background:#fff;" width="200" height="120"/>
+                        </div>
+                     </div>
+                    <div class="inc_severity_classification_graph_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+
+                            <canvas class="incident_severity_classification" style="background:#fff;" width="200"
+                                    height="120"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
