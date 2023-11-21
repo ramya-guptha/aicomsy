@@ -74,21 +74,36 @@ class ActionReview(models.Model):
 
     def action_return(self):
         self.write({'state': 'review'})
-        self.corrective_action_id.state = "returned"
         self.corrective_action_id.write({'state': 'returned'})
         self._return_to_action_party()
 
     def action_close(self):
         self.write({'state': 'closed'})
+        self._update_investigation_state()
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
                 'type': 'success',
                 'message': 'The review has been successfully closed',
-                'next': {'type': 'ir.actions.act_window_close'},
+                'next': {'type': 'ir.actions.client',
+                         'tag': 'soft_reload', },
             }
         }
+
+    def _update_investigation_state(self):
+        for review in self:
+            investigation = review.investigation_id
+            all_closed = True
+            if investigation:
+                if len(investigation.actions_review_ids) != len(investigation.corrective_actions_ids):
+                    all_closed = False
+                else:
+                    for r in investigation.actions_review_ids:
+                        if r.state != 'closed':
+                            all_closed = False
+            if all_closed:
+                investigation.state = 'closed'
 
     def action_resubmit_for_review(self):
         self.write({'state': 'review'})

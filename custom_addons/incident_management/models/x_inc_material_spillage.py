@@ -11,19 +11,12 @@ class IncidentMaterialSpillageRecord(models.Model):
     _description = "Oil, Paint, Chemical Spillage, Environmental Incidents or  incidents"
 
     # --------------------------------------- Fields Declaration ----------------------------------
-    id_number = fields.Integer(related="person_reported.id", string="ID Number")
-    person_reported = fields.Many2one("hr.employee", string="Person Reported", required=True)
     incident_id = fields.Many2one('x.incident.record', required=True)
-    task = fields.Text(string="Task being done at the time of incident")
-    job_title = fields.Char(related='person_reported.job_id.name', string="Job Title")
-    location = fields.Many2one("x.location", string="Incident Location")
     env_incident_classification = fields.Many2one("x.inc.env.classification", string="ENV Incident Classification")
     qty = fields.Integer(string="QTY of Emission / Spill/ Spoilage")
     unit = fields.Many2one("x.inc.unit", string="Unit")
     env_impact = fields.Many2one('x.inc.spill.env.impact')
     immediate_response = fields.Many2one("x.inc.material.spill.immediate.response")
-    env_severity_classification = fields.Many2one("x.inc.env.severity.classification",
-                                                  string="Severity Classification", required=True)
     env_severity_consequence = fields.Many2one("x.inc.env.severity.consequence",
                                                string="Severity Consequence", required=True)
 
@@ -77,21 +70,6 @@ class Unit(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char(string="Unit")
-
-
-class ENVSeverityClassification(models.Model):
-    # ---------------------------------------- Private Attributes ---------------------------------
-
-    _name = "x.inc.env.severity.classification"
-    _description = "ENV Severity classification"
-    _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'ENV Severity classification must be unique !'),
-    ]
-
-    # --------------------------------------- Fields Declaration ----------------------------------
-
-    name = fields.Char(string="Severity Classification (ENV)")
-
 
 class IncENVSeverityConsequence(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------

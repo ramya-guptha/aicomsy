@@ -8,6 +8,8 @@
                     <button name="start_action" type="object" string="Start" states="new" class="btn-primary"/>
                     <button name="review_action" type="object" string="Send for Review" states="in_progress"
                             class="btn-primary"/>
+                     <button name="resend_review_action" type="object" string="Resend for Review" states="returned"
+                            class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,in_progress,completed"/>
                 </header>
                 <sheet>
