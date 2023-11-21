@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="incidents_management_menu" name="Incidents Management">
+    <menuitem id="incidents_management" name="Incidents Management">
         <menuitem id="incidents" name="Incidents">
             <menuitem id="incidents_menu_action" action="incident_record_model_action" sequence="1"/>
         </menuitem>
@@ -33,7 +33,6 @@
             <menuitem id="secondary_root_causes_menu_action" action="secondary_root_causes_action" sequence="20"/>
             <menuitem id="action_type_menu_action" action="action_type_action" sequence="21"/>
             <menuitem id="hierarchy_control_menu_action" action="hierarchy_control_action" sequence="22"/>
-            <menuitem id="monthly_metrics_menu_action" action="monthly_metrics_action" sequence="23"/>
         </menuitem>
     </menuitem>
 </odoo>
