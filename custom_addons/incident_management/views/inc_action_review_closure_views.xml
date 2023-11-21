@@ -11,7 +11,7 @@
             <form string="Action Review">
                 <header>
                     <button name="start_review" type="object" string="Start" class="btn-primary"
-                            attrs="{'invisible': [('state', '!=', 'new')]}" confirm="Are you sure to start?"/>
+                            attrs="{'invisible': [('state', '!=', 'new')]}" confirm="Are you sure you want to start the Action Review ?"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,review,followup,management,closed"/>
                 </header>
                 <sheet>
@@ -35,9 +35,9 @@
                     </group>
                     <group attrs="{'invisible': [('state', 'in', ('new', 'closed'))]}">
                         <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
-                                confirm="Are you sure to Confirm?"/>
+                                confirm="Are you sure you want to Proceed?"/>
                         <button name="action_return" type="object" string="Return" class="btn-primary"
-                                confirm="Are you sure to Return?"/>
+                                confirm="Are you sure you want to submit it for Corrective Action?"/>
                     </group>
                     <br/>
                     <group col="3" string="Followup &amp; Closure"
@@ -71,19 +71,19 @@
                         <group colspan="2">
                             <button name="action_close" colspan="2" type="object" string="Close the Review"
                                     attrs="{'readonly': [('review_by_ceo_vp_gm_required', '=', 'yes')]}"
-                                    class="btn-primary" confirm="Are you sure to Close the Review?"/>
+                                    class="btn-primary" confirm="Are you sure want  to Close the Review?"/>
                         </group>
                         <group colspan="2">
                             <button name="action_resubmit_for_review" colspan="2" type="object"
                                     string="Resubmit for Review"
-                                    class="btn-primary" confirm="Are you sure to Resubmit for Review?"/>
+                                    class="btn-primary" confirm="Are you sure you want to Resubmit for Review?"/>
                         </group>
                         <group colspan="2">
                             <button name="action_submit_for_management_review" colspan="2" type="object"
                                     string="Submit for Management Review"
                                     class="btn-primary"
                                     attrs="{'invisible': [('review_by_ceo_vp_gm_required', '!=', 'yes')]}"
-                                    confirm="Are you sure to Submit for Management Review?"/>
+                                    confirm="Are you sure you want to Submit for Management Review?"/>
                         </group>
                     </group>
                     <br/>
@@ -104,9 +104,9 @@
                     </group>
                     <group attrs="{'invisible': [('state', 'in', ['new','review', 'followup','closed'])]}">
                         <button name="action_close" type="object" string="Close" class="btn-primary"
-                                confirm="Are you sure to close?"/>
+                                confirm="Are you sure want to close?"/>
                         <button name="action_return_further_action" type="object" string="Return for Further Action"
-                                class="btn-primary" confirm="Are you sure to Return for Further Action?"/>
+                                class="btn-primary" confirm="Are you sure you want to Return for Further Action?"/>
                     </group>
                 </sheet>
             </form>
