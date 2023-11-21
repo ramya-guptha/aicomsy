@@ -36,7 +36,8 @@ class ActionReview(models.Model):
                                                         string="Risks and Opportunities Reviewed?")
     job_hazard_analysis_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="JHAs Reviewed?",
                                                     help="Job Hazard Analysis reviewed?")
-    report_closed_by = fields.Many2one('hr.employee', string="Report Closed by")
+    report_closed_by = fields.Many2one('hr.employee', string="Report Closed by", compute='_compute_report_closed_by',
+                                       store=True)
     closure_date = fields.Date(string="Closure Date")
     comments = fields.Text(string="Comments")
     action_follow_up_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Action Follow-up Required",
@@ -59,6 +60,11 @@ class ActionReview(models.Model):
         copy=False,
         default="new"
     )
+
+    @api.depends('reviewer')
+    def _compute_report_closed_by(self):
+        for record in self:
+            record.report_closed_by = record.reviewer
 
     def start_review(self):
         self.state = 'review'
@@ -122,3 +128,7 @@ class ActionReview(models.Model):
     def _return_for_further_action_email(self):
         mail_template = self.env.ref('incident_management.email_template_return_further_action')
         mail_template.send_mail(self.id, force_send=True)
+
+    def action_submit_for_management_review(self):
+        self.write({'state': 'management'})
+        return True
