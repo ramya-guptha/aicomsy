@@ -158,23 +158,20 @@ class IncidentPeopleInterviewed(models.Model):
         string='Q 8: Did the victim or person involved have a previous history of incidents?'
     )
 
+    @api.depends('person_category', 'employee', 'visitor_name')
+    def _compute_name(self):
+        for person in self:
+            if person.person_category.name in ("Employee", "Contractor") and person.employee:
+                person.person_name = person.employee.name
+            elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
+                person.person_name = person.visitor_name
+            else:
+                person.person_name = False
 
-@api.depends('person_category', 'employee', 'visitor_name')
-def _compute_name(self):
-    for person in self:
-        if person.person_category.name in ("Employee", "Contractor") and person.employee:
-            person.person_name = person.employee.name
-            # person.nationality = person.employee.country_id
-        elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
-            person.person_name = person.visitor_name
-        else:
-            person.person_name = False
-
-
-@api.depends('person_category')
-def _compute_selected_category(self):
-    for record in self:
-        record.selected_category = record.person_category.name
+    @api.depends('person_category')
+    def _compute_selected_category(self):
+        for record in self:
+            record.selected_category = record.person_category.name
 
 
 class IncidentConsequences(models.Model):
