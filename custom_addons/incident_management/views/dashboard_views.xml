@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <!--    action for project dashboard-->
+
+        <record id="incident_action_dashboard" model="ir.actions.client">
+            <field name="name">Incident Dashboard</field>
+            <field name="tag">incident_dashboard</field>
+        </record>
+         <!-- Dashboard menu item -->
+
+        <menuitem id="menu_incident_dashboard"
+                  name="Incident Dashboard"
+                  action="incident_action_dashboard"
+                  parent="incident_management.incidents_management_menu"
+                  sequence="1"/>
+    </data>
+</odoo>
