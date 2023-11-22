@@ -29,7 +29,7 @@ class IncInvestigation(models.Model):
         string="Investigation", readonly=True, default='New')
     incident_id = fields.Many2one("x.incident.record", string="Incident Id")
     description = fields.Html(related="incident_id.description")
-    # description = fields.Html(related="incident_id.description")
+    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     # Investigation Team Details
     hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
@@ -86,6 +86,10 @@ class IncInvestigation(models.Model):
             attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions'),
                                                             ('res_id', 'in', investigation.corrective_actions_ids.ids)])
             investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
+
+    @api.onchange('severity')
+    def _update_inc_severity_classification(self):
+        self.incident_id.severity = self.severity
 
 
 class InvestigationTeam(models.Model):

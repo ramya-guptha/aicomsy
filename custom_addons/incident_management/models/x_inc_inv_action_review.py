@@ -68,6 +68,7 @@ class ActionReview(models.Model):
 
     def start_review(self):
         self.state = 'review'
+        self.investigation_id.incident_id.write({'state': 'action_review'})
 
     def action_confirm(self):
         self.write({'state': 'followup'})
@@ -104,6 +105,7 @@ class ActionReview(models.Model):
                             all_closed = False
             if all_closed:
                 investigation.state = 'closed'
+                investigation.incident_id.state = 'closed'
 
     def action_resubmit_for_review(self):
         self.write({'state': 'review'})
