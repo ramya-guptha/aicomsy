@@ -43,7 +43,6 @@
                             <field name="received_date" attrs="{'invisible': [('ncr_list', '=', False)]}"/>
                             <field name="inspection_stage"/>
                             <field name="rfi_number"/>
-                            <field name="nc_table"/>
                         </group>
                         <group>
                             <field name="ncr_open_date"/>

@@ -10,8 +10,8 @@ class NonConformanceModel(models.Model):
     ncr_id = fields.Many2one('x.ncr.report', string='NCR Report', required=True)
     nc_s = fields.Char(string='NCS #', required=True)
     source_of_nc = fields.Many2one('x.ncr.source', string='Source of NC')
-    nc_description = fields.Text(string='NC Description (Max 400 Characters)', size=400)
-    uom = fields.Char(string='Unit of Measure (Max 10 Characters)', size=10)
+    nc_description = fields.Text(string='NC Description',help="Max 400 Characters", size=400)
+    uom = fields.Char(string='Unit of Measure', help="Max 10 Characters", size=10)
     quantity = fields.Float(string='Quantity')
     nc_details = fields.Char(string='NC Details')
     attachment_ids = fields.Many2many('ir.attachment', 'res_id', string='Attachments')
@@ -36,7 +36,7 @@ class NonConformanceModel(models.Model):
 
 
 # Define YourModelName class
-class YourModelName(models.Model):
+class NCRSource(models.Model):
     _name = 'x.ncr.source'
     _description = 'x NCR Source'
 

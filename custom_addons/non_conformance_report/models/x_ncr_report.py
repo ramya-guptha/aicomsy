@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 
+
 # Define the NcrReport class
 class NcrReport(models.Model):
     _name = 'x.ncr.report'
@@ -26,7 +27,6 @@ class NcrReport(models.Model):
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
-    nc_table = fields.Text(string='NC Table')
     ncr_initiator_name = fields.Char(string='NCR Initiator Name')
     ncr_open_date = fields.Date(string='NCR Open Date')
     ncr_approver_name = fields.Char(string='NCR Approver Name')
