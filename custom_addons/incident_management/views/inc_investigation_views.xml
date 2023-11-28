@@ -33,6 +33,7 @@
                     <group>
                         <field name="incident_id" default="context.get('default_incident_id', False)"/>
                         <field name="description"/>
+                        <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')]}" options="{'no_create': True, 'no_create_edit': True}"/>
                     </group>
                     <notebook>
                         <page string="Investigation Team">

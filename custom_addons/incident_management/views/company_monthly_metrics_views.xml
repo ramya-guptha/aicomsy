@@ -1,0 +1,44 @@
+<odoo>
+
+    <record id="monthly_metrics_action" model="ir.actions.act_window">
+        <field name="name">Company Monthly Metrics</field>
+        <field name="res_model">x.company.monthly.metrics</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+    <record id="x_company_monthly_metrics_tree_view" model="ir.ui.view">
+        <field name="name">Company Monthly Metrics</field>
+        <field name="model">x.company.monthly.metrics</field>
+        <field name="arch" type="xml">
+            <tree string="Company Monthly Metrics">
+                <field name="month" string="Month"/>
+                <field name="year" string="Year" widget='text'/>
+                <field name="working_days"/>
+                <field name="hour_worked"/>
+                <field name="total_sales"/>
+            </tree>
+        </field>
+    </record>
+    <record id="x_company_monthly_metrics_form" model="ir.ui.view">
+        <field name="name">Company Monthly Metrics</field>
+        <field name="model">x.company.monthly.metrics</field>
+        <field name="arch" type="xml">
+            <form name="Company Monthly Metrics">
+                <group col="2">
+                    <group>
+                    <field name="year" invisible="1"/>
+                    <field name="month" invisible="1"/>
+                    <field name="month_selection"/>
+                    <field name="year_selection"/>
+
+                </group>
+                <group>
+                    <field name="working_days"/>
+                    <field name="hour_worked"/>
+                    <field name="total_sales"/>
+                </group>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

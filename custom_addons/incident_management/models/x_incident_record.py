@@ -135,5 +135,6 @@ class NotificationTeam(models.Model):
     _description = 'Notification Team'
 
     # --------------------------------------- Fields Declaration ----------------------------------
+    name = fields.Char(string='Employee Name', related='officer.name', readonly=True)
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=True)
-    officer = fields.Many2one('res.users', string="Officer", required=True)
+    officer = fields.Many2one('hr.employee', string="Officer", required=True)

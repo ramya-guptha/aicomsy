@@ -29,7 +29,7 @@ class IncInvestigation(models.Model):
         string="Investigation", readonly=True, default='New')
     incident_id = fields.Many2one("x.incident.record", string="Incident Id")
     description = fields.Html(related="incident_id.description")
-    # description = fields.Html(related="incident_id.description")
+    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     # Investigation Team Details
     hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
@@ -87,6 +87,10 @@ class IncInvestigation(models.Model):
                                                             ('res_id', 'in', investigation.corrective_actions_ids.ids)])
             investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
 
+    @api.onchange('severity')
+    def _update_inc_severity_classification(self):
+        self.incident_id.severity = self.severity
+
 
 class InvestigationTeam(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
@@ -122,6 +126,7 @@ class IncidentPeopleInterviewed(models.Model):
     selected_category = fields.Char(compute='_compute_selected_category')
     person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly="True")
     visitor_name = fields.Char(string='Visitor Name')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
     Question_1 = fields.Text(string='Q 1: Why did this incident happen?')
     Question_2 = fields.Text(
         string='Q 2: Why did nearby individuals fail to use signage, alarms, or extinguishers to control the '
@@ -354,6 +359,22 @@ class CorrectiveAction(models.Model):
             },
 
         }
+
+    def resend_review_action(self):
+        existing_record = self.env['x.inc.inv.action.review'].search([
+            ('investigation_id', '=', self.investigation_id.id),
+            ('corrective_action_id', '=', self.id)]
+        )
+        if existing_record:
+            self.state = 'completed'
+            return {
+                'name': 'Action Review & Closure',
+                'res_model': 'x.inc.inv.action.review',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_id': existing_record.id,
+                'target': 'new',
+            }
 
 
 class ActionType(models.Model):
