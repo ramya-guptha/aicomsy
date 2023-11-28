@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <record id="nc1" model="x.ncr.category">
+            <field name="name">Major</field>
+        </record>
+        <record id="nc2" model="x.ncr.category">
+            <field name="name">Minor</field>
+        </record>
+    </data>
+</odoo>

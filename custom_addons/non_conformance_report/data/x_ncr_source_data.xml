@@ -1,0 +1,55 @@
+<odoo>
+    <data noupdate="1">
+        <record id="sn1" model="x.ncr.source">
+            <field name="name">Material</field>
+        </record>
+        <record id="sn2" model="x.ncr.source">
+            <field name="name">Engineering</field>
+        </record>
+        <record id="sn3" model="x.ncr.source">
+            <field name="name">In-Process Dimensional</field>
+        </record>
+        <record id="sn4" model="x.ncr.source">
+            <field name="name">In-Process Welding/Brazing</field>
+        </record>
+        <record id="sn5" model="x.ncr.source">
+            <field name="name">Machine Operation</field>
+        </record>
+        <record id="sn6" model="x.ncr.source">
+            <field name="name">Fabrication</field>
+        </record>
+        <record id="sn7" model="x.ncr.source">
+            <field name="name">Coating Application</field>
+        </record>
+        <record id="sn8" model="x.ncr.source">
+            <field name="name">Assembly</field>
+        </record>
+        <record id="sn9" model="x.ncr.source">
+            <field name="name">Trial Assembly</field>
+        </record>
+        <record id="sn10" model="x.ncr.source">
+            <field name="name">Validation Test</field>
+        </record>
+        <record id="sn11" model="x.ncr.source">
+            <field name="name">Finishing</field>
+        </record>
+        <record id="sn12" model="x.ncr.source">
+            <field name="name">Damage</field>
+        </record>
+        <record id="sn13" model="x.ncr.source">
+            <field name="name">Missing / Shortage</field>
+        </record>
+        <record id="sn14" model="x.ncr.source">
+            <field name="name">Overage</field>
+        </record>
+        <record id="sn15" model="x.ncr.source">
+            <field name="name">Marking</field>
+        </record>
+        <record id="sn16" model="x.ncr.source">
+            <field name="name">Bolt Installation</field>
+        </record>
+        <record id="sn17" model="x.ncr.source">
+            <field name="name">Erection Process</field>
+        </record>
+    </data>
+</odoo>

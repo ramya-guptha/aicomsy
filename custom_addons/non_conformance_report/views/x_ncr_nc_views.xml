@@ -1,0 +1,40 @@
+<odoo>
+    <record id="view_x_ncr_report_tree" model="ir.ui.view">
+        <field name="name">x.ncr.nc.tree</field>
+        <field name="model">x.ncr.nc</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="nc_s"/>
+                <field name="source_of_nc"/>
+                <field name="nc_description"/>
+                <field name="uom"/>
+                <field name="quantity" class="oe_inline"/>
+                <button string="Add Details" type="object" class="oe_highlight" icon="fa-plus"
+                        name="nc_part_details_popup"/>
+                <field name="nc_details"/>
+                <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+            </tree>
+        </field>
+    </record>
+    <record id="nc_part_details_tree_view" model="ir.ui.view">
+        <field name="name">x.ncr.part.tree</field>
+        <field name="model">x.ncr.part</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="assembly_number"/>
+                <field name="part_number"/>
+                <field name="unit_weight"/>
+                <field name="affected_part_weight"/>
+                <field name="completion_percentage"/>
+                <field name="production_date"/>
+                <field name="quarantine"/>
+                <field name="operator_employee_id"/>
+                <field name="total_weight"/>
+                <field name="disposition_priority"/>
+                <field name="disposition_cost"/>
+                <field name="estimated_backcharge_price"/>
+                <field name="ncr_initiator_name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
