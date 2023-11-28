@@ -35,7 +35,7 @@
                         <group>
                             <field name="inc_date_time"/>
                             <field name="inc_reported_date"/>
-                            <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')]}" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')]}" options="{'no_create': True, 'no_create_edit': True}" readonly="True"/>
                         </group>
                         <group>
                             <field name="shift" widget="selection"/>
@@ -48,7 +48,7 @@
                             <field name="notified_by_id"/>
                             <field name="notified_by_type"/>
                         </group>
-                        <group name="Description">
+                        <group name="Description" colspan="3">
                             <field name="description" placeholder="Enter a description of the incident"/>
                         </group>
                     </group>

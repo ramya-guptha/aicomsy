@@ -106,6 +106,7 @@ class ActionReview(models.Model):
             if all_closed:
                 investigation.state = 'closed'
                 investigation.incident_id.state = 'closed'
+                self._inv_inc_closure_send_email()
 
     def action_resubmit_for_review(self):
         self.write({'state': 'review'})
@@ -117,6 +118,8 @@ class ActionReview(models.Model):
 
     def action_completion_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_corrective_action_completion')
+        mail_template.send_mail(self.id, force_send=True)
+        mail_template = self.env.ref('incident_management.email_template_action_review')
         mail_template.send_mail(self.id, force_send=True)
 
     def _return_to_action_party(self):
@@ -134,3 +137,7 @@ class ActionReview(models.Model):
     def action_submit_for_management_review(self):
         self.write({'state': 'management'})
         return True
+
+    def _inv_inc_closure_send_email(self):
+        mail_template = self.env.ref('incident_management.email_template_incident_closure')
+        mail_template.send_mail(self.id, force_send=True)
