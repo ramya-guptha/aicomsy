@@ -14,8 +14,7 @@ class NonConformanceModel(models.Model):
     uom = fields.Char(string='Unit of Measure (Max 10 Characters)', size=10)
     quantity = fields.Float(string='Quantity')
     nc_details = fields.Char(string='NC Details')
-    attachment_ids = fields.Many2many('ir.attachment', 'nonconformance_attachment_rel', 'ncr_id', 'attachment_id',
-                                      string='Attachments')
+    attachment_ids = fields.Many2many('ir.attachment', 'res_id', string='Attachments')
 
     # Define an action for opening the NC Part Details
     @api.model
@@ -66,6 +65,3 @@ class NcPartDetails(models.Model):
     ncr_initiator_name = fields.Char(string='NCR Initiator Name')
     ncr_details_id = fields.Many2one('x.ncr.report', string='NCR Report', ondelete='cascade')
 
-    # Define an action for uploading a file
-    def action_upload_file(self):
-        pass
