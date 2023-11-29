@@ -1,0 +1,46 @@
+<odoo>
+    <data noupdate="1">
+        <record id="sd1" model="x.ncr.discipline">
+            <field name="name">Painting / Coating</field>
+        </record>
+        <record id="sd2" model="x.ncr.discipline">
+            <field name="name">Special Coating</field>
+        </record>
+        <record id="sd3" model="x.ncr.discipline">
+            <field name="name">Mechanical</field>
+        </record>
+        <record id="sd4" model="x.ncr.discipline">
+            <field name="name">Electrical</field>
+        </record>
+        <record id="sd5" model="x.ncr.discipline">
+            <field name="name">Electronics</field>
+        </record>
+        <record id="sd6" model="x.ncr.discipline">
+            <field name="name">Fittings</field>
+        </record>
+        <record id="sd7" model="x.ncr.discipline">
+            <field name="name">HVAC</field>
+        </record>
+        <record id="sd8" model="x.ncr.discipline">
+            <field name="name">Pressure Equipments</field>
+        </record>
+        <record id="sd9" model="x.ncr.discipline">
+            <field name="name">Structural Steel</field>
+        </record>
+        <record id="sd10" model="x.ncr.discipline">
+            <field name="name">Platforms</field>
+        </record>
+        <record id="sd11" model="x.ncr.discipline">
+            <field name="name">Pipe Spool</field>
+        </record>
+        <record id="sd12" model="x.ncr.discipline">
+            <field name="name">Servicing Agencies</field>
+        </record>
+        <record id="sd13" model="x.ncr.discipline">
+            <field name="name">Erection</field>
+        </record>
+        <record id="sd14" model="x.ncr.discipline">
+            <field name="name">Construction</field>
+        </record>
+    </data>
+</odoo>
