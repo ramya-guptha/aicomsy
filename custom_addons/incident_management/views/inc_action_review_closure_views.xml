@@ -10,13 +10,13 @@
         <field name="arch" type="xml">
             <form string="Action Review">
                 <header>
-                    <button name="start_review" type="object" string="Start" class="btn-primary"
+                    <button name="start_review" type="object" string="Start" class="btn-primary" groups="aicomsy_base.access_hse_manager"
                             attrs="{'invisible': [('state', '!=', 'new')]}" confirm="Are you sure you want to start the Action Review ?"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,review,followup,management,closed"/>
                 </header>
                 <sheet>
                     <group>
-                        <field name="corrective_action_id"/>
+                        <field name="corrective_action_id" domain="[('id', '=', context.get('corrective_action_id', False))]"/>
                     </group>
                     <group col="2" string="Action Review">
                         <group>
@@ -35,9 +35,9 @@
                     </group>
                     <group attrs="{'invisible': [('state', 'in', ('new', 'closed'))]}">
                         <button name="action_confirm" type="object" string="Confirm" class="btn-primary"
-                                confirm="Are you sure you want to Proceed?"/>
+                                confirm="Are you sure you want to Proceed?" groups="aicomsy_base.access_hse_manager"/>
                         <button name="action_return" type="object" string="Return" class="btn-primary"
-                                confirm="Are you sure you want to submit it for Corrective Action?"/>
+                                confirm="Are you sure you want to submit it for Corrective Action?" groups="aicomsy_base.access_hse_manager"/>
                     </group>
                     <br/>
                     <group col="3" string="Followup &amp; Closure"
@@ -71,24 +71,24 @@
                         <group colspan="2">
                             <button name="action_close" colspan="2" type="object" string="Close the Review"
                                     attrs="{'readonly': [('review_by_ceo_vp_gm_required', '=', 'yes')]}"
-                                    class="btn-primary" confirm="Are you sure want  to Close the Review?"/>
+                                    class="btn-primary" confirm="Are you sure want  to Close the Review?" groups="aicomsy_base.access_hse_manager"/>
                         </group>
                         <group colspan="2">
                             <button name="action_resubmit_for_review" colspan="2" type="object"
                                     string="Resubmit for Review"
-                                    class="btn-primary" confirm="Are you sure you want to Resubmit for Review?"/>
+                                    class="btn-primary" confirm="Are you sure you want to Resubmit for Review?" groups="aicomsy_base.access_hse_manager"/>
                         </group>
                         <group colspan="2">
                             <button name="action_submit_for_management_review" colspan="2" type="object"
                                     string="Submit for Management Review"
                                     class="btn-primary"
                                     attrs="{'invisible': [('review_by_ceo_vp_gm_required', '!=', 'yes')]}"
-                                    confirm="Are you sure you want to Submit for Management Review?"/>
+                                    confirm="Are you sure you want to Submit for Management Review?" groups="aicomsy_base.access_hse_manager"/>
                         </group>
                     </group>
                     <br/>
-                    <group col="3" string="Management Review"
-                           attrs="{'invisible': [('state', 'in', ['new','review', 'followup','closed'])]}">
+                    <group col="3" string="Management Review" groups="aicomsy_base.access_management_team"
+                           attrs="{'invisible': [('state', 'in', ['new','review', 'followup'])]}">
                         <group>
                             <field name="reviewed_by_ceo_vp_gm"
                                    attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
@@ -102,9 +102,9 @@
                                    attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('state', 'in', ['new','review', 'followup','closed'])]}">
+                    <group attrs="{'invisible': [('state', 'in', ['new','review', 'followup','closed'])]}" groups="aicomsy_base.access_management_team">
                         <button name="action_close" type="object" string="Close" class="btn-primary"
-                                confirm="Are you sure want to close?"/>
+                                confirm="Are you sure want to close?" />
                         <button name="action_return_further_action" type="object" string="Return for Further Action"
                                 class="btn-primary" confirm="Are you sure you want to Return for Further Action?"/>
                     </group>

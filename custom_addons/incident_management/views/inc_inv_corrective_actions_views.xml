@@ -7,9 +7,11 @@
                 <header>
                     <button name="start_action" type="object" string="Start" states="new" class="btn-primary"/>
                     <button name="review_action" type="object" string="Send for Review" states="in_progress"
-                            class="btn-primary"/>
-                     <button name="resend_review_action" type="object" string="Resend for Review" states="returned"
-                            class="btn-primary"/>
+                            class="btn-primary" groups="aicomsy_base.access_zonal_manager"/>
+                    <button name="send_zonal_review_action" type="object" string="Notify Assigner" states="in_progress"
+                            class="btn-primary" groups="aicomsy_base.access_zonal_manager"/>
+                    <button name="resend_review_action" type="object" string="Resend for Review" states="returned"
+                            class="btn-primary" groups="aicomsy_base.access_zonal_manager"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,in_progress,completed"/>
                 </header>
                 <sheet>
