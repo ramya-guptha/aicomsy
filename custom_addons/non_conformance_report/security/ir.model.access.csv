@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_x_ncr_report,access_x_ncr_report,model_x_ncr_report,base.group_user,1,1,1,1
+access_x_ncr_type,access_x_ncr_type,model_x_ncr_type,base.group_user,1,1,1,1
+access_x_ncr_discipline,access_x_ncr_discipline,model_x_ncr_discipline,base.group_user,1,1,1,1
+access_x_ncr_nc,access_x_ncr_nc,model_x_ncr_nc,base.group_user,1,1,1,1
+access_x_ncr_source,access_x_ncr_source,model_x_ncr_source,base.group_user,1,1,1,1
+access_x_ncr_part,access_x_ncr_part,model_x_ncr_part,base.group_user,1,1,1,1
+access_x_ncr_category,access_x_ncr_category,model_x_ncr_category,base.group_user,1,1,1,1

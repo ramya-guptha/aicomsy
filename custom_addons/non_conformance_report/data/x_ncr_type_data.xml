@@ -1,0 +1,25 @@
+<odoo>
+    <data noupdate="1">
+        <record id="nt1" model="x.ncr.type">
+            <field name="name">Internal Inspection</field>
+        </record>
+        <record id="nt2" model="x.ncr.type">
+            <field name="name">Process incompletion</field>
+        </record>
+        <record id="nt3" model="x.ncr.type">
+            <field name="name">Process malfunction</field>
+        </record>
+        <record id="nt4" model="x.ncr.type">
+            <field name="name">Supervision</field>
+        </record>
+        <record id="nt5" model="x.ncr.type">
+            <field name="name">Supplier</field>
+        </record>
+        <record id="nt6" model="x.ncr.type">
+            <field name="name">Customer Site Compliant</field>
+        </record>
+        <record id="nt7" model="x.ncr.type">
+            <field name="name">Customer Surveillance</field>
+        </record>
+    </data>
+</odoo>
