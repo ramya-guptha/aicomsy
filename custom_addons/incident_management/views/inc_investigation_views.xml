@@ -23,7 +23,7 @@
             <form name="Investigation Details">
                 <header>
                     <button name="start_investigation" type="object" string="Start Investigation" states="assigned"
-                            class="btn-primary"/>
+                            class="btn-primary" groups="aicomsy_base.access_hse_manager"/>
                     <field name="state" widget="statusbar" statusbar_visible="assigned,in_progress,closed"/>
                 </header>
                 <sheet>
@@ -31,7 +31,7 @@
                         <field name="name"/>
                     </h1>
                     <group>
-                        <field name="incident_id" default="context.get('default_incident_id', False)"/>
+                        <field name="incident_id" default="context.get('default_incident_id', False)" domain="[('id', '=', context.get('default_incident_id', False))]" />
                         <field name="description"/>
                         <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')]}" options="{'no_create': True, 'no_create_edit': True}"/>
                     </group>

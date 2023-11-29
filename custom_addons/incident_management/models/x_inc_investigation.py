@@ -360,6 +360,9 @@ class CorrectiveAction(models.Model):
 
         }
 
+    def send_zonal_review_action(self):
+        self._notify_assigner_send_email()
+
     def resend_review_action(self):
         existing_record = self.env['x.inc.inv.action.review'].search([
             ('investigation_id', '=', self.investigation_id.id),
@@ -375,6 +378,10 @@ class CorrectiveAction(models.Model):
                 'res_id': existing_record.id,
                 'target': 'new',
             }
+
+    def _notify_assigner_send_email(self):
+        mail_template = self.env.ref('incident_management.email_template_corrective_action_notify_assigner')
+        mail_template.send_mail(self.id, force_send=True)
 
 
 class ActionType(models.Model):

@@ -4,7 +4,7 @@
 {
     'name': 'Incident Management',
     'depends': [
-        'base', 'hr', 'maintenance',
+        'base', 'aicomsy_base', 'hr', 'maintenance',
     ],
     'data': [
         'security/ir.model.access.csv',

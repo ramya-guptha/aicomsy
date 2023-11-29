@@ -23,7 +23,8 @@
         <field name="arch" type="xml">
             <form name="Incident Details">
                 <header>
-                    <button name="assign_team" type="object" string="Assign Team" states="new" class="btn-primary" confirm="Are you sure to go ahead with Investigation Team Assignment? "/>
+                    <button name="assign_team" type="object" string="Assign Team" states="new" class="btn-primary"
+                            confirm="Are you sure to go ahead with Investigation Team Assignment? " groups="aicomsy_base.access_zonal_manager"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="new,investigation_assigned,investigation_in_progress,action_review,closed"/>
                 </header>
