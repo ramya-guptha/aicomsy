@@ -3,12 +3,16 @@
     <record id="aicomsy_category" model="ir.module.category">
         <field name="name">Aicomsy</field>
     </record>
-     <record id="aicomsy_base.access_user" model="res.groups">
+    <record id="aicomsy_base.access_user" model="res.groups">
         <field name="name">User</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
+    <record id="aicomsy_base.access_investigation_team" model="res.groups">
+        <field name="name">Investigation Team</field>
+        <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
+    </record>
     <record id="aicomsy_base.access_hse_manager" model="res.groups">
-        <field name="name">Manager</field>
+        <field name="name">HSE Manager</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
     <record id="aicomsy_base.access_zonal_manager" model="res.groups">
@@ -16,11 +20,11 @@
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
     <record id="aicomsy_base.access_management_team" model="res.groups">
-        <field name="name">High Level Management</field>
+        <field name="name">Management Team</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
     <record id="aicomsy_base.access_administrator" model="res.groups">
-        <field name="name">Admin</field>
+        <field name="name">Administrator</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
 
