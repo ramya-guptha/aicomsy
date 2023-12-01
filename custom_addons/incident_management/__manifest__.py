@@ -3,6 +3,7 @@
 
 {
     'name': 'Incident Management',
+    'category': 'Aicomsy/Aicomsy',
     'depends': [
         'base', 'aicomsy_base', 'hr', 'maintenance',
     ],

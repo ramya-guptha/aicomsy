@@ -15,7 +15,6 @@ class ActionReview(models.Model):
 
     @api.model
     def create(self, vals_list):
-
         corrective_action_id = self.env.context.get('default_corrective_action_id')
 
         action_review = super().create(vals_list)
@@ -25,6 +24,13 @@ class ActionReview(models.Model):
             corrective_action.write({'state': 'completed'})
             self.action_completion_send_email()
         return action_review
+
+    def write(self, vals):
+        result = super(ActionReview,self).write(vals)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        } if result else {}
 
     # --------------------------------------- Fields Declaration ----------------------------------
 

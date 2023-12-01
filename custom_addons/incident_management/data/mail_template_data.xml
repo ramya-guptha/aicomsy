@@ -52,6 +52,144 @@
                 </div>
             </field>
         </record>
+        <record id="email_template_incident_severity" model="mail.template">
+            <field name="name">Incident Closure With Severity</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_investigation"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team]) }},{{object.incident_id.location.location_manager.work_email}},{{object.incident_id.location.location_alternate_1.work_email}},{{object.incident_id.location.location_alternate_2.work_email}}
+            </field>
+            <field name="subject"> Incident {{object.incident_id.name}} - Closed with Severity {{object.severity.name}} </field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>Incident
+                                <t t-out="object.incident_id.name"/>
+                                with the following details has been closed with severity <t t-out="object.severity.name"/>:
+                                <ul>
+                                    <li>
+                                        <strong>Description</strong>
+                                        <t t-out="object.incident_id.description"/>
+                                    </li>
+                                    <li>
+                                        <strong>Date &amp; Time</strong>
+                                        <t t-out="object.incident_id.inc_date_time"/>
+                                    </li>
+                                    <li>
+                                        <strong>Type of Incident</strong>
+                                        <t t-foreach="object.incident_id.type" t-as="type_id">
+                                            <t t-out="type_id.name"/>
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Location</strong>
+                                        <t t-out="object.incident_id.location.name"/>
+                                    </li>
+
+                                </ul>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_investigation" model="mail.template">
+            <field name="name">Investigation - Assigned</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_investigation"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team]) }}
+            </field>
+            <field name="subject">Investigation ({{object.name}} ) for Incident {{object.incident_id.name}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.name"/>
+                                for incident
+                                <t t-out="object.incident_id.name"/>
+                                with the following details has been created:
+                                <ul>
+                                    <li>
+                                        <strong>Description</strong>
+                                        <t t-out="object.incident_id.description"/>
+                                    </li>
+                                    <li>
+                                        <strong>Date &amp; Time</strong>
+                                        <t t-out="object.incident_id.inc_date_time"/>
+                                    </li>
+                                    <li>
+                                        <strong>Type of Incident</strong>
+                                        <t t-foreach="object.incident_id.type" t-as="type_id">
+                                            <t t-out="type_id.name"/>
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Location</strong>
+                                        <t t-out="object.incident_id.location.name"/>
+                                    </li>
+
+                                </ul>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_root_cause" model="mail.template">
+            <field name="name">Investigation - Root Cause Assigned</field>
+            <field name="model_id"
+                   ref="incident_management.model_x_inc_root_causes"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.investigation_id.incident_id.location.location_manager.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.work_email}}
+            </field>
+            <field name="subject">Assigned - Root Cause for {{object.investigation_id.name}} - {{object.primary_root_cause_id.name}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An Investigation
+                                <t t-out="object.investigation_id.name"/>
+                                for incident
+                                <t t-out="object.investigation_id.incident_id.name"/>
+                                with the following details has been created:
+                                <ul>
+                                    <li>
+                                        <strong>Primary Root Cause</strong>
+                                        <t t-out="object.primary_root_cause_id.name"/>
+                                    </li>
+                                    <li>
+                                        <strong>Secondary Root Cause</strong>
+                                        <t t-foreach="object.secondary_root_cause_ids" t-as="secondary_rc_id">
+                                            <t t-out="secondary_rc_id.name"/> <!-- Assuming 'name' is a field in the related model -->
+                                        </t>
+                                    </li>
+                                    <li>
+                                        <strong>Comments</strong>
+                                        <t t-out="object.comments"/>
+                                    </li>
+
+                                </ul>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
         <record id="email_template_corrective_action" model="mail.template">
             <field name="name">Investigation - Corrective Action</field>
             <field name="model_id"

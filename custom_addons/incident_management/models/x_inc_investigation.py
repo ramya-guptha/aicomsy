@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class IncInvestigation(models.Model):
@@ -21,7 +22,17 @@ class IncInvestigation(models.Model):
         if incident_id:
             incident = self.env['x.incident.record'].browse(incident_id)
             incident.write({'state': 'investigation_assigned'})
+        investigation.action_send_investigation_email()
         return investigation
+
+    def write(self, vals):
+        result = super(IncInvestigation,self).write(vals)
+        print(">>vals",vals)
+        if 'severity' in vals:
+            self._email_on_severity_change()
+
+        return result
+
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -90,6 +101,14 @@ class IncInvestigation(models.Model):
     @api.onchange('severity')
     def _update_inc_severity_classification(self):
         self.incident_id.severity = self.severity
+
+    def _email_on_severity_change(self):
+        mail_template = self.env.ref('incident_management.email_template_incident_severity')
+        mail_template.send_mail(self.id, force_send=True)
+
+    def action_send_investigation_email(self):
+        mail_template = self.env.ref('incident_management.email_template_investigation')
+        mail_template.send_mail(self.id, force_send=True)
 
 
 class InvestigationTeam(models.Model):
@@ -218,6 +237,13 @@ class IncidentRootCauses(models.Model):
          'Primary Root Cause needs to be unique'),
     ]
 
+    @api.model
+    def create(self, vals_list):
+        root_cause = super().create(vals_list)
+        # Call the email method
+        root_cause.action_send_root_cause_email()
+        return root_cause
+
     # --------------------------------------- Fields Declaration ----------------------------------
 
     investigation_id = fields.Many2one("x.inc.investigation")
@@ -259,6 +285,10 @@ class IncidentRootCauses(models.Model):
                     'default_state': 'new'
                 },
             }
+
+    def action_send_root_cause_email(self):
+        mail_template = self.env.ref('incident_management.email_template_root_cause')
+        mail_template.send_mail(self.id, force_send=True)
 
 
 class IncidentPrimaryRootCauses(models.Model):
@@ -360,8 +390,39 @@ class CorrectiveAction(models.Model):
 
         }
 
+    def review_action_tree(self):
+        for record in self:
+            # Check if all required fields are set
+            if not record.action_type or not record.hierarchy_of_control or not record.target_date or not record.proposed_action:
+                raise ValidationError("Please fill in all required fields by clicking on the record before proceeding.")
+
+        return {
+            'name': 'Action Review & Closure',
+            'res_model': 'x.inc.inv.action.review',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_id': self.env.ref('incident_management.action_review_form_view').id,
+            'target': 'new',
+            'context': {
+                'default_investigation_id': self.investigation_id.id,
+                'default_corrective_action_id': self.id,
+                'default_reviewer': self.investigation_id.hse_officer.id
+            },
+
+        }
+
     def send_zonal_review_action(self):
         self._notify_assigner_send_email()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'type': 'success',
+                'message': 'Notification has been sent to Zonal Officer for further action',
+                'next': {'type': 'ir.actions.client',
+                         'tag': 'soft_reload', },
+            }
+        }
 
     def resend_review_action(self):
         existing_record = self.env['x.inc.inv.action.review'].search([

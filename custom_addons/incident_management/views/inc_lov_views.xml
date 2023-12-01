@@ -25,7 +25,7 @@
         <field name="arch" type="xml">
             <tree string="Severity Classification">
                 <field name="name"/>
-                <field name="notification" widget="many2many_tags"/>
+                <field name="notification_ids" widget="many2many_tags"/>
             </tree>
         </field>
     </record>

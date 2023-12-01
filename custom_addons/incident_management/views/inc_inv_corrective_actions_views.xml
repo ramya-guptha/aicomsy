@@ -7,11 +7,11 @@
                 <header>
                     <button name="start_action" type="object" string="Start" states="new" class="btn-primary"/>
                     <button name="review_action" type="object" string="Send for Review" states="in_progress"
-                            class="btn-primary" groups="aicomsy_base.access_zonal_manager"/>
+                            class="btn-primary" groups="aicomsy_base.access_zonal_manager" confirm="Are you sure to go ahead with Action Review? " />
                     <button name="send_zonal_review_action" type="object" string="Notify Assigner" states="in_progress"
-                            class="btn-primary" groups="aicomsy_base.access_zonal_manager"/>
+                            class="btn-primary" groups="aicomsy_base.access_user" confirm="Are you sure to send the details to the Assigner? " />
                     <button name="resend_review_action" type="object" string="Resend for Review" states="returned"
-                            class="btn-primary" groups="aicomsy_base.access_zonal_manager"/>
+                            class="btn-primary" groups="aicomsy_base.access_zonal_manager" confirm="Are you sure to resubmit the Corrective Action for Action Review? " />
                     <field name="state" widget="statusbar" statusbar_visible="new,in_progress,completed"/>
                 </header>
                 <sheet>
@@ -59,7 +59,8 @@
                 <field name="remarks" optional="1"/>
                 <field name="attachment_ids" widget="many2many_binary" optional="1"/>
                 <field name="state"/>
-                <button name="review_action" type="object" string="Review" class="btn-primary" states="in_progress"/>
+                <button name="review_action_tree" type="object" string="Review" class="btn-primary" states="in_progress, returned"
+                        groups="aicomsy_base.access_zonal_manager" confirm="Are you sure to go ahead with Action Review?" />
             </tree>
         </field>
     </record>

@@ -125,7 +125,7 @@ class IncSeverity(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     name = fields.Char(string="Severity Classification")
-    notification = fields.One2many('x.inc.notification', 'severity', string='Notification Team')
+    notification_ids = fields.One2many('x.inc.notification', 'severity', string='Notification Team')
 
 
 class NotificationTeam(models.Model):
@@ -135,6 +135,6 @@ class NotificationTeam(models.Model):
     _description = 'Notification Team'
 
     # --------------------------------------- Fields Declaration ----------------------------------
-    name = fields.Char(string='Employee Name', related='officer.name', readonly=True)
+    name = fields.Char(string='Employee Name', related='officer_id.name', readonly=True)
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=True)
-    officer = fields.Many2one('hr.employee', string="Officer", required=True)
+    officer_id = fields.Many2one('hr.employee', string="Officer", required=True)

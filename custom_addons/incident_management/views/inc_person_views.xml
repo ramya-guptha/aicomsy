@@ -36,7 +36,7 @@
                 <sheet>
                     <group col="2">
                         <group>
-                            <field name="person_category" widget="selection"/>
+                            <field name="person_category"/>
                             <field name="employee"
                                    attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))], 'required': [('selected_category', 'in', ('Employee','Contractor'))]}"/>
                             <field name="visitor_name"
@@ -66,8 +66,8 @@
                                    attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
                             <field name="person_days_off"
                                    attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
-                            <field name="oh_incident_classification" widget="selection"/>
-                            <field name="oh_severity_consequence" widget="selection"/>
+                            <field name="oh_incident_classification"/>
+                            <field name="oh_severity_consequence"/>
                             <field name="selected_category" invisible="1"/>
                             <field name="person_name" invisible="1"/>
                         </group>
