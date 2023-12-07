@@ -2,10 +2,11 @@
 {
     'name': 'Aicomsy Base',
     'depends': [
-        'base',
+        'base','hr',
     ],
     'data': [
         'security/security.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'license': 'LGPL-3',

@@ -27,7 +27,6 @@ class IncInvestigation(models.Model):
 
     def write(self, vals):
         result = super(IncInvestigation,self).write(vals)
-        print(">>vals",vals)
         if 'severity' in vals:
             self._email_on_severity_change()
 
