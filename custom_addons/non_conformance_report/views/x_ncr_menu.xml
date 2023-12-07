@@ -3,5 +3,8 @@
         <menuitem id="non_conformance" name="Report">
             <menuitem id="x_ncr_report_menu_action" action="x_ncr_report_action" sequence="1"/>
         </menuitem>
+        <menuitem id="ncr_response" name="NCR Response Page">
+            <menuitem id="x_ncr_response_menu_action" action="x_ncr_response_action"/>
+        </menuitem>
     </menuitem>
 </odoo>

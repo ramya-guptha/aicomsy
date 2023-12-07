@@ -1,0 +1,110 @@
+<odoo>
+
+    <record id="x_ncr_response_action" model="ir.actions.act_window">
+        <field name="name">NCR Responses</field>
+        <field name="res_model">x.ncr.response</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="x_ncr_response_view_tree" model="ir.ui.view">
+        <field name="name">x.ncr.response.tree</field>
+        <field name="model">x.ncr.response</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ncr_id"/>
+                <field name="ncr_type_id"/>
+                <field name="project_number"/>
+                <field name="project_name_title"/>
+                <field name="supplier_response"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="x_ncr_response_view_form" model="ir.ui.view">
+        <field name="name">x.ncr.response.form</field>
+        <field name="model">x.ncr.response</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="new,closed"/>
+                </header>
+                <sheet>
+                    <h>
+                        <field name="name"/>
+                    </h>
+                    <group string="Part-2">
+
+                        <field name="ncr_id"/>
+                        <field name="ncr_type_id"/>
+                        <field name="project_number"/>
+                        <field name="project_name_title"/>
+                    </group>
+
+                    <group col="3">
+                        <group>
+                            <field name="supplier_response"/>
+                            <field name="prepared_by_signature_date"/>
+                            <field name="prepared_by_title"/>
+                        </group>
+                        <group>
+                            <field name="prepared_by"/>
+                        </group>
+                        <field name="ncr_nc_ids" editable="bottom">
+                            <tree>
+                                <field name="nc_s"/>
+                                <field name="source_of_nc"/>
+                                <field name="cause_of_nc_id"/>
+                                <field name="disposition_type_id"/>
+                                <field name="immediate_action"/>
+                                <field name="proposed_due_date"/>
+                                <field name="response_attachment_ids"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <field name="reviewed_and_approved_by"/>
+                            <field name="reviewed_by_signature_date"/>
+                            <field name="reviewed_by_title"/>
+                            <button string="Save and Submit" colspan='2'
+                                    attrs="{'invisible': [('state', 'not in', ['new'])]}" type="object"
+                                    name="save_and_submit"
+                                    class="oe_highlight" widget="button"/>
+
+                        </group>
+                    </group>
+                    <group string="Part-3"  attrs="{'invisible': [('state', 'not in', ['closed'])]}">
+                        <field name="ncr_nc_ids">
+                            <tree>
+                                <field name="nc_s"/>
+                                <field name="disposition_type_id"/>
+                                <field name="disposition_action"/>
+                                <field name="review_comments"/>
+                                <field name="ca_response_id"/>
+                            </tree>
+                        </field>
+
+
+                        <group col="2" attrs="{'invisible': [('state', 'not in', ['closed'])]}">
+                            <field name="total_cost_for_rework"/>
+                            <field name="rca_approver_id"/>
+                            <field name="ncr_completion_status"/>
+                            <button string="Approve and Forward" colspan='2'
+                                    attrs="{'invisible': [('state', 'not in', ['new','closed'])]}" type="object"
+                                    name="approve_and_forward"
+                                    class="oe_highlight"/>
+                        </group>
+
+                        <group attrs="{'invisible': [('state', 'not in', ['closed'])]}">
+                            <field name="total_backcharge_amount"/>
+                            <field name="title"/>
+                            <field name="ncr_closed_date"/>
+                            <button string="RCA REJECTED" colspan='2'
+                                    attrs="{'invisible': [('state', 'not in', ['new','closed'])]}" type="object"
+                                    name="action_rca_rejected" class="oe_highlight"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
