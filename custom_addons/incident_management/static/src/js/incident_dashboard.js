@@ -5,6 +5,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
     var QWeb = core.qweb;
     var ajax = require('web.ajax');
     var rpc = require('web.rpc');
+    var session = require('web.session');
     var _t = core._t;
     var web_client = require('web.web_client');
     var IncidentDashboard = AbstractAction.extend({
@@ -14,6 +15,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             'change #start_date': '_onchangeFilter',
             'change #end_date': '_onchangeFilter',
             'change #locations_selection': '_onchangeFilter',
+            'change #incidents_selection': '_onchangeFilter',
         },
         init: function(parent, context) {
             this._super(parent, context);
@@ -72,11 +74,15 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                 end_date = "null"
             }
             var locations_selection = $('#locations_selection').val();
+            var incidents_selection = $('#incidents_selection').val();
+
             ajax.rpc('/incident/filter-apply', {
                 'data': {
                     'start_date': start_date,
                     'end_date': end_date,
                     'location': locations_selection,
+                    'incidents': incidents_selection,
+                    'uid': session.uid
                 }
             }).then(function(data) {
                 self.total_incidents_ids = data['total_incidents_ids']
@@ -108,7 +114,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
-            var incident_type = $('#incident_selection').val();
+            var incident_type = $('#incidents_selection').val();
 
             rpc.query({
                 model: "x.inc.report.normal.days",
@@ -599,6 +605,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                 self.$('.o_pj_dashboard').empty();
                 self.render_dashboards();
                 self.render_graphs();
+                self.render_filter();
             });
         },
         /**

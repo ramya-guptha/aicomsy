@@ -29,6 +29,7 @@
                  <p>
                     <select class="inner_select" id="incidents_selection">
                         <option value="null">All Incidents</option>
+                        <option value="my">My Incidents</option>
                     </select>
                 </p>
             </div>

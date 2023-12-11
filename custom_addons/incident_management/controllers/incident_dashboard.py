@@ -44,7 +44,8 @@ class IncidentFilter(http.Controller):
         """
         data = kw['data']
         # checking the employee selected or not
-
+        employee_id = request.env['hr.employee'].search(
+            [('user_id', '=', data['uid'])]).id
         if data['location'] == 'null':
             loc_selected = [location.id for location in
                             request.env['x.location'].search([])]
@@ -52,16 +53,14 @@ class IncidentFilter(http.Controller):
             loc_selected = [int(data['location'])]
         start_date = data['start_date']
         end_date = data['end_date']
+        incidents = data['incidents']
+        uid = data['uid']
         incidents_in_location = request.env['x.incident.record'].search(
                 [
                     ('location', 'in', loc_selected),
                     ]
         )
-        incidents_in_location_ids = [incident.id for incident in request.env['x.incident.record'].search(
-                [
-                    ('location', 'in', loc_selected),
-                    ]
-        )]
+        incidents_in_location_ids = [incident.id for incident in incidents_in_location]
 
         if(start_date != 'null' and end_date != 'null'):
             incidents_in_location = request.env['x.incident.record'].search(
@@ -91,6 +90,16 @@ class IncidentFilter(http.Controller):
                 [
                     ('location', 'in', loc_selected),
                     ('inc_date_time', '<=', end_date),
+                ]
+            )
+            incidents_in_location_ids = [incident.id for incident in incidents_in_location]
+
+        if incidents != 'null':
+            incidents_in_location = request.env['x.incident.record'].search(
+                [
+                    '|',
+                    ('notified_by', '=', employee_id),
+                    ('create_uid', '=', uid),
                 ]
             )
             incidents_in_location_ids = [incident.id for incident in incidents_in_location]
