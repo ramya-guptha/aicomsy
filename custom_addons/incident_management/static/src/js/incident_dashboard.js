@@ -175,7 +175,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
-            var incident_type = $('#incident_selection').val();
+            var incident_type = $('#incidents_selection').val();
             rpc.query({
                 model: "x.inc.report.normal.days",
                 method: 'get_incident_status',
@@ -260,7 +260,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
-            var incident_type = $('#incident_selection').val();
+            var incident_type = $('#incidents_selection').val();
             rpc.query({
                 model: "x.inc.report.normal.days",
                 method: 'get_incident_frequency_rate',
@@ -322,7 +322,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
-            var incident_type = $('#incident_selection').val();
+            var incident_type = $('#incidents_selection').val();
              rpc.query({
                         model: "x.inc.report.normal.days",
                         method: 'get_severity_classification',
@@ -480,7 +480,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
-            var incident_type = $('#incident_selection').val();
+            var incident_type = $('#incidents_selection').val();
             rpc.query({
                 model: "x.inc.report.cost.impact",
                 method: 'get_cost_impact',
@@ -544,7 +544,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
-            var incident_type = $('#incident_selection').val();
+            var incident_type = $('#incidents_selection').val();
             rpc.query({
                 model: "x.inc.report.severity.rate",
                 method: 'get_severity_rate',
