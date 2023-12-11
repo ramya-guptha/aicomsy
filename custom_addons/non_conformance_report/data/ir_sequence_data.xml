@@ -7,5 +7,12 @@
             <field name="padding">4</field>
             <field name="number_increment">1</field>
         </record>
+        <record id="ir_sequence_ncr_response" model="ir.sequence">
+            <field name="name">NC Response</field>
+            <field name="code">x.ncr.response</field>
+            <field name="prefix">RES</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
     </data>
 </odoo>
