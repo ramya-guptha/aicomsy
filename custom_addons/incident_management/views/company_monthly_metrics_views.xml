@@ -28,8 +28,8 @@
                     <group>
                     <field name="year" invisible="1"/>
                     <field name="month" invisible="1"/>
-                    <field name="month_selection"/>
-                    <field name="year_selection"/>
+                    <field name="month_selection" required="True"/>
+                    <field name="year_selection" required="True"/>
 
                 </group>
                 <group>
