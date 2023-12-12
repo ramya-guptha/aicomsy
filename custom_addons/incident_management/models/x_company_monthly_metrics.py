@@ -35,7 +35,7 @@ class MonthlyMetrics(models.Model):
 
     working_days = fields.Integer(string='Working Days')
     hour_worked = fields.Float(string='Hours Worked')
-    total_sales = fields.Integer(string='Total Sales')
+    total_sales = fields.Float(string='Total Sales')
 
     @api.depends('month_selection', 'year_selection')
     def _compute_name(self):
