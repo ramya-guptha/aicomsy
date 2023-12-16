@@ -59,7 +59,7 @@
                             <field name="source_of_nc"/>
                             <field name="nc_description"/>
                             <field name="uom"/>
-                            <field name="quantity" options='{"details_button": true}'/>
+                            <field name="quantity"/>
                             <button string="Add Details" type="object" class="oe_highlight" icon="fa-plus"
                                     name="nc_part_details_popup"/>
                             <field name="attachment_ids" string="Attachments" widget="many2many_binary"

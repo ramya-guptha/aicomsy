@@ -32,7 +32,7 @@ class NcrReport(models.Model):
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
     ncr_open_date = fields.Date(string='NCR Open Date')
     ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id')
-    approver_job_title = fields.Char(string="Job Title", compute='_compute_approver_job_title', store=True)
+    approver_job_title = fields.Char(related='ncr_approver_id.parent_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
@@ -57,14 +57,6 @@ class NcrReport(models.Model):
     def _compute_ncr_type_check(self):
         for record in self:
             record.ncr_type_check = record.ncr_type_id.name in ['Supplier', 'Customer Site Compliant']
-
-    @api.depends('ncr_approver_id.parent_id.job_id.name')
-    def _compute_approver_job_title(self):
-        for record in self:
-            if record.ncr_approver_id and record.ncr_approver_id.parent_id:
-                record.approver_job_title = record.ncr_approver_id.parent_id.job_id.name
-            else:
-                record.approver_job_title = False
 
     def save_and_forward(self):
         # Your logic for save_and_forward
