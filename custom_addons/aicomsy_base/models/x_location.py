@@ -58,7 +58,7 @@ class Location(models.Model):
         'res.company', 'Company',
         default=lambda self: self.env.company, index=True,
         help='Let this field empty if this location is shared between companies')
-
+    location_incharge = fields.Many2one('hr.employee', string="Location Incharge")
     location_manager = fields.Many2one('hr.employee', string="Location Manager")
     location_alternate_1 = fields.Many2one('hr.employee', string="Alternative Location Manager 1")
     location_alternate_2 = fields.Many2one('hr.employee', string="Alternative Location Manager 2")

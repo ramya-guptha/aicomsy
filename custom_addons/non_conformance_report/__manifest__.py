@@ -2,7 +2,7 @@
     'name': 'Non conformance Report',
 
     'depends': [
-        'base', 'aicomsy_base','hr',
+        'base', 'aicomsy_base', 'hr', 'account',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -16,6 +16,7 @@
         'data/x_ncr_discipline_data.xml',
         'data/x_ncr_source_data.xml',
         'data/x_ncr_category_data.xml',
+        'data/mail_template_data.xml',
     ],
 
     'installable': True,

@@ -1,0 +1,31 @@
+<odoo>
+    <data noupdate="1">
+        <record id="dt1" model="x.ncr.disposition.type">
+            <field name="name">Backloading For Rework</field>
+        </record>
+        <record id="dt2" model="x.ncr.disposition.type">
+            <field name="name">Rework</field>
+        </record>
+        <record id="dt3" model="x.ncr.disposition.type">
+            <field name="name">Return to Supplier</field>
+        </record>
+        <record id="dt4" model="x.ncr.disposition.type">
+            <field name="name">Accept Backcharges</field>
+        </record>
+        <record id="dt5" model="x.ncr.disposition.type">
+            <field name="name">Re-Supply</field>
+        </record>
+        <record id="dt6" model="x.ncr.disposition.type">
+            <field name="name">Replacement</field>
+        </record>
+        <record id="dt7" model="x.ncr.disposition.type">
+            <field name="name">Use as is</field>
+        </record>
+        <record id="dt8" model="x.ncr.disposition.type">
+            <field name="name">Engineer's Concession</field>
+        </record>
+        <record id="dt9" model="x.ncr.disposition.type">
+            <field name="name">Modification method for approval</field>
+        </record>
+    </data>
+</odoo>

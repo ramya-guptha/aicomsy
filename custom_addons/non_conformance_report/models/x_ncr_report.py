@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 
 
+
 # Define the NcrReport class
 class NcrReport(models.Model):
     _name = 'x.ncr.report'
@@ -18,7 +19,7 @@ class NcrReport(models.Model):
     name = fields.Char(string="NCR Reference", default='New', readonly=True)
     ncr_type_id = fields.Many2one('x.ncr.type', string='NCR Type')
     discipline_id = fields.Many2one('x.ncr.discipline', string='Discipline')
-    supplier_name_id = fields.Many2one('res.partner', domain=[('supplier_rank','>',0)], string='Supplier Name')
+    supplier_name_id = fields.Many2one('res.partner', domain=[('supplier_rank', '>', 0)], string='Supplier Name')
     purchase_order_no = fields.Char(string='Purchase Order No.')
     project_number = fields.Char(string='Project Number')
     project_name_title = fields.Char(string='Project Name / Title')
@@ -30,19 +31,25 @@ class NcrReport(models.Model):
     ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name')
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
     ncr_open_date = fields.Date(string='NCR Open Date')
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name')
-    approver_job_title = fields.Char(related='ncr_approver_id.job_id.name', string="Job Title")
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id')
+    approver_job_title = fields.Char(related='ncr_approver_id.parent_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
-
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC')
 
     # State field for the NcrReport
     state = fields.Selection(
-        selection=[("new", "New"),
-                   ("closed", "Closed")],
-        default="new",  # Set a default value for the state field
+        selection=[
+            ('new', 'New'),
+            ('approval_pending', 'Approval Pending'),
+            ('assigned_to_vendor', 'Assigned to Vendor'),
+            ('received_vendor_response', 'Received Vendor Response'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ('return_for_further_actions', 'Return for Further Actions'),
+        ]
+        # Set a default value for the state field
     )
 
     # Compute method to set the value of ncr_list based on the ncr_type
@@ -58,6 +65,30 @@ class NcrReport(models.Model):
     # Your logic for Approve and Submit
 
     def approve_and_submit(self):
+        mail_template = self.env.ref('non_conformance_report.email_template_ncr')
+        mail_template.send_mail(self.id, force_send=True)
+        self.write({'state': 'approved'})
+
+    def add_supplier(self):
+        return {
+            'name': 'Add Supplier',
+            'type': 'ir.actions.act_window',
+            'res_model': 'res.partner',
+            'view_mode': 'form',
+            'view_id': self.env.ref('non_conformance_report.res_partner_action_supplier').id,
+            # Replace with the actual view ID
+            'target': 'new',  # 'new' will open it in a popup
+            'views': [(False, 'form')],
+            'context': {
+                'search_default_supplier': 1,
+                'res_partner_search_mode': 'supplier',
+                'default_is_company': True,
+                'default_supplier_rank': 1
+            }
+
+        }
+
+    def assign_incharger(self):
         return {
             'name': 'NCR response',
             'res_model': 'x.ncr.response',
@@ -68,24 +99,6 @@ class NcrReport(models.Model):
                 'default_ncr_id': self.id,
                 'default_ncr_nc_ids': self.ncr_nc_ids.ids
             }
-        }
-
-    def add_supplier(self):
-        return {
-            'name': 'Add Supplier',
-            'type': 'ir.actions.act_window',
-            'res_model': 'res.partner',
-            'view_mode': 'form',
-            'view_id': self.env.ref('non_conformance_report.res_partner_action_supplier').id,  # Replace with the actual view ID
-            'target': 'new',  # 'new' will open it in a popup
-            'views': [(False, 'form')],
-            'context': {
-                'search_default_supplier': 1,
-                'res_partner_search_mode': 'supplier',
-                'default_is_company': True,
-                'default_supplier_rank': 1
-            }
-
         }
 
 
