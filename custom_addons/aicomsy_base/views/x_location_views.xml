@@ -1,0 +1,41 @@
+<odoo>
+
+    <record id="location_tree_view" model="ir.ui.view">
+        <field name="name">Location of Incident</field>
+        <field name="model">x.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location of Incident">
+                <field name="complete_name"/>
+                <field name="active"/>
+                <field name="company_id"/>
+                <field name="location_manager"/>
+            </tree>
+        </field>
+    </record>
+    <record id="location_action" model="ir.actions.act_window">
+        <field name="name">Location of Incident</field>
+        <field name="res_model">x.location</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="location_view_form" model="ir.ui.view">
+        <field name="name">x.location.form</field>
+        <field name="model">x.location</field>
+        <field name="arch" type="xml">
+            <form name="Location Details">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="usage"/>
+                        <field name="location_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="company_id"/>
+                        <field name="location_incharge" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="location_manager" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="location_alternate_1" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="location_alternate_2" options="{'no_create': True, 'no_create_edit':True}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

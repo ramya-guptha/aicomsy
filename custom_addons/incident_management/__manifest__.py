@@ -36,7 +36,6 @@
         'data/x_inc_spill_immediate_response_data.xml',
         'data/incident_shift_data.xml',
         'data/x_inc_hierarchy_control_data.xml',
-        'data/x_inc_location_data.xml',
         'data/x_inc_oh_classification_data.xml',
         'data/x_inc_unit_data.xml',
         'data/x_inc_action_type_data.xml',

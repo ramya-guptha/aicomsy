@@ -2,11 +2,13 @@
 {
     'name': 'Aicomsy Base',
     'depends': [
-        'base','hr',
+        'base', 'hr',
     ],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/x_location_views.xml',
+        'data/x_location_data.xml',
     ],
     'assets': {
         'web.assets_backend': [

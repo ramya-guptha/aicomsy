@@ -1,0 +1,19 @@
+<odoo>
+    <data noupdate="1">
+        <record id="cna1" model="x.ncr.cause.na">
+            <field name="name">Procedure Deficiency</field>
+        </record>
+        <record id="cna2" model="x.ncr.cause.na">
+            <field name="name">Lack Of Resources</field>
+        </record>
+        <record id="cna3" model="x.ncr.cause.na">
+            <field name="name">Inspection Negligence</field>
+        </record>
+        <record id="cna4" model="x.ncr.cause.na">
+            <field name="name">Lack Of Training</field>
+        </record>
+        <record id="cna5" model="x.ncr.cause.na">
+            <field name="name">Miscommunication</field>
+        </record>
+    </data>
+</odoo>

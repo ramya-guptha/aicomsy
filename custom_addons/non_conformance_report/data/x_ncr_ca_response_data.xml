@@ -1,0 +1,16 @@
+<odoo>
+    <data noupdate="1">
+        <record id="rca1" model="x.ncr.ca.response">
+            <field name="name">CODE-1</field>
+        </record>
+        <record id="rca2" model="x.ncr.ca.response">
+            <field name="name">CODE-2</field>
+        </record>
+        <record id="rca3" model="x.ncr.ca.response">
+            <field name="name">CODE-3</field>
+        </record>
+        <record id="rca4" model="x.ncr.ca.response">
+            <field name="name">CODE-4</field>
+        </record>
+    </data>
+</odoo>
