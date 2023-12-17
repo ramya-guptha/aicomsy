@@ -50,11 +50,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'incident_management/static/src/scss/custom_style.scss',
-            'incident_management/static/src/css/dashboard.css',
-            'incident_management/static/src/js/incident_dashboard.js',
             'incident_management/static/src/xml/incident_dashboard.xml',
-            'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js'
+            'incident_management/static/src/js/incident_dashboard.js',
         ],
     },
     'installable': True,
