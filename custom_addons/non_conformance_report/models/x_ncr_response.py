@@ -32,7 +32,6 @@ class NcrResponse(models.Model):
     reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.job_id.name', string='Title')
     total_cost_for_rework = fields.Float(string='Total Cost for Rework')
     rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name')
-
     ncr_completion_status = fields.Char(string='NCR Completion Status')
     total_backcharge_amount = fields.Float(string='Total Backcharge Amount')
     title = fields.Char(related='rca_approver_id.job_id.name', string='Title')
@@ -41,6 +40,7 @@ class NcrResponse(models.Model):
 
     state = fields.Selection(
         selection=[("new", "New"),
+                   ("review_in_progress", "Review in Progress"),
                    ("closed", "Closed")
                    ],
         default="new",  # Set a default value for the state field
@@ -48,8 +48,34 @@ class NcrResponse(models.Model):
 
     def save_and_submit(self):
         # Your logic for save_and_submit
-        self.write({'state': 'closed'})
-        return True
+        self.write({'state': 'review_in_progress'})
+        self.email_report()
+
+    def email_report(self):
+        self.ensure_one()
+        mail_template = self.env.ref('non_conformance_report.email_template_ncr_response', raise_if_not_found=False)
+
+        ctx = {
+            'default_model': 'x.ncr.response',
+            'default_res_id': self.id,
+            'default_use_template': bool(mail_template),
+            'default_template_id': mail_template.id if mail_template else None,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'default_email_layout_xmlid': 'mail.mail_notification_layout_with_responsible_signature',
+            'force_email': True,
+            'model_description': self.with_context().name,
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
+
 
     def approve_and_forward(self):
         # Your logic for approve_and_forward
@@ -66,7 +92,3 @@ class NcrResponse(models.Model):
                 raise ValidationError("Signature With Date should be at most 30 characters.")
             if record.reviewed_by_signature_date and len(record.reviewed_by_signature_date) > 30:
                 raise ValidationError("Signature With Date should be at most 30 characters.")
-            if record.prepared_by_title and len(record.prepared_by_title) > 30:
-                raise ValidationError("Title should be at most 30 characters.")
-            if record.reviewed_by_title and len(record.reviewed_by_title) > 30:
-                raise ValidationError("Title (2) should be at most 30 characters.")

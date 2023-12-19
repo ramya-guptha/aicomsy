@@ -11,9 +11,9 @@
             <tree>
                 <field name="ncr_id"/>
                 <field name="ncr_type_id"/>
-                <field name="project_number"/>
                 <field name="project_name_title"/>
-                <field name="supplier_response"/>
+                <field name="project_number"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -23,6 +23,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="email_report" string="Send by Email" type="object" class="btn-primary"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,closed"/>
                 </header>
                 <sheet>
