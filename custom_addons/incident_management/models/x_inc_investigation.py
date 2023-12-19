@@ -109,6 +109,12 @@ class IncInvestigation(models.Model):
         mail_template = self.env.ref('incident_management.email_template_investigation')
         mail_template.send_mail(self.id, force_send=True)
 
+    @api.constrains('investigation_team')
+    def _check_investigation_team(self):
+        for record in self:
+            if not record.investigation_team:
+                raise ValidationError('At least one member is required in Investigation Team')
+
 
 class InvestigationTeam(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------

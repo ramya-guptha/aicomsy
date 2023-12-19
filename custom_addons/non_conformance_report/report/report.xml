@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_ncr" model="ir.actions.report">
+        <field name="name">NCR Report</field>
+        <field name="model">x.ncr.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">non_conformance_report.report_ncr_report</field>
+        <field name="report_file">non_conformance_report.report_ncr_report</field>
+        <field name="binding_model_id" ref="model_x_ncr_report"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="report_ncr_resp" model="ir.actions.report">
+        <field name="name">NCR Response</field>
+        <field name="model">x.ncr.response</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">non_conformance_report.report_ncr_response_report</field>
+        <field name="report_file">non_conformance_report.report_ncr_response_report</field>
+        <field name="binding_model_id" ref="model_x_ncr_response"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

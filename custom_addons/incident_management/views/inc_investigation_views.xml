@@ -38,13 +38,13 @@
                     <notebook>
                         <page string="Investigation Team">
                             <group>
-                                <field name="hse_officer"/>
-                                <field name="field_executive"/>
-                                <field name="hr_administration"/>
-                                <field name="finance"/>
+                                <field name="hse_officer" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
+                                <field name="field_executive" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
+                                <field name="hr_administration" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
+                                <field name="finance" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
                             </group>
                             <group name="Investigation Team">
-                                <field name="investigation_team"/>
+                                <field name="investigation_team" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
                             </group>
                         </page>
                         <page string="Investigation Details" states="in_progress,closed">

@@ -58,7 +58,7 @@
                    ref="incident_management.model_x_inc_investigation"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team]) }},{{object.incident_id.location.location_manager.work_email}},{{object.incident_id.location.location_alternate_1.work_email}},{{object.incident_id.location.location_alternate_2.work_email}}
+                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team if employee.employee and employee.employee.work_email]) }},{{object.incident_id.location.location_manager.work_email}},{{object.incident_id.location.location_alternate_1.work_email}},{{object.incident_id.location.location_alternate_2.work_email}}
             </field>
             <field name="subject"> Incident {{object.incident_id.name}} - Closed with Severity {{object.severity.name}} </field>
             <field name="body_html" type="html">
@@ -104,7 +104,7 @@
                    ref="incident_management.model_x_inc_investigation"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team]) }}
+                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team if employee.employee and employee.employee.work_email]) }}
             </field>
             <field name="subject">Investigation ({{object.name}} ) for Incident {{object.incident_id.name}}</field>
             <field name="body_html" type="html">

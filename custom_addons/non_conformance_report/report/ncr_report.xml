@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_ncr_report">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr>
+                                    <td width="40%">
+                                        <p style="text-align:center;padding-top:10px;">
+                                            Test
+                                        </p>
+                                    </td>
+                                    <td width="60%">
+                                        <table>
+                                            <tr>
+                                                <td colspan="3" class="text-center">
+                                                    <span t-field="o.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>NCR Type:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.ncr_type_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Project Number:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.project_number"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="report_ncr_response_report">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            Testing
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

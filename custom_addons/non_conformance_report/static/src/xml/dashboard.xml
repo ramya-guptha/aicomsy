@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Template for the project dashboard -->
+<templates id="template" xml:space="preserve">
+    <t t-name="NCRDashboard">
+        <div class="oh_dashboards"
+             style="margin-top: 20px; overflow-y: scroll;vertical-align: middle;overflow-x: clip;max-height: -webkit-fill-available;">
+            <div class="container-fluid o_pj_dashboard" style="margin-left:4%;">
+            </div>
+        </div>
+    </t>
+    <t t-name="DashboardNCRFilterCards">
+        <div class="row main-section">
+            <div class="inner_select" style="display: flex;">
+                <p style="margin-left: -60px;">Start Date :</p>
+                <p>
+                    <input type="date" class="inner_select" id="start_date" name="start_date"/>
+                </p>
+                <p>End Date :</p>
+                <p>
+                    <input type="date" class="inner_select" id="end_date" name="end_date"/>
+                </p>
+                <p>Locations :</p>
+                <p>
+                    <select class="inner_select" id="locations_selection">
+                        <option value="null">All Locations</option>
+                    </select>
+                </p>
+                <p>Source :</p>
+                <p>
+                    <select class="inner_select" id="src_selection">
+                        <option value="null">All Sources</option>
+                    </select>
+                </p>
+                <p>NCR :</p>
+                <p>
+                    <select class="inner_select" id="ncr_selection">
+                        <option value="null">All NCRs</option>
+                        <option value="my">My NCRs</option>
+                    </select>
+                </p>
+
+            </div>
+
+
+        </div>
+    </t>
+
+    <t t-name="DashboardNcrChart">
+        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="margin-left: 0px;">
+            <div class="row main-section">
+                <div class="col-sm-5 col-lg-5">
+                     <div class="ncr_by_location_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                            <canvas class="ncr_by_location" style="background:#fff;" width="150" height="90"/>
+                        </div>
+                    </div>
+                    <div class="ncs_source_classification_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                            <canvas class="ncs_source_classification" style="background:#fff;" width="150" height="90"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-1 col-lg-1">
+                </div>
+                <div class="col-sm-5 col-lg-5">
+
+                    <div class="ncs_cost_of_rework_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                                <canvas class="ncs_cost_of_rework" style="background:#fff;" width="150"
+                                        height="90"/>
+                        </div>
+                    </div>
+                    <div class="ncs_backcharges_view" style="box-shadow:5px 11px 30px;">
+                        <div class="oh-card text-color">
+                              <canvas class="ncs_backcharges" style="background:#fff;" width="150" height="90"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+
+</templates>
