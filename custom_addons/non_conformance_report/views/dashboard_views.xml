@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <!--    action for ncr dashboard-->
+
+        <record id="ncr_action_dashboard" model="ir.actions.client">
+            <field name="name">Non Conformance Dashboard</field>
+            <field name="tag">ncr_dashboard</field>
+        </record>
+         <!-- Dashboard menu item -->
+
+        <menuitem id="menu_ncr_dashboard"
+                  name="NCR Dashboard"
+                  action="ncr_action_dashboard"
+                  parent="non_conformance_report.non_conformance_report"
+                  sequence="1"/>
+    </data>
+</odoo>
