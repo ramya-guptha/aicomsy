@@ -1,7 +1,5 @@
 from odoo import models, fields, api
 
-
-
 # Define the NcrReport class
 class NcrReport(models.Model):
     _name = 'x.ncr.report'
@@ -16,27 +14,27 @@ class NcrReport(models.Model):
         return report
 
     # Fields for NcrReport
-    name = fields.Char(string="NCR Reference", default='New', readonly=True)
-    ncr_type_id = fields.Many2one('x.ncr.type', string='NCR Type')
+    name = fields.Char(string="NCR Reference", default='New', readonly=True, required=True)
+    ncr_type_id = fields.Many2one('x.ncr.type', string='NCR Type', required=True)
     discipline_id = fields.Many2one('x.ncr.discipline', string='Discipline')
     supplier_name_id = fields.Many2one('res.partner', domain=[('supplier_rank', '>', 0)], string='Supplier Name')
     purchase_order_no = fields.Char(string='Purchase Order No.')
-    project_number = fields.Char(string='Project Number')
+    project_number = fields.Char(string='Project Number', required=True)
     project_name_title = fields.Char(string='Project Name / Title')
     tag_no_location = fields.Many2one("x.location", string="Tag No. / Location", required=True)
     shipment_reference = fields.Char(string='Shipment Reference')
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
-    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name')
+    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
-    ncr_open_date = fields.Date(string='NCR Open Date')
+    ncr_open_date = fields.Date(string='NCR Open Date', required=True)
     ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id', store=True)
     approver_job_title = fields.Char(related='ncr_approver_id.parent_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
-    ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC')
+    ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC', required=True)
     ncs_sequence_no = fields.Integer(string="ncs_sequence", default=1)
     # State field for the NcrReport
     state = fields.Selection(
