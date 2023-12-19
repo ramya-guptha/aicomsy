@@ -17,5 +17,101 @@
                 </div>
             </field>
         </record>
+         <record id="email_template_ncr_email" model="mail.template">
+            <field name="name">NCR</field>
+            <field name="model_id"
+                   ref="non_conformance_report.model_x_ncr_report"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.ncr_initiator_id.work_email}},{{object.ncr_approver_id.work_email}}
+            </field>
+            <field name="subject">{{object.name}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An NCR
+                                <t t-out="object.name"/>
+                                with the following details has been created:
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>NCR No:</strong>
+                                    <t t-out="object.name"/>
+                                </li>
+                                <li>
+                                    <strong>NCR Type:</strong>
+                                    <t t-out="object.ncr_type_id.name"/>
+                                </li>
+                                <li>
+                                    <strong>Discipline:</strong>
+                                    <t t-out="object.discipline_id.name"/>
+                                </li>
+                            </ul>
+
+                            <p>Please take appropriate actions.
+                            </p>
+                            <br/>
+                            <br/>
+                            --
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+            <field name="report_template" ref="report_ncr"/>
+            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
+        </record>
+        <record id="email_template_ncr_response" model="mail.template">
+            <field name="name">NCR Response</field>
+            <field name="model_id"
+                   ref="non_conformance_report.model_x_ncr_response"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                {{object.prepared_by_id.work_email}},{{object.reviewed_and_approved_by_id.work_email}}
+            </field>
+            <field name="subject">{{object.name}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>An NCR Response
+                                <t t-out="object.name"/>
+                                with the following details has been created:
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>NCR No:</strong>
+                                    <t t-out="object.ncr_id"/>
+                                </li>
+                                <li>
+                                    <strong>NCR Type:</strong>
+                                    <t t-out="object.ncr_type_id.name"/>
+                                </li>
+                                <li>
+                                    <strong>Supplier Response:</strong>
+                                    <t t-out="object.supplier_response"/>
+                                </li>
+                            </ul>
+
+                            <p>Please take appropriate actions.
+                            </p>
+                            <br/>
+                            <br/>
+                            --
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+            <field name="report_template" ref="report_ncr_resp"/>
+            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
+        </record>
     </data>
 </odoo>

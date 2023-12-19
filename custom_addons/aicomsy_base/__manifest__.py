@@ -13,6 +13,10 @@
     'assets': {
         'web.assets_backend': [
             'aicomsy_base/static/src/*',
+            'aicomsy_base/static/src/scss/custom_style.scss',
+            'aicomsy_base/static/src/css/dashboard.css',
+            'web/static/lib/Chart/Chart.js'
+
         ],
 
     },

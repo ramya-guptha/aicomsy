@@ -10,16 +10,34 @@ class NonConformanceModel(models.Model):
     def create(self, values):
         project_number = ''
         nc_records = ''
+        ncr_nc_records = ''
+        ncr_resp_id = ''
+        ncr_id = ''
         if 'ncr_id' in values:
-            project_number = self.env['x.ncr.report'].browse(values['ncr_id']).project_number
-            nc_records = self.env['x.ncr.report'].browse(values['ncr_id']).ncr_nc_ids
+            ncr_id = self.env['x.ncr.report'].browse(values['ncr_id'])
+            project_number = ncr_id.project_number
+            ncr_nc_records = self.env['x.ncr.nc'].search(
+                [('ncr_id', '=', values['ncr_id']), ('ncr_response_id', '=', False)])
+            ncr_resp = self.env['x.ncr.response'].search([('ncr_id', '=', values['ncr_id'])])
+            if ncr_resp.exists():
+                ncr_resp_id = ncr_resp.id
+                values['ncr_response_id'] = ncr_resp_id
         elif 'ncr_response_id' in values:
-            project_number = self.env['x.ncr.response'].browse(values['ncr_response_id']).ncr_id.project_number
-            nc_records = self.env['x.ncr.response'].browse(values['ncr_response_id']).ncr_id.ncr_nc_ids
-            values['ncr_id'] = self.env['x.ncr.response'].browse(values['ncr_response_id']).ncr_id.id
-        ncs = len(nc_records) + 1
-        values['nc_s'] = f'{project_number}{ncs:03d}'
+            ncr_response = self.env['x.ncr.response'].browse(values['ncr_response_id'])
+            project_number = ncr_response.ncr_id.project_number
+            ncr_id = ncr_response.ncr_id
+            values['ncr_id'] = ncr_response.ncr_id.id
+            # Update records in x.ncr.nc with the ncr_response_id
+            ncr_nc_records = self.env['x.ncr.nc'].search(
+                [('ncr_id', '=', ncr_response.ncr_id.id), ('ncr_response_id', '=', False)])
+            ncr_resp_id = values['ncr_response_id']
+        ncs_sequence_no = ncr_id.ncs_sequence_no
+        values['nc_s'] = f'{project_number}{ncs_sequence_no:03d}'
+
         nc = super().create(values)
+        ncr_id.write({'ncs_sequence_no': ncs_sequence_no +1})
+        if ncr_resp_id:
+            ncr_nc_records.write({'ncr_response_id': ncr_resp_id})
         return nc
 
     @api.constrains('nc_description', 'uom')
@@ -57,15 +75,14 @@ class NonConformanceModel(models.Model):
     # Define an action for opening the NC Part Details
     def nc_part_details_popup(self):
         return {
-            'name': 'NC Part Details',
+            'name': 'NC Details',
             'type': 'ir.actions.act_window',
-            'res_model': 'x.ncr.part',
-            'view_mode': 'tree',
+            'res_model': 'x.ncr.nc',
+            'view_mode': 'form',
             'target': 'new',
-            'context': {
-                'default_nc_details_id': self.id,
-            }
+            'res_id': self.id,
         }
+
 
 
 # Define YourModelName class

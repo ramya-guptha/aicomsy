@@ -29,13 +29,13 @@ class NcrReport(models.Model):
     ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
     ncr_open_date = fields.Date(string='NCR Open Date', required=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id')
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id', store=True)
     approver_job_title = fields.Char(related='ncr_approver_id.parent_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC', required=True)
-
+    ncs_sequence_no = fields.Integer(string="ncs_sequence", default=1)
     # State field for the NcrReport
     state = fields.Selection(
         selection=[
@@ -58,10 +58,10 @@ class NcrReport(models.Model):
 
     def save_and_forward(self):
         # Your logic for save_and_forward
+        self.state = "approval_pending"
         return True
 
     # Your logic for Approve and Submit
-
     def approve_and_submit(self):
         mail_template = self.env.ref('non_conformance_report.email_template_ncr')
         mail_template.send_mail(self.id, force_send=True)
@@ -86,7 +86,7 @@ class NcrReport(models.Model):
 
         }
 
-    def assign_incharger(self):
+    def assign_incharge(self):
         return {
             'name': 'NCR response',
             'res_model': 'x.ncr.response',
@@ -97,6 +97,31 @@ class NcrReport(models.Model):
                 'default_ncr_id': self.id,
                 'default_ncr_nc_ids': self.ncr_nc_ids.ids
             }
+        }
+
+    def email_report(self):
+        self.ensure_one()
+        mail_template = self.env.ref('non_conformance_report.email_template_ncr_email', raise_if_not_found=False)
+
+        ctx = {
+            'default_model': 'x.ncr.report',
+            'default_res_id': self.id,
+            'default_use_template': bool(mail_template),
+            'default_template_id': mail_template.id if mail_template else None,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'default_email_layout_xmlid': 'mail.mail_notification_layout_with_responsible_signature',
+            'force_email': True,
+            'model_description': self.with_context().name,
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
         }
 
 

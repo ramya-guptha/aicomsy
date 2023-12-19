@@ -1,9 +1,19 @@
 <odoo>
-    <record id="view_x_ncr_report_tree" model="ir.ui.view">
+    <record id="x_ncr_nc_action" model="ir.actions.act_window">
+        <field name="name">NCS</field>
+        <field name="res_model">x.ncr.nc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="x_ncr_part_details_action" model="ir.actions.act_window">
+        <field name="name">NCS Part Details</field>
+        <field name="res_model">x.ncr.part</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="view_x_nc_tree" model="ir.ui.view">
         <field name="name">x.ncr.nc.tree</field>
         <field name="model">x.ncr.nc</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable="bottom">
                 <field name="nc_s"/>
                 <field name="source_of_nc"/>
                 <field name="nc_description"/>

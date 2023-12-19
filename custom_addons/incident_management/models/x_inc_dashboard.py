@@ -200,9 +200,7 @@ class NormalDays(models.Model):
                 conditions.append(f"(location = '{location}' OR inc_date_time  is NULL) ")
 
         if incident_type is not None and incident_type != 'null':
-            print(">>IN If")
             conditions.append(f"(x_incident_record.create_uid = '{self.env.uid}' OR x_incident_record.notified_by = '{self.env['hr.employee'].search([('user_id', '=', self.env.uid)]).id}')")
-            print(conditions)
 
         where_clause = " AND ".join(conditions)  # Final query with the dynamically constructed WHERE clause
 
