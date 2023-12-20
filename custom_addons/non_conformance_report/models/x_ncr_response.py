@@ -37,7 +37,6 @@ class NcrResponse(models.Model):
     title = fields.Char(related='rca_approver_id.job_id.name', string='Title')
     ncr_closed_date = fields.Date(string='NCR Closed Date')
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_response_id', string='NCR NC')
-
     state = fields.Selection(
         selection=[("new", "New"),
                    ("review_in_progress", "Review in Progress"),
@@ -85,7 +84,7 @@ class NcrResponse(models.Model):
         # Additional logic can be added here if needed
         return True
 
-    @api.constrains('signature_with_date_1', 'signature_with_date_2', 'title_1', 'title_2')
+    @api.constrains('prepared_by_signature_date', 'reviewed_by_signature_date')
     def _check_fields_size(self):
         for record in self:
             if record.prepared_by_signature_date and len(record.prepared_by_signature_date) > 30:
