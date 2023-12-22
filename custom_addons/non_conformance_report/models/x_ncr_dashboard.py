@@ -96,7 +96,6 @@ class NCRDashboard(models.Model):
             where_clause = f" WHERE {where_clause}"
 
         final_query = f"{base_query} {where_clause} GROUP BY mom,ncs_source"
-        print("Final Query",final_query)
         self.env.cr.execute(final_query)
         result = self.env.cr.fetchall()
 
@@ -145,7 +144,6 @@ class NCRDashboard(models.Model):
             where_clause = f" WHERE {where_clause}"
 
         final_query = f"{base_query} {where_clause} GROUP BY mom, ncr_type_id, ncr_type.name"
-        print("Final Query", final_query)
 
         self.env.cr.execute(final_query)
         result = self.env.cr.fetchall()
