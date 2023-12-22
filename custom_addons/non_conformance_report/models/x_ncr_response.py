@@ -67,6 +67,7 @@ class NcrResponse(models.Model):
             'model_description': self.with_context().name,
         }
         return {
+            'name': 'Email',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'mail.compose.message',

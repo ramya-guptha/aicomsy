@@ -33,7 +33,7 @@
                     <h>
                         <field name="name"/>
                     </h>
-                    <group col="3">
+                    <group col="2">
                         <group>
                             <field name="ncr_type_check" invisible="1"/>
                             <field name="ncr_type_id"/>

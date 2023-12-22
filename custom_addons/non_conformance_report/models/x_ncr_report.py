@@ -27,10 +27,11 @@ class NcrReport(models.Model):
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
-    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True, tracking=True)
+    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True, default=lambda
+        self: self.env.user.employee_id.id if self.env.user.employee_id else False, tracking=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
-    ncr_open_date = fields.Date(string='NCR Open Date', required=True, tracking=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id', store=True, tracking=True)
+    ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, tracking=True)
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_approver_id.parent_id', store=True, tracking=True)
     approver_job_title = fields.Char(related='ncr_approver_id.parent_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
@@ -116,6 +117,7 @@ class NcrReport(models.Model):
             'model_description': self.with_context().name,
         }
         return {
+            'name': 'Email',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'mail.compose.message',

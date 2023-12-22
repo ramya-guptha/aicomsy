@@ -1,6 +1,6 @@
 {
     'name': 'Non conformance Report',
-
+    'category': 'Aicomsy/Aicomsy',
     'depends': [
         'base', 'aicomsy_base', 'hr', 'account', 'mail'
     ],
