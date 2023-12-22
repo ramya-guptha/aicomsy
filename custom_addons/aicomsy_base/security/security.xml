@@ -23,6 +23,14 @@
         <field name="name">Management Team</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
+    <record id="aicomsy_base.access_ncr_initiator" model="res.groups">
+        <field name="name">NCR Initiator</field>
+        <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
+    </record>
+    <record id="aicomsy_base.access_zonal_incharge" model="res.groups">
+        <field name="name">Zonal Incharge</field>
+        <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
+    </record>
     <record id="aicomsy_base.access_administrator" model="res.groups">
         <field name="name">Administrator</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>

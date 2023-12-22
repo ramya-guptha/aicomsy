@@ -8,15 +8,12 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
     var session = require('web.session');
     var _t = core._t;
     var web_client = require('web.web_client');
+    // Declare an array to store chart instances
+    var chartInstances = [];
     var NCRDashboard = AbstractAction.extend({
         template: 'NCRDashboard',
         events: {
-
-            'change #start_date': '_onchangeFilter',
-            'change #end_date': '_onchangeFilter',
-            'change #locations_selection': '_onchangeFilter',
-            'change #src_selection': '_onchangeFilter',
-            'change #ncr_selection': '_onchangeFilter',
+            'click #apply_btn': '_onchangeFilter',
         },
         init: function(parent, context) {
             this._super(parent, context);
@@ -104,11 +101,23 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                     var color = '#1183DC';
                     return color;
                 },
-         /**
+
+        // Function to destroy existing charts
+         destroyCharts: function() {
+            if (chartInstances.length > 0) {
+                chartInstances.forEach(function (chart) {
+                    chart.destroy();
+                });
+                chartInstances = [];
+            }
+        },
+
+        /**
         rendering the graph
         */
         render_graphs: function() {
             var self = this;
+            self.destroyCharts()
             self.render_ncr_by_location();
             self.render_ncr_source_classification_graph();
             self.render_ncr_cost_of_rework_graph();
@@ -224,6 +233,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                 data: chartData,
                 options: options
             });
+            // Save the chart instance for later use
+            chartInstances.push(chart);
 
             // Function to generate random color
             function getRandomColor() {
@@ -269,11 +280,12 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
+            var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
              rpc.query({
                         model: "x.ncr.dashboard",
                         method: 'get_ncr_source_classification',
-                        args: [start_date, end_date, location, ncr_selection],
+                        args: [start_date, end_date, location, src_selection, ncr_selection],
                     }).then(function(data) {
                         var classificationColors = {
                             'Material': '#ef9b20',
@@ -293,11 +305,12 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
+            var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
              rpc.query({
                         model: "x.ncr.dashboard",
                         method: 'get_cost_of_rework',
-                        args: [start_date, end_date, location, ncr_selection],
+                        args: [start_date, end_date, location, src_selection, ncr_selection],
                     }).then(function(data) {
                         var classificationColors = {
                             'Material': '#ef9b20',
@@ -317,11 +330,12 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var start_date = $('#start_date').val();
             var end_date = $('#end_date').val();
             var location = $('#locations_selection').val();
+            var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
              rpc.query({
                         model: "x.ncr.dashboard",
                         method: 'get_customer_backcharges',
-                        args: [start_date, end_date, location, ncr_selection],
+                        args: [start_date, end_date, location, src_selection, ncr_selection],
                     }).then(function(data) {
                         var classificationColors = {
                             'Material': '#ef9b20',

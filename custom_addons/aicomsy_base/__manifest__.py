@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Aicomsy Base',
+    'category': 'Aicomsy/Aicomsy',
     'depends': [
         'base', 'hr',
     ],

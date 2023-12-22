@@ -2,6 +2,7 @@
     <record id="x_ncr_response_action" model="ir.actions.act_window">
         <field name="name">NCR Responses</field>
         <field name="res_model">x.ncr.response</field>
+        <field name="context">{'create': False}</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="x_ncr_response_view_tree" model="ir.ui.view">
@@ -99,6 +100,11 @@
                         </group>
                     </group>
                 </sheet>
+                 <div class="oe_chatter">
+                     <field name="message_follower_ids"/>
+                     <field name="activity_ids"/>
+                     <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>

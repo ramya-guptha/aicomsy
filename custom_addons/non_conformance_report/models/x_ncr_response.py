@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class NcrResponse(models.Model):
     _name = 'x.ncr.response'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'NCR Response'
 
     @api.model
@@ -23,27 +24,26 @@ class NcrResponse(models.Model):
     ncr_id = fields.Many2one("x.ncr.report", string='NCR No.')
     project_number = fields.Char(related="ncr_id.project_number", string='Project Number')
     project_name_title = fields.Char(related="ncr_id.project_name_title", string='Project Name / Title')
-    supplier_response = fields.Text(string='Supplier Response')
-    prepared_by_id = fields.Many2one('hr.employee', string='Prepared by', required=True)
-    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', required=True)
-    prepared_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only')
-    reviewed_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only')
+    supplier_response = fields.Text(string='Supplier Response', tracking=True)
+    prepared_by_id = fields.Many2one('hr.employee', string='Prepared by', required=True, tracking=True)
+    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', required=True, tracking=True)
+    prepared_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only', tracking=True)
+    reviewed_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only', tracking=True)
     prepared_by_title = fields.Char(related='prepared_by_id.job_id.name', string='Title')
     reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.job_id.name', string='Title')
     total_cost_for_rework = fields.Float(string='Total Cost for Rework')
-    rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name')
+    rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name', tracking=True)
     ncr_completion_status = fields.Char(string='NCR Completion Status')
     total_backcharge_amount = fields.Float(string='Total Backcharge Amount')
     title = fields.Char(related='rca_approver_id.job_id.name', string='Title')
-    ncr_closed_date = fields.Date(string='NCR Closed Date')
+    ncr_closed_date = fields.Date(string='NCR Closed Date', tracking=True)
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_response_id', string='NCR NC')
-
     state = fields.Selection(
         selection=[("new", "New"),
                    ("review_in_progress", "Review in Progress"),
                    ("closed", "Closed")
                    ],
-        default="new",  # Set a default value for the state field
+        default="new", tracking=True  # Set a default value for the state field
     )
 
     def save_and_submit(self):
@@ -67,6 +67,7 @@ class NcrResponse(models.Model):
             'model_description': self.with_context().name,
         }
         return {
+            'name': 'Email',
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'mail.compose.message',
@@ -85,7 +86,7 @@ class NcrResponse(models.Model):
         # Additional logic can be added here if needed
         return True
 
-    @api.constrains('signature_with_date_1', 'signature_with_date_2', 'title_1', 'title_2')
+    @api.constrains('prepared_by_signature_date', 'reviewed_by_signature_date')
     def _check_fields_size(self):
         for record in self:
             if record.prepared_by_signature_date and len(record.prepared_by_signature_date) > 30:
