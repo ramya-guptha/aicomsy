@@ -2,7 +2,7 @@
     'name': 'Non conformance Report',
 
     'depends': [
-        'base', 'aicomsy_base', 'hr', 'account',
+        'base', 'aicomsy_base', 'hr', 'account', 'mail'
     ],
     'data': [
         'security/ir.model.access.csv',

@@ -3,6 +3,7 @@ from odoo import models, fields, api
 # Define the NcrReport class
 class NcrReport(models.Model):
     _name = 'x.ncr.report'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'NCR Report'
 
     # Override the create method to set default values and generate a unique name
@@ -15,7 +16,7 @@ class NcrReport(models.Model):
 
     # Fields for NcrReport
     name = fields.Char(string="NCR Reference", default='New', readonly=True, required=True)
-    ncr_type_id = fields.Many2one('x.ncr.type', string='NCR Type', required=True)
+    ncr_type_id = fields.Many2one('x.ncr.type', string='NCR Type', required=True, tracking=True)
     discipline_id = fields.Many2one('x.ncr.discipline', string='Discipline')
     supplier_name_id = fields.Many2one('res.partner', domain=[('supplier_rank', '>', 0)], string='Supplier Name')
     purchase_order_no = fields.Char(string='Purchase Order No.')
@@ -26,10 +27,10 @@ class NcrReport(models.Model):
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
-    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True)
+    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True, tracking=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
-    ncr_open_date = fields.Date(string='NCR Open Date', required=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id', store=True)
+    ncr_open_date = fields.Date(string='NCR Open Date', required=True, tracking=True)
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id', store=True, tracking=True)
     approver_job_title = fields.Char(related='ncr_approver_id.parent_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
@@ -46,7 +47,7 @@ class NcrReport(models.Model):
             ('approved', 'Approved'),
             ('rejected', 'Rejected'),
             ('return_for_further_actions', 'Return for Further Actions'),
-        ]
+        ], tracking=True
         # Set a default value for the state field
     )
 
