@@ -8,14 +8,12 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
     var session = require('web.session');
     var _t = core._t;
     var web_client = require('web.web_client');
+    var chartInstances = [];
     var IncidentDashboard = AbstractAction.extend({
         template: 'IncidentDashboard',
         events: {
             'click .tot_incidents': 'tot_incidents',
-            'change #start_date': '_onchangeFilter',
-            'change #end_date': '_onchangeFilter',
-            'change #locations_selection': '_onchangeFilter',
-            'change #incidents_selection': '_onchangeFilter',
+            'click #apply_btn': '_onchangeFilter',
         },
         init: function(parent, context) {
             this._super(parent, context);
@@ -59,6 +57,16 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                 });
             })
         },
+        // Function to destroy existing charts
+         destroyCharts: function() {
+            if (chartInstances.length > 0) {
+                chartInstances.forEach(function (chart) {
+                    chart.destroy();
+                });
+                chartInstances = [];
+            }
+        },
+
         /**
         function for getting values to the filters
         */
@@ -101,6 +109,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
         */
         render_graphs: function() {
             var self = this;
+            self.destroyCharts()
             self.render_inc_severity_graph();
             self.render_inc_cost_impact_graph();
             self.render_normal_days_mom_graph();
@@ -164,7 +173,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                     data: data,
                     options: options
                 });
-
+                // Save the chart instance for later use
+                chartInstances.push(chart);
 
             });
 
@@ -250,6 +260,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                     data: data,
                     options: options
                 });
+                // Save the chart instance for later use
+                chartInstances.push(chart);
 
             });
 
@@ -311,6 +323,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                     data: data,
                     options: options
                 });
+                // Save the chart instance for later use
+                chartInstances.push(chart);
 
             });
 
@@ -462,6 +476,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                             data: chartData,
                             options: options
                         });
+                        // Save the chart instance for later use
+                        chartInstances.push(chart);
 
                         // Function to generate random color
                         function getRandomColor() {
@@ -530,6 +546,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                     data: data,
                     options: options
                 });
+                // Save the chart instance for later use
+                chartInstances.push(chart);
 
             });
 
@@ -593,6 +611,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                     data: data,
                     options: options
                 });
+                // Save the chart instance for later use
+                chartInstances.push(chart);
 
             });
         },
