@@ -24,7 +24,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="email_report" string="Send by Email" type="object" class="btn-primary"/>
+                    <button name="email_report" string="Send by Email" type="object" class="btn-primary"
+                            confirm="Are you sure want to go with Send by Email?"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,closed"/>
                 </header>
                 <sheet>
@@ -38,15 +39,21 @@
                         <field name="project_number"/>
                         <field name="project_name_title"/>
                     </group>
-                    <field name="ncr_nc_ids" attrs="{'readonly': [('state', 'not in', ['new'])]}">
+                    <field name="ncr_nc_ids" attrs="{'invisible': [('state', 'not in', ['new'])]}">
                         <tree>
                             <field name="nc_s"/>
-                            <field name="source_of_nc"/>
-                            <field name="cause_of_nc_id"/>
+                            <field name="cause_of_nc_id" attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
                             <field name="disposition_type_id"/>
-                            <field name="immediate_action"/>
-                            <field name="proposed_due_date"/>
-                            <field name="response_attachment_ids"/>
+                            <field name="immediate_action"
+                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
+                            <field name="proposed_due_date"
+                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
+                            <field name="response_attachment_ids"
+                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
+                            <field name="disposition_action"
+                                   attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                            <field name="review_comments" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                            <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
                         </tree>
                     </field>
                     <group>
@@ -68,27 +75,41 @@
                             <button string="Save and Submit" colspan='2'
                                     attrs="{'invisible': [('state', 'not in', ['new'])]}" type="object"
                                     name="save_and_submit"
-                                    class="oe_highlight" widget="button"/>
+                                    class="oe_highlight" widget="button"
+                                    confirm="Are you sure want to go with Save and Submit?"/>
                         </group>
                     </group>
                     <group string="Part-3" attrs="{'invisible': [('state', '=', 'new')]}">
                         <field name="ncr_nc_ids">
                             <tree>
                                 <field name="nc_s"/>
+                                <field name="cause_of_nc_id"
+                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
                                 <field name="disposition_type_id"/>
-                                <field name="disposition_action"/>
-                                <field name="review_comments"/>
-                                <field name="ca_response_id"/>
+                                <field name="immediate_action"
+                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                <field name="proposed_due_date"
+                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                <field name="response_attachment_ids"
+                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                <field name="disposition_action"
+                                       attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                                <field name="review_comments"
+                                       attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                                <field name="ca_response_id"
+                                       attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
                             </tree>
                         </field>
                         <group col="2" attrs="{'invisible': [('state', '=', 'new')]}">
                             <field name="total_cost_for_rework"/>
                             <field name="rca_approver_id"/>
                             <field name="ncr_completion_status"/>
+                            <field name="show_approve_button" invisible="True"/>
                             <button string="Approve and Forward" colspan='2'
                                     type="object"
                                     name="approve_and_forward"
-                                    class="oe_highlight"/>
+                                    class="oe_highlight" attrs="{'invisible': [('show_approve_button', '=', False)]}"
+                                    confirm=" Are you sure want to go with Approve and Forward?"/>
                         </group>
                         <group attrs="{'invisible': [('state', '=', 'new')]}">
                             <field name="total_backcharge_amount"/>
@@ -96,14 +117,16 @@
                             <field name="ncr_closed_date"/>
                             <button string="RCA REJECTED" colspan='2'
                                     type="object"
-                                    name="action_rca_rejected" class="oe_highlight"/>
+                                    name="action_rca_rejected" class="oe_highlight"
+                                    attrs="{'invisible': [('show_approve_button', '=', True)]}"
+                                    confirm="Are you sure want to go with RCA REJECTED?"/>
                         </group>
                     </group>
                 </sheet>
-                 <div class="oe_chatter">
-                     <field name="message_follower_ids"/>
-                     <field name="activity_ids"/>
-                     <field name="message_ids"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
                 </div>
             </form>
         </field>

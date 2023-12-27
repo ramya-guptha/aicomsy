@@ -23,9 +23,11 @@
         <field name="arch" type="xml">
             <form name="NCR Reports">
                 <header>
-                    <button name="email_report" string="Send by Email" type="object" class="btn-primary"/>
+                    <button name="email_report" string="Send by Email" type="object" class="btn-primary"
+                            confirm=" Are you sure want to go Send by Email?"/>
                     <button string="Assign Response Handler" type="object" name="assign_incharge" class="oe_highlight"
-                            attrs="{'invisible': [('state', 'not in', ['approved'])]}"/>
+                            attrs="{'invisible': [('state', 'not in', ['approved'])]}"
+                            confirm="Are you sure want to go Assign Response Handler?"/>
                     <field name="state" widget="statusbar" class="oe_highlight"
                            statusbar_visible="new,approval_pending,assign_to_vendor,received_vendor_response,approved,return_for_actions,closed"/>
                 </header>
@@ -35,22 +37,33 @@
                     </h>
                     <group col="2">
                         <group>
-                            <field name="ncr_type_check" invisible="1"/>
-                            <field name="ncr_type_id"/>
+                            <field name="ncr_type_check" invisible="1"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="ncr_type_id"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
                             <field name="discipline_id"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)]}"/>
-                            <field name="supplier_name_id" attrs="{'invisible': [('ncr_type_check', '=', False)]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="purchase_order_no" attrs="{'invisible': [('ncr_type_check', '=', False)]}"/>
-                            <field name="project_number"/>
-                            <field name="project_name_title"/>
-                            <field name="tag_no_location"/>
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="supplier_name_id"
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"
+                                   options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="purchase_order_no"
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="project_number"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="project_name_title"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="tag_no_location"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
                         </group>
                         <group>
-                            <field name="shipment_reference" attrs="{'invisible': [('ncr_type_check', '=', False)]}"/>
-                            <field name="received_date" attrs="{'invisible': [('ncr_type_check', '=', False)]}"/>
-                            <field name="inspection_stage"/>
-                            <field name="rfi_number"/>
+                            <field name="shipment_reference"
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="received_date"
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="inspection_stage"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>/>
+                            <field name="rfi_number"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>/>
                         </group>
                     </group>
                     <field name="ncr_nc_ids">
@@ -61,53 +74,62 @@
                             <field name="uom"/>
                             <field name="quantity"/>
                             <button string="Add Details" type="object" class="oe_highlight" icon="fa-plus"
-                                    name="nc_part_details_popup"/>
+                                    name="nc_part_details_popup" confirm=" Are you sure want to go with Add Details?"/>
                             <field name="attachment_ids" string="Attachments" widget="many2many_binary"
                                    options="{'no_open': True}"/>
                         </tree>
                     </field>
                     <group col="2">
                         <group>
-                            <field name="ncr_initiator_id"/>
-                            <field name="ncr_approver_id"/>
-                            <field name="ncr_open_date"/>
+                            <field name="ncr_initiator_id"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="ncr_approver_id"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="ncr_open_date"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
                             <field name="rca_response_due_date"
                                    attrs="{'readonly': [('state', 'in', ['new','closed'])]}"/>
                         </group>
                         <group>
-                            <field name="initiator_job_title"/>
-                            <field name="approver_job_title"/>
+                            <field name="initiator_job_title"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                            <field name="approver_job_title"
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
                             <field name="ncr_category_id" attrs="{'readonly': [('state','in', ['new','closed'])]}"/>
                         </group>
                     </group>
 
                     <button string="Save &amp; Forward" type="object" name="save_and_forward"
                             class="btn-primary col-5" states="new"/>
-                    <span style="display: inline-block;" class="col-2"/>
+                    <span style="display: inline-block;" class="col-2"
+                          confirm=" Are you sure want to go with Save &amp; Forward?"/>
                     <button string="Approve &amp; Submit" type="object" name="approve_and_submit"
-                            class="btn-primary col-5" states="approval_pending"/>
-
+                            class="btn-primary col-5" states="approval_pending"
+                            confirm="Are you sure want to go with Approve &amp; Submit?"/>
                 </sheet>
                 <div class="oe_chatter">
-                     <field name="message_follower_ids"/>
-                     <field name="activity_ids"/>
-                     <field name="message_ids"/>
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
                 </div>
             </form>
         </field>
     </record>
     <record id="res_partner_action_supplier" model="ir.actions.act_window">
-            <field name="name">Vendors</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.partner</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="context">{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}</field>
-            <field name="help" type="html">
-              <p class="o_view_nocontent_smiling_face">
+        <field name="name">Vendors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company':
+            True, 'default_supplier_rank': 1}
+        </field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
                 Create a new supplier in your address book
-              </p><p>
+            </p>
+            <p>
                 Odoo helps you easily track all activities related to a supplier.
-              </p>
-            </field>
-        </record>
+            </p>
+        </field>
+    </record>
 </odoo>

@@ -20,13 +20,16 @@
         'data/x_ncr_source_data.xml',
         'data/x_ncr_category_data.xml',
         'data/mail_template_data.xml',
+        'data/x_ncr_disposition_type_data.xml',
+        'data/x_ncr_ca_response_data.xml',
+        'data/x_ncr_cause_of_nc_data.xml',
     ],
     'assets': {
-            'web.assets_backend': [
-                'non_conformance_report/static/src/js/dashboard.js',
-                'non_conformance_report/static/src/xml/dashboard.xml',
-            ],
-        },
+        'web.assets_backend': [
+            'non_conformance_report/static/src/js/dashboard.js',
+            'non_conformance_report/static/src/xml/dashboard.xml',
+        ],
+    },
 
     'installable': True,
     'application': True,

@@ -26,9 +26,12 @@ class NcrResponse(models.Model):
     project_name_title = fields.Char(related="ncr_id.project_name_title", string='Project Name / Title')
     supplier_response = fields.Text(string='Supplier Response', tracking=True)
     prepared_by_id = fields.Many2one('hr.employee', string='Prepared by', required=True, tracking=True)
-    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', required=True, tracking=True)
-    prepared_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only', tracking=True)
-    reviewed_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only', tracking=True)
+    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', required=True,
+                                                  tracking=True)
+    prepared_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only',
+                                             tracking=True)
+    reviewed_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only',
+                                             tracking=True)
     prepared_by_title = fields.Char(related='prepared_by_id.job_id.name', string='Title')
     reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.job_id.name', string='Title')
     total_cost_for_rework = fields.Float(string='Total Cost for Rework')
@@ -38,6 +41,7 @@ class NcrResponse(models.Model):
     title = fields.Char(related='rca_approver_id.job_id.name', string='Title')
     ncr_closed_date = fields.Date(string='NCR Closed Date', tracking=True)
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_response_id', string='NCR NC')
+    show_approve_button = fields.Boolean("Show Approve Button", default=False)
     state = fields.Selection(
         selection=[("new", "New"),
                    ("review_in_progress", "Review in Progress"),
@@ -50,6 +54,9 @@ class NcrResponse(models.Model):
         # Your logic for save_and_submit
         self.write({'state': 'review_in_progress'})
         self.email_report()
+        nc_part_records = self.mapped('ncr_nc_ids')
+        for nc_part in nc_part_records:
+            nc_part.write({'state': 'received_vendor_response'})
 
     def email_report(self):
         self.ensure_one()
@@ -76,7 +83,6 @@ class NcrResponse(models.Model):
             'target': 'new',
             'context': ctx,
         }
-
 
     def approve_and_forward(self):
         # Your logic for approve_and_forward

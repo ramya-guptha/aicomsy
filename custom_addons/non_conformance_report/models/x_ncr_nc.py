@@ -35,7 +35,7 @@ class NonConformanceModel(models.Model):
         values['nc_s'] = f'{project_number}{ncs_sequence_no:03d}'
 
         nc = super().create(values)
-        ncr_id.write({'ncs_sequence_no': ncs_sequence_no +1})
+        ncr_id.write({'ncs_sequence_no': ncs_sequence_no + 1})
         if ncr_resp_id:
             ncr_nc_records.write({'ncr_response_id': ncr_resp_id})
         return nc
@@ -54,8 +54,8 @@ class NonConformanceModel(models.Model):
     nc_s = fields.Char(string='NCS #', readonly=True)
     source_of_nc = fields.Many2one('x.ncr.source', string='Source of NC', required=True)
     nc_description = fields.Text(string='NC Description', help="Max 400 Characters", required=True)
-    uom = fields.Char(string='Unit of Measure', help="Max 10 Characters")
-    quantity = fields.Float(string='Quantity')
+    uom = fields.Char(string='Unit of Measure', help="Max 10 Characters", required=True)
+    quantity = fields.Float(string='Quantity', required=True)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string='NC Details')
     cause_of_nc_id = fields.Many2one('x.ncr.cause', string='Cause of NC')
     disposition_type_id = fields.Many2one('x.ncr.disposition.type', string='Disposition Type')
@@ -70,6 +70,18 @@ class NonConformanceModel(models.Model):
         default='accept',
         required=True,
     )
+    state = fields.Selection(
+        selection=[
+            ('new', 'New'),
+            ('ncr_submitted', 'NCR Submitted'),
+            ('received_vendor_response', 'Received Vendor Response'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ('return_for_further_actions', 'Return for Further Actions'),
+        ], tracking=True,
+        # Set a default value for the state field
+        default='new',
+    )
     nc_part_details_ids = fields.One2many('x.ncr.part', 'nc_details_id', string="Part Details")
 
     # Define an action for opening the NC Part Details
@@ -82,7 +94,6 @@ class NonConformanceModel(models.Model):
             'target': 'new',
             'res_id': self.id,
         }
-
 
 
 # Define YourModelName class

@@ -20,7 +20,7 @@
                 <field name="uom"/>
                 <field name="quantity" class="oe_inline"/>
                 <button string="Add Details" type="object" class="oe_highlight" icon="fa-plus"
-                        name="nc_part_details_popup"/>
+                        name="nc_part_details_popup" confirm="Are you sure want to go with Add Details?"/>
                 <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
             </tree>
         </field>
@@ -31,21 +31,37 @@
         <field name="arch" type="xml">
             <form name="NC Data">
                 <sheet>
+                    <header>
+                        <field name="state" widget="statusbar" class="oe_highlight"
+                               statusbar_visible="new,ncr_submitted,received_vendor_response,approved"/>
+                    </header>
+
                     <group col="2">
                         <group>
-                            <field name="nc_s"/>
-                            <field name="nc_description" default_focus="1"/>
-                            <field name="uom"/>
-                            <field name="cause_of_nc_id"/>
-                            <field name="proposed_due_date"/>
-                            <field name="ca_response_id"/>
+                            <field name="nc_s"
+                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response')]}"/>
+                            <field name="nc_description" default_focus="1"
+                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response')]}"/>
+                            <field name="uom"
+                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response')]}"/>
+                            <field name="cause_of_nc_id"
+                                   attrs="{'readonly': [('state', '=', 'received_vendor_response')], 'required': True}"/>
+                            <field name="proposed_due_date"
+                                   attrs="{'readonly': [('state', '=', 'received_vendor_response')], 'required': True}"/>
+                            <field name="ca_response_id"
+                                   attrs="{'readonly': [('state', '=', 'received_vendor_response')], 'required': True}"/>
                         </group>
                         <group>
-                            <field name="source_of_nc"/>
-                            <field name="immediate_action"/>
-                            <field name="quantity" class="oe_inline"/>
-                            <field name="disposition_type_id"/>
-                            <field name="disposition_action"/>
+                            <field name="source_of_nc"
+                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response')]}"/>
+                            <field name="immediate_action"
+                                   attrs="{'readonly': [('state', '=', 'received_vendor_response')], 'required': True}"/>
+                            <field name="quantity" class="oe_inline"
+                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response')]}"/>
+                            <field name="disposition_type_id"
+                                   attrs="{'readonly': [('state', '=', 'received_vendor_response')], 'required': True}"/>
+                            <field name="disposition_action"
+                                   attrs="{'readonly': [('state', '=', 'received_vendor_response')]}"/>
                             <field name="review_comments"/>
                         </group>
                     </group>
