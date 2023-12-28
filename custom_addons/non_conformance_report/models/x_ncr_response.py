@@ -34,14 +34,14 @@ class NcrResponse(models.Model):
                                              tracking=True)
     prepared_by_title = fields.Char(related='prepared_by_id.job_id.name', string='Title')
     reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.job_id.name', string='Title')
-    total_cost_for_rework = fields.Float(string='Total Cost for Rework')
+    total_cost_for_rework = fields.Float(string='Total Cost for Rework', compute='_compute_total_cost_for_rework')
     rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name', tracking=True)
-    ncr_completion_status = fields.Char(string='NCR Completion Status')
-    total_backcharge_amount = fields.Float(string='Total Backcharge Amount')
+    ncr_completion_status = fields.Char(string='NCR Completion Status', compute='_compute_ncr_completion_status')
+    total_backcharge_amount = fields.Float(string='Total Backcharge Amount', compute='_compute_total_backcharge',)
     title = fields.Char(related='rca_approver_id.job_id.name', string='Title')
     ncr_closed_date = fields.Date(string='NCR Closed Date', tracking=True)
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_response_id', string='NCR NC')
-    show_approve_button = fields.Boolean("Show Approve Button", default=False)
+    show_approve_button = fields.Boolean("Show Approve Button", default=False, store=False)
     state = fields.Selection(
         selection=[("new", "New"),
                    ("review_in_progress", "Review in Progress"),
@@ -86,11 +86,51 @@ class NcrResponse(models.Model):
 
     def approve_and_forward(self):
         # Your logic for approve_and_forward
+        self.write({'state': 'closed'})
         return True
 
     def action_rca_rejected(self):
         # Additional logic can be added here if needed
         return True
+
+    @api.depends('ncr_nc_ids.nc_part_details_ids.estimated_backcharge_price')
+    def _compute_total_backcharge(self):
+        for record in self:
+            # Your custom logic for computing total backcharge
+            record.total_backcharge_amount = sum(
+                part.estimated_backcharge_price for part in record.ncr_nc_ids.mapped('nc_part_details_ids')
+            )
+
+    @api.depends('ncr_nc_ids.nc_part_details_ids.disposition_cost')
+    def _compute_total_cost_for_rework(self):
+        for record in self:
+            # Your custom logic for computing total cost for rework
+            record.total_cost_for_rework = sum(
+                part.disposition_cost for part in record.ncr_nc_ids.mapped('nc_part_details_ids')
+            )
+
+    @api.depends('ncr_nc_ids.ca_response_id', 'ncr_nc_ids.ca_response_id.name')
+    def _compute_ncr_completion_status(self):
+        for record in self:
+            # Filter NCR NC records where ca_response_id has names "CODE-1" or "CODE-2"
+            code_1_2_records = record.ncr_nc_ids.filtered(
+                lambda nc: nc.ca_response_id and nc.ca_response_id.name in ["Code-1", "Code-2"]
+            )
+            # Calculate the total number of nc_s
+            total_nc_s_count = len(code_1_2_records)
+            # Calculate the percentage
+            if len(record.ncr_nc_ids) != 0:
+                percentage = (total_nc_s_count / len(record.ncr_nc_ids)) * 100
+                # Update the ncr_completion_status field
+                record.ncr_completion_status = percentage
+
+                if percentage == 100:
+                    record.show_approve_button = True
+                else:
+                    record.show_approve_button = False
+            else:
+                record.ncr_completion_status = 0
+
 
     @api.constrains('prepared_by_signature_date', 'reviewed_by_signature_date')
     def _check_fields_size(self):

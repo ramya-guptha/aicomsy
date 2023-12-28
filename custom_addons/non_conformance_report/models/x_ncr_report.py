@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+from datetime import datetime, timedelta
+from odoo.exceptions import ValidationError
 
 
 # Define the NcrReport class
@@ -32,43 +34,85 @@ class NcrReport(models.Model):
         self: self.env.user.employee_id.id if self.env.user.employee_id else False, tracking=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
     ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, tracking=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id',
-                                      store=True, tracking=True)
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', store=True, tracking=True)
     approver_job_title = fields.Char(related='ncr_approver_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC', required=True)
     ncs_sequence_no = fields.Integer(string="ncs_sequence", default=1)
+    assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
+    is_location_incharge = fields.Boolean(compute="_is_location_incharge")
+    is_approver = fields.Boolean(compute="_is_approver")
+    is_initiator = fields.Boolean(compute="_is_initiator")
     # State field for the NcrReport
     state = fields.Selection(
         selection=[
             ('new', 'New'),
             ('approval_pending', 'Approval Pending'),
-            ('assigned_to_vendor', 'Assigned to Vendor'),
-            ('received_vendor_response', 'Received Vendor Response'),
             ('approved', 'Approved'),
+            ('awaiting_vendor_response', 'Awaiting Vendor Response'),
+            ('received_vendor_response', 'Received Vendor Response'),
             ('rejected', 'Rejected'),
             ('return_for_further_actions', 'Return for Further Actions'),
-        ], tracking=True
+            ('closed', 'Closed')
+        ], tracking=True, default ='new'
         # Set a default value for the state field
     )
 
+    due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
+
+    @api.onchange('ncr_initiator_id')
+    def _set_approver_id(self):
+        if self.ncr_initiator_id.parent_id:
+            self.ncr_approver_id = self.ncr_initiator_id.parent_id
+        else:
+            self.ncr_approver_id = None
+
+    def _is_location_incharge(self):
+        self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id
+
+    def _is_initiator(self):
+        self.is_initiator = self.env.user == self.ncr_initiator_id.user_id
+
+    def _is_approver(self):
+        self.is_approver = self.env.user == self.ncr_approver_id.user_id
+
+    def _check_nc_table(self):
+        for record in self:
+            if not record.ncr_nc_ids:
+                raise ValidationError('At least one Non-Conformance record is required in the Table')
     # Compute method to set the value of ncr_list based on the ncr_type
     @api.depends('ncr_type_id')
     def _compute_ncr_type_check(self):
         for record in self:
             record.ncr_type_check = record.ncr_type_id.name in ['Supplier', 'Customer Site Compliant']
 
+    @api.depends('state')
+    def _compute_assignee(self):
+        for record in self:
+            if record.state == 'new':
+                record.assigned_to_id = record.ncr_initiator_id.id
+            elif record.state == 'approval_pending':
+                record.assigned_to_id = record.ncr_approver_id.id
+            else:
+                record.assigned_to_id = None
+
     def save_and_forward(self):
+        self._check_nc_table()
         # Your logic for save_and_forward
         self.state = "approval_pending"
-        return True
+        if self.ncr_approver_id.user_id.id != False:
+            self.create_activity('Approval Pending', 'To Do', self.ncr_approver_id.user_id.id, self.due_date)
+
 
     # Your logic for Approve and Submit
     def approve_and_submit(self):
         mail_template = self.env.ref('non_conformance_report.email_template_ncr')
         mail_template.send_mail(self.id, force_send=True)
+        self.mark_activity_as_done("Approval Pending")
+        if self.tag_no_location.location_incharge.user_id.id != False:
+            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
         self.write({'state': 'approved'})
 
         nc_records = self.mapped('ncr_nc_ids')
@@ -76,7 +120,7 @@ class NcrReport(models.Model):
         for nc in nc_records:
             nc.write({'state': 'ncr_submitted'})
 
-        return True
+
 
     def add_supplier(self):
         return {
@@ -98,6 +142,8 @@ class NcrReport(models.Model):
         }
 
     def assign_incharge(self):
+        self.mark_activity_as_done("Assign Response Handler")
+        self.write({'state': 'awaiting_vendor_response'})
         return {
             'name': 'NCR response',
             'res_model': 'x.ncr.response',
@@ -135,6 +181,38 @@ class NcrReport(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    def create_activity(self, summary, activity_type, user_id, date_deadline=None):
+        activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id
+        if not activity_type_id:
+            # Handle the case where 'To Do' activity type is not found
+            return
+        else:
+            # Create a new activity
+            activity = self.env['mail.activity'].create({
+                'activity_type_id': activity_type_id,
+                'summary': summary,
+                'date_deadline': date_deadline,
+                'res_model_id': self.env['ir.model']._get('x.ncr.report').id,
+                'res_id': self.id,
+                'user_id': user_id,
+            })
+
+            return activity
+
+    def mark_activity_as_done(self, summary):
+
+        domain = [
+            ('res_name', '=', self.name),
+            ('user_id', '=', self.env.user.id),
+            ('summary', '=', summary),
+        ]
+
+        activity = self.env['mail.activity'].search(domain, limit=1)
+
+        if activity:
+            # Mark the activity as done
+            activity.action_feedback()
 
 
 # Define NcrType class

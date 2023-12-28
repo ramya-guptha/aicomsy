@@ -67,8 +67,6 @@ class NonConformanceModel(models.Model):
     disposition_action = fields.Selection(
         [('accept', 'Accept'), ('reject', 'Reject')],
         string='Disposition Action',
-        default='accept',
-        required=True,
     )
     state = fields.Selection(
         selection=[
