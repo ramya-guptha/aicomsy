@@ -45,7 +45,6 @@ class NcrReport(models.Model):
         selection=[
             ('new', 'New'),
             ('approval_pending', 'Approval Pending'),
-            ('ncr_submitted', 'NCR Submitted'),
             ('assigned_to_vendor', 'Assigned to Vendor'),
             ('received_vendor_response', 'Received Vendor Response'),
             ('approved', 'Approved'),
@@ -72,10 +71,10 @@ class NcrReport(models.Model):
         mail_template.send_mail(self.id, force_send=True)
         self.write({'state': 'approved'})
 
-        nc_part_records = self.mapped('ncr_nc_ids')
+        nc_records = self.mapped('ncr_nc_ids')
 
-        for nc_part in nc_part_records:
-            nc_part.write({'state': 'ncr_submitted'})
+        for nc in nc_records:
+            nc.write({'state': 'ncr_submitted'})
 
         return True
 

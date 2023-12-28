@@ -38,11 +38,13 @@
                     <group col="2">
                         <group>
                             <field name="ncr_type_check" invisible="1"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="ncr_type_id"
                                    attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
                             <field name="discipline_id"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="supplier_name_id"
                                    attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"
                                    options="{'no_create': True, 'no_create_edit': True}"/>
@@ -74,7 +76,7 @@
                             <field name="uom"/>
                             <field name="quantity"/>
                             <button string="Add Details" type="object" class="oe_highlight" icon="fa-plus"
-                                    name="nc_part_details_popup" confirm=" Are you sure want to go with Add Details?"/>
+                                    name="nc_part_details_popup"/>
                             <field name="attachment_ids" string="Attachments" widget="many2many_binary"
                                    options="{'no_open': True}"/>
                         </tree>
@@ -95,14 +97,15 @@
                                    attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
                             <field name="approver_job_title"
                                    attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
-                            <field name="ncr_category_id" attrs="{'readonly': [('state','in', ['new','closed'])]}"/>
+                            <field name="ncr_category_id" attrs="{'readonly': [('state','in', ['new','closed'])]}"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
                         </group>
                     </group>
 
                     <button string="Save &amp; Forward" type="object" name="save_and_forward"
-                            class="btn-primary col-5" states="new"/>
-                    <span style="display: inline-block;" class="col-2"
-                          confirm=" Are you sure want to go with Save &amp; Forward?"/>
+                            class="btn-primary col-5" states="new"
+                            confirm=" Are you sure want to go with Save &amp; Forward?"/>
+                    <span style="display: inline-block;" class="col-2"/>
                     <button string="Approve &amp; Submit" type="object" name="approve_and_submit"
                             class="btn-primary col-5" states="approval_pending"
                             confirm="Are you sure want to go with Approve &amp; Submit?"/>

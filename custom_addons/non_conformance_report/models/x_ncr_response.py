@@ -54,9 +54,9 @@ class NcrResponse(models.Model):
         # Your logic for save_and_submit
         self.write({'state': 'review_in_progress'})
         self.email_report()
-        nc_part_records = self.mapped('ncr_nc_ids')
-        for nc_part in nc_part_records:
-            nc_part.write({'state': 'received_vendor_response'})
+        nc_records = self.mapped('ncr_nc_ids')
+        for nc in nc_records:
+            nc.write({'state': 'received_vendor_response'})
 
     def email_report(self):
         self.ensure_one()

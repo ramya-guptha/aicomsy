@@ -42,7 +42,8 @@
                     <field name="ncr_nc_ids" attrs="{'invisible': [('state', 'not in', ['new'])]}">
                         <tree>
                             <field name="nc_s"/>
-                            <field name="cause_of_nc_id" attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                            <field name="cause_of_nc_id" attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="disposition_type_id"/>
                             <field name="immediate_action"
                                    attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
@@ -53,7 +54,8 @@
                             <field name="disposition_action"
                                    attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
                             <field name="review_comments" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                            <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                            <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
                         </tree>
                     </field>
                     <group>
