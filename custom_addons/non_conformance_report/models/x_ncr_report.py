@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 
+
 # Define the NcrReport class
 class NcrReport(models.Model):
     _name = 'x.ncr.report'
@@ -31,7 +32,8 @@ class NcrReport(models.Model):
         self: self.env.user.employee_id.id if self.env.user.employee_id else False, tracking=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
     ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, tracking=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id', store=True, tracking=True)
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', related='ncr_initiator_id.parent_id',
+                                      store=True, tracking=True)
     approver_job_title = fields.Char(related='ncr_approver_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date')
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
@@ -68,6 +70,13 @@ class NcrReport(models.Model):
         mail_template = self.env.ref('non_conformance_report.email_template_ncr')
         mail_template.send_mail(self.id, force_send=True)
         self.write({'state': 'approved'})
+
+        nc_records = self.mapped('ncr_nc_ids')
+
+        for nc in nc_records:
+            nc.write({'state': 'ncr_submitted'})
+
+        return True
 
     def add_supplier(self):
         return {
