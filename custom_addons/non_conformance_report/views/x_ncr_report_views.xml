@@ -14,6 +14,7 @@
                 <field name="project_name_title"/>
                 <field name="tag_no_location"/>
                 <field name="state"/>
+                <field name="assigned_to_id"/>
             </tree>
         </field>
     </record>
@@ -25,11 +26,12 @@
                 <header>
                     <button name="email_report" string="Send by Email" type="object" class="btn-primary"
                             confirm=" Are you sure want to go Send by Email?"/>
+                    <field name="is_location_incharge" invisible="True"/>
                     <button string="Assign Response Handler" type="object" name="assign_incharge" class="oe_highlight"
-                            attrs="{'invisible': [('state', 'not in', ['approved'])]}"
+                            attrs="{'invisible': ['|', ('is_location_incharge', '=', False), ('state', '!=', 'approved')]}"
                             confirm="Are you sure want to go Assign Response Handler?"/>
                     <field name="state" widget="statusbar" class="oe_highlight"
-                           statusbar_visible="new,approval_pending,assign_to_vendor,received_vendor_response,approved,return_for_actions,closed"/>
+                           statusbar_visible="new,approval_pending,approved,closed"/>
                 </header>
                 <sheet>
                     <h>
@@ -83,31 +85,30 @@
                     <group col="2">
                         <group>
                             <field name="ncr_initiator_id"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
-                            <field name="ncr_approver_id"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'readonly': [('state','!=', 'new')]}"/>
+                            <field name="ncr_approver_id"/>
                             <field name="ncr_open_date"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'readonly': [('state','!=', 'new')]}"/>
                             <field name="rca_response_due_date"
-                                   attrs="{'readonly': [('state', 'in', ['new','closed'])]}"/>
+                                   attrs="{'readonly': [('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"/>
                         </group>
                         <group>
-                            <field name="initiator_job_title"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
-                            <field name="approver_job_title"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
-                            <field name="ncr_category_id" attrs="{'readonly': [('state','in', ['new','closed'])]}"
+                            <field name="initiator_job_title"/>
+                            <field name="approver_job_title"/>
+                            <field name="ncr_category_id" attrs="{'readonly': [('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                         </group>
                     </group>
-
+                    <field name="is_approver" invisible="True"/>
+                    <field name="is_initiator" invisible="True"/>
                     <button string="Save &amp; Forward" type="object" name="save_and_forward"
                             class="btn-primary col-5" states="new"
-                            confirm=" Are you sure want to go with Save &amp; Forward?"/>
-                    <span style="display: inline-block;" class="col-2"/>
+                            confirm=" Are you sure want to go with Save &amp; Forward?"
+                            attrs="{'invisible': ['|',('is_initiator', '=', False), ('state', '!=', 'new')]}"/>
                     <button string="Approve &amp; Submit" type="object" name="approve_and_submit"
                             class="btn-primary col-5" states="approval_pending"
-                            confirm="Are you sure want to go with Approve &amp; Submit?"/>
+                            confirm="Are you sure want to go with Approve &amp; Submit?"
+                            attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approval_pending')]}"/>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>

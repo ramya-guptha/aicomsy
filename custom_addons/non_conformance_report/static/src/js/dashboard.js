@@ -294,7 +294,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Location");
+                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Source");
                     });
         },
 
@@ -319,7 +319,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Location");
+                        self.createBarChart(ctx, data, classificationColors, "Cost of Rework");
                     });
         },
 
