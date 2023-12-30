@@ -108,13 +108,16 @@ class NcrReport(models.Model):
 
     # Your logic for Approve and Submit
     def approve_and_submit(self):
+        # Get the email template for NCR approval
         mail_template = self.env.ref('non_conformance_report.email_template_ncr')
+        # Send approval email and force_send=True ensures the email is sent immediately
         mail_template.send_mail(self.id, force_send=True)
         self.mark_activity_as_done("Approval Pending")
         if self.tag_no_location.location_incharge.user_id.id != False:
             self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
         self.write({'state': 'approved'})
 
+        # Update the state of associated Non-Conformance Records to 'ncr_submitted'
         nc_records = self.mapped('ncr_nc_ids')
 
         for nc in nc_records:
@@ -123,6 +126,7 @@ class NcrReport(models.Model):
 
 
     def add_supplier(self):
+        # Open a form to add a new supplier
         return {
             'name': 'Add Supplier',
             'type': 'ir.actions.act_window',
@@ -142,6 +146,7 @@ class NcrReport(models.Model):
         }
 
     def assign_incharge(self):
+        # Open a form to assign an in-charge for NCR response
         self.mark_activity_as_done("Assign Response Handler")
         self.write({'state': 'awaiting_vendor_response'})
         return {

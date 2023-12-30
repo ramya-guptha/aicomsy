@@ -42,9 +42,11 @@ class NcrResponse(models.Model):
     ncr_closed_date = fields.Date(string='NCR Closed Date', tracking=True)
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_response_id', string='NCR NC')
     show_approve_button = fields.Boolean("Show Approve Button", default=False, store=False)
+    assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
     state = fields.Selection(
         selection=[("new", "New"),
                    ("review_in_progress", "Review in Progress"),
+                   ('approval_pending', 'Approval Pending'),
                    ("closed", "Closed")
                    ],
         default="new", tracking=True  # Set a default value for the state field
@@ -53,13 +55,17 @@ class NcrResponse(models.Model):
     def save_and_submit(self):
         # Your logic for save_and_submit
         self.write({'state': 'review_in_progress'})
+        # Trigger the email report function
         self.email_report()
+        # Update the state of associated Non-Conformance Records to 'received_vendor_response'
         nc_records = self.mapped('ncr_nc_ids')
         for nc in nc_records:
             nc.write({'state': 'received_vendor_response'})
 
     def email_report(self):
+        # Ensure that this method is called on a single record
         self.ensure_one()
+        # Get the email template for NCR response
         mail_template = self.env.ref('non_conformance_report.email_template_ncr_response', raise_if_not_found=False)
 
         ctx = {
@@ -73,6 +79,7 @@ class NcrResponse(models.Model):
             'force_email': True,
             'model_description': self.with_context().name,
         }
+        # Return an action to open the email composition form
         return {
             'name': 'Email',
             'type': 'ir.actions.act_window',
@@ -134,8 +141,25 @@ class NcrResponse(models.Model):
 
     @api.constrains('prepared_by_signature_date', 'reviewed_by_signature_date')
     def _check_fields_size(self):
+        # Check the size of signature dates and raise validation error if exceeded
         for record in self:
             if record.prepared_by_signature_date and len(record.prepared_by_signature_date) > 30:
                 raise ValidationError("Signature With Date should be at most 30 characters.")
             if record.reviewed_by_signature_date and len(record.reviewed_by_signature_date) > 30:
                 raise ValidationError("Signature With Date should be at most 30 characters.")
+
+    @api.depends('state')
+    def _compute_assignee(self):
+        for record in self:
+            if record.state == 'new':
+                # Set assigned_to_id to the name of the prepared by in the 'new' state
+                record.assigned_to_id = record.prepared_by_id.id
+            elif record.state == 'review_in_progress':
+                # Set assigned_to_id to the name of the reviewer and approver by in the 'review_in_progress' state
+                record.assigned_to_id = record.reviewed_and_approved_by_id.id
+            elif record.state == 'approval_pending':
+                # Set assigned_to_id to the name of the RCA approver in the 'approval_pending' state
+                record.assigned_to_id = record.rca_approver_id.id
+            else:
+                # Set assigned_to_id to None for other states
+                record.assigned_to_id = None

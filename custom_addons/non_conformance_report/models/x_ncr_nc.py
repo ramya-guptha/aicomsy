@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
+# Define NonConformanceModel class
 class NonConformanceModel(models.Model):
     _name = 'x.ncr.nc'
     _description = 'Non-Conformance Model'
@@ -94,7 +95,7 @@ class NonConformanceModel(models.Model):
         }
 
 
-# Define YourModelName class
+# Define NCRSource class
 class NCRSource(models.Model):
     _name = 'x.ncr.source'
     _description = 'x NCR Source'
