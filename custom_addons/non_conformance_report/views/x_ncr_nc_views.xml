@@ -39,33 +39,33 @@
                     <group col="2">
                         <group>
                             <field name="nc_s"
-                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response'), ('state', '=', 'approved')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'ncr_submitted', 'received_vendor_response', 'approved')]}"/>
                             <field name="nc_description" default_focus="1"
-                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response'), ('state', '=', 'approved')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'ncr_submitted', 'received_vendor_response', 'approved')]}"/>
                             <field name="uom"
-                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response'), ('state', '=', 'approved')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'ncr_submitted', 'received_vendor_response', 'approved')]}"/>
                             <field name="cause_of_nc_id"
-                                   attrs="{'readonly': [('state', '=', 'received_vendor_response'), ('state', '=', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"
+                                   attrs="{'readonly': [ ('state', 'in', 'received_vendor_response', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="proposed_due_date"
-                                   attrs="{'readonly': [('state', '=', 'received_vendor_response', ('state', '=', 'approved'))], 'required': [('state', '=', 'ncr_submitted')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'received_vendor_response', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"/>
                             <field name="ca_response_id"
-                                   attrs="{'readonly': [('state', '=', 'received_vendor_response'), ('state', '=', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"
+                                   attrs="{'readonly': [ ('state', 'in', 'received_vendor_response', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                         </group>
                         <group>
                             <field name="source_of_nc"
-                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response'), ('state', '=', 'approved')]}"
+                                   attrs="{'readonly': [ ('state', 'in', 'ncr_submitted', 'received_vendor_response', 'approved')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="immediate_action"
-                                   attrs="{'readonly': [('state', '=', 'received_vendor_response'), ('state', '=', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'received_vendor_response', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"/>
                             <field name="quantity" class="oe_inline"
-                                   attrs="{'readonly': ['|', ('state', '=', 'ncr_submitted'), ('state', '=', 'received_vendor_response'), ('state', '=', 'approved')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'ncr_submitted', 'received_vendor_response', 'approved')]}"/>
                             <field name="disposition_type_id"
-                                   attrs="{'readonly': [('state', '=', 'received_vendor_response'), ('state', '=', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"
+                                   attrs="{'readonly': [ ('state', 'in', 'received_vendor_response', 'approved')], 'required': [('state', '=', 'ncr_submitted')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="disposition_action"
-                                   attrs="{'readonly': [('state', '=', 'received_vendor_response'), ('state', '=', 'approved')]}"/>
+                                   attrs="{'readonly': [ ('state', 'in', 'received_vendor_response', 'approved')]}"/>
                             <field name="review_comments"/>
                         </group>
                     </group>
