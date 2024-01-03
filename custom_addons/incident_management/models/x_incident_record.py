@@ -7,6 +7,7 @@ class IncidentRecord(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
 
     _name = "x.incident.record"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "To Report Incidents"
     _order = "location"
     _sql_constraints = [

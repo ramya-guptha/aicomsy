@@ -8,6 +8,7 @@ class IncInvestigation(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
 
     _name = "x.inc.investigation"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Investigation"
 
     # ---------------------------------------- CRUD METHODS ---------------------------------------
