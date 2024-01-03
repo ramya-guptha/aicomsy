@@ -42,16 +42,16 @@ class IncInvestigation(models.Model):
     description = fields.Html(related="incident_id.description")
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     # Investigation Team Details
-    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True)
+    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True, tracking=True)
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
-    field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True)
+    field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True, tracking=True)
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")
-    hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True)
+    hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True, tracking=True)
     hr_administration_id = fields.Integer(related="hr_administration.id", string="ID Number")
-    finance = fields.Many2one('hr.employee', string="Finance", required=True)
+    finance = fields.Many2one('hr.employee', string="Finance", required=True, tracking=True)
     finance_id = fields.Integer(related="finance.id", string="ID Number")
     investigation_team = fields.One2many("x.inc.investigation.team", "investigation_id",
-                                         string="Investigation Team", required=True)
+                                         string="Investigation Team", required=True, tracking=True)
 
     # Investigation Details Tab
     investigation_details = fields.Text(string='Investigation Details')
