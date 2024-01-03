@@ -7,6 +7,7 @@ class IncidentRecord(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
 
     _name = "x.incident.record"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "To Report Incidents"
     _order = "location"
     _sql_constraints = [
@@ -28,11 +29,11 @@ class IncidentRecord(models.Model):
 
     name = fields.Char(string="Incident Reference", default='New', readonly=True)
     inc_reported_date = fields.Date(string="Date Reported", default=lambda self: fields.Date.today(), required=True)
-    inc_date_time = fields.Datetime(string="Date & Time", required=True)
-    shift = fields.Many2one("x.inc.shift", required=True)
-    type = fields.Many2many("x.inc.type", string="Type of Incident", required=True)
-    location = fields.Many2one("x.location", string="Location of Incident", required=True)
-    description = fields.Html(string="Description", required=True)
+    inc_date_time = fields.Datetime(string="Date & Time", required=True, tracking=True)
+    shift = fields.Many2one("x.inc.shift", required=True, tracking=True)
+    type = fields.Many2many("x.inc.type", string="Type of Incident", required=True, tracking=True)
+    location = fields.Many2one("x.location", string="Location of Incident", required=True, tracking=True)
+    description = fields.Html(string="Description", required=True, tracking=True)
     notified_by = fields.Many2one('hr.employee', string="Notified By")
     notified_by_id = fields.Integer(related="notified_by.id", string="Notified By ID")
     notified_by_type = fields.Selection(related="notified_by.employee_type")
