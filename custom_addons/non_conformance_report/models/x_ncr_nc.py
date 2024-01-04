@@ -65,7 +65,7 @@ class NonConformanceModel(models.Model):
     response_attachment_ids = fields.One2many('ir.attachment', 'res_id', string="RCA / CA Response")
     review_comments = fields.Text(string='Review Comments (If Any)', help='Max 400 Characters')
     ca_response_id = fields.Many2one('x.ncr.ca.response', string='RCA Response')
-    rca_response_type1 = fields.Char(related='ca_response_id.nam', string="RCA Response Type", store=True)
+    rca_response = fields.Char(related='ca_response_id.rca_response', string="RCA Response", store=True)
     disposition_action = fields.Selection(
         [('accept', 'Accept'), ('reject', 'Reject')],
         string='Disposition Action',
@@ -147,4 +147,4 @@ class NcrCaResponse(models.Model):
     _description = 'NCR RCA Response'
 
     name = fields.Char(string='Name', required=True)
-    nam = fields.Char(string='Response Type')
+    rca_response = fields.Char(string='Response Type')
