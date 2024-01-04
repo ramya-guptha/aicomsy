@@ -55,6 +55,7 @@
                                    attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
                             <field name="review_comments" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
                             <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                            <field name="rca_response_type1"/>
                         </tree>
                     </field>
                     <group>
@@ -99,6 +100,7 @@
                                        attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
                                 <field name="ca_response_id"
                                        attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
+                                <field name="rca_response_type1"/>
                             </tree>
                         </field>
                         <group col="2" attrs="{'invisible': [('state', '=', 'new')]}">
