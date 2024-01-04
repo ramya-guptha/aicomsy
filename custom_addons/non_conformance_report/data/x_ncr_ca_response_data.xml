@@ -2,15 +2,19 @@
     <data noupdate="1">
         <record id="rca1" model="x.ncr.ca.response">
             <field name="name">CODE-1</field>
+            <field name="rca_response">Accepted, No Follow-Up Required</field>
         </record>
         <record id="rca2" model="x.ncr.ca.response">
             <field name="name">CODE-2</field>
+            <field name="rca_response">Accepted, Follow-Up Required</field>
         </record>
         <record id="rca3" model="x.ncr.ca.response">
             <field name="name">CODE-3</field>
+            <field name="rca_response">Revise &amp; Resubmit</field>
         </record>
         <record id="rca4" model="x.ncr.ca.response">
             <field name="name">CODE-4</field>
+            <field name="rca_response">Rejected</field>
         </record>
     </data>
 </odoo>

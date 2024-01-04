@@ -81,6 +81,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="name"/>
+                <field name="rca_response"/>
             </tree>
         </field>
     </record>
