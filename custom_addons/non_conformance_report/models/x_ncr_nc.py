@@ -41,6 +41,16 @@ class NonConformanceModel(models.Model):
             ncr_nc_records.write({'ncr_response_id': ncr_resp_id})
         return nc
 
+    def write(self, values):
+        # Add your custom validation logic here before updating the record
+        for records in self:
+            if records.state == 'received_vendor_response':
+                if ((not 'disposition_action' in values or not 'ca_response_id' in values)
+                        and (records.disposition_action == None or records.ca_response_id == None)):
+                    raise ValidationError("Enter the required parameters: Disposition Type, Disposition Action and RCA Response")
+
+        return super().write(values)
+
     @api.constrains('nc_description', 'uom')
     def _check_fields_size(self):
         for record in self:
@@ -66,7 +76,7 @@ class NonConformanceModel(models.Model):
     review_comments = fields.Text(string='Review Comments (If Any)', help='Max 400 Characters')
     ca_response_id = fields.Many2one('x.ncr.ca.response', string='RCA Response')
     disposition_action = fields.Selection(
-        [('accept', 'Accept'), ('reject', 'Reject')],
+        [('accept', 'Accept'), ('reject', 'Reject'), ('reinspect', 'Reinspect')],
         string='Disposition Action',
     )
     state = fields.Selection(

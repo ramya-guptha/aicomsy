@@ -40,37 +40,37 @@
                     <group col="2">
                         <group>
                             <field name="ncr_type_check" invisible="1"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending','closed'])]}"/>
                             <field name="ncr_type_id"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="discipline_id"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="supplier_name_id"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"
                                    options="{'no_create': True, 'no_create_edit': True}"/>
                             <field name="purchase_order_no"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="project_number"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="project_name_title"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="tag_no_location"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
                         </group>
                         <group>
                             <field name="shipment_reference"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="received_date"
-                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','in', ['approval_pending','closed'])]}"/>
+                                   attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="inspection_stage"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="rfi_number"
-                                   attrs="{'readonly': [('state','in', ['approval_pending','closed'])]}"/>/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                         </group>
                     </group>
-                    <field name="ncr_nc_ids">
-                        <tree editable="bottom">
+                    <field name="ncr_nc_ids" options="{'no_create': [('state', '!=', 'new')]}">
+                        <tree editable="bottom" create="attrs.get('create', True)">
                             <field name="nc_s"/>
                             <field name="source_of_nc" options="{'no_create': True, 'no_create_edit': True, 'required': True}" />
                            <field name="nc_description" required="True" />
@@ -86,7 +86,7 @@
                         <group>
                             <field name="ncr_initiator_id"
                                    attrs="{'readonly': [('state','!=', 'new')]}"/>
-                            <field name="ncr_approver_id"/>
+                            <field name="ncr_approver_id" attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="ncr_open_date"
                                    attrs="{'readonly': [('state','!=', 'new')]}"/>
                             <field name="rca_response_due_date"
@@ -102,13 +102,17 @@
                     <field name="is_approver" invisible="True"/>
                     <field name="is_initiator" invisible="True"/>
                     <button string="Save &amp; Forward" type="object" name="save_and_forward"
-                            class="btn-primary col-5" states="new"
+                            class="btn-primary col-5"
                             confirm=" Are you sure want to go with Save &amp; Forward?"
                             attrs="{'invisible': ['|',('is_initiator', '=', False), ('state', '!=', 'new')]}"/>
                     <button string="Approve &amp; Submit" type="object" name="approve_and_submit"
-                            class="btn-primary col-5" states="approval_pending"
+                            class="btn-primary col-5"
                             confirm="Are you sure want to go with Approve &amp; Submit?"
                             attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approval_pending')]}"/>
+                    <button string="Reinspect Completed" type="object" name="reinspect_completed"
+                            class="btn-primary col-5"
+                            confirm="Are you sure want to mark reinspection as complete?"
+                            attrs="{'invisible': ['|',('is_initiator', '=', False), ('state', '!=', 'return_for_further_actions')]}"/>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>
