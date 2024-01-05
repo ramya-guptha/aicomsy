@@ -41,7 +41,7 @@ class NcrResponse(models.Model):
     reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.job_id.name', string='Title')
     manual_total_cost_rework = fields.Float(string='Total Cost for Rework')
     total_cost_for_rework = fields.Float(string='Total Cost for Rework', compute='_compute_total_cost_for_rework', inverse="_inverse_total_cost_rework_editable")
-    rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name', compute="_compute_rca_approver", tracking=True)
+    rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name', related="ncr_id.ncr_approver_id", tracking=True)
     ncr_completion_status = fields.Char(string='NCR Completion Status', compute='_compute_ncr_completion_status')
     manual_total_backcharge = fields.Float(string='Total Backcharge Amount')
     total_backcharge_amount = fields.Float(string='Total Backcharge Amount', compute='_compute_total_backcharge', inverse="_inverse_total_backcharge" )
