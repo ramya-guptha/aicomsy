@@ -40,7 +40,7 @@ class NcrReport(models.Model):
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category')
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC', required=True)
-    ncs_sequence_no = fields.Integer(string="ncs_sequence", default=1)
+    ncs_sequence_no = fields.Integer(string="ncs_sequence", default=1, copy=False)
     assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
     is_location_incharge = fields.Boolean(compute="_is_location_incharge")
     is_approver = fields.Boolean(compute="_is_approver")
@@ -100,11 +100,12 @@ class NcrReport(models.Model):
 
     def save_and_forward(self):
         self._check_nc_table()
-        # Your logic for save_and_forward
-        self.state = "approval_pending"
         if self.ncr_approver_id.user_id.id != False:
+            # Your logic for save_and_forward
+            self.state = "approval_pending"
             self.create_activity('Approval Pending', 'To Do', self.ncr_approver_id.user_id.id, self.due_date)
-
+        else:
+            raise ValidationError('Approver needs to be assigned. Initiator\'s manager is set as the default Approver')
 
     # Your logic for Approve and Submit
     def approve_and_submit(self):
@@ -113,7 +114,7 @@ class NcrReport(models.Model):
         # Send approval email and force_send=True ensures the email is sent immediately
         mail_template.send_mail(self.id, force_send=True)
         self.mark_activity_as_done("Approval Pending")
-        if self.tag_no_location.location_incharge.user_id.id != False:
+        if self.tag_no_location.location_incharge.user_id.id:
             self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
         self.write({'state': 'approved'})
 
@@ -123,6 +124,13 @@ class NcrReport(models.Model):
         for nc in nc_records:
             nc.write({'state': 'ncr_submitted'})
 
+
+    def reinspect_completed(self):
+        nc_records = self.mapped('ncr_nc_ids')
+        for nc in nc_records:
+            if nc.disposition_action == 'reinspect':
+                nc.write({'state': 'ncr_submitted'})
+        self.state = "closed"
 
 
     def add_supplier(self):
@@ -148,7 +156,6 @@ class NcrReport(models.Model):
     def assign_incharge(self):
         # Open a form to assign an in-charge for NCR response
         self.mark_activity_as_done("Assign Response Handler")
-        self.write({'state': 'awaiting_vendor_response'})
         return {
             'name': 'NCR response',
             'res_model': 'x.ncr.response',

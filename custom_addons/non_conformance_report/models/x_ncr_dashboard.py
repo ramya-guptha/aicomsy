@@ -95,7 +95,7 @@ class NCRDashboard(models.Model):
         if where_clause:
             where_clause = f" WHERE {where_clause}"
 
-        final_query = f"{base_query} {where_clause} GROUP BY mom,ncs_source"
+        final_query = f"{base_query} {where_clause} GROUP BY mom,ncs_source ORDER BY mom"
         self.env.cr.execute(final_query)
         result = self.env.cr.fetchall()
 
@@ -143,7 +143,7 @@ class NCRDashboard(models.Model):
         if where_clause:
             where_clause = f" WHERE {where_clause}"
 
-        final_query = f"{base_query} {where_clause} GROUP BY mom, ncr_type_id, ncr_type.name"
+        final_query = f"{base_query} {where_clause} GROUP BY mom, ncr_type_id, ncr_type.name ORDER BY mom"
 
         self.env.cr.execute(final_query)
         result = self.env.cr.fetchall()
@@ -190,7 +190,7 @@ class NCRDashboard(models.Model):
         where_clause = " AND ".join(conditions)  # Final query with the dynamically constructed WHERE clause
         if where_clause:
             where_clause = f" WHERE {where_clause}"
-        final_query = f"{base_query} {where_clause} GROUP BY mom, project_number"
+        final_query = f"{base_query} {where_clause} GROUP BY mom, project_number ORDER BY mom"
 
         self.env.cr.execute(final_query)
         result = self.env.cr.fetchall()

@@ -30,9 +30,6 @@
                     <field name="state" widget="statusbar" statusbar_visible="new,closed"/>
                 </header>
                 <sheet>
-                    <h>
-                        <field name="name"/>
-                    </h>
                     <group string="Part-2">
 
                         <field name="ncr_id" readonly="True"/>
@@ -40,89 +37,99 @@
                         <field name="project_number"/>
                         <field name="project_name_title"/>
                     </group>
-                    <field name="ncr_nc_ids" attrs="{'invisible': [('state', 'not in', ['new'])]}">
-                        <tree>
+                    <field name="ncr_nc_ids" attrs="{'invisible': [('state', 'not in', ['new', 'review_in_progress', 'review_rejection'])]}">
+                        <tree create="false">
                             <field name="nc_s"/>
-                            <field name="cause_of_nc_id" attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                            <field name="cause_of_nc_id" attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                             <field name="disposition_type_id"/>
                             <field name="immediate_action"
-                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
+                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                             <field name="proposed_due_date"
-                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
+                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                             <field name="response_attachment_ids"
-                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new'])]}"/>
+                                   attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                             <field name="disposition_action"
-                                   attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                            <field name="review_comments" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                            <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                            <field name="rca_response"/>
+                                   attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
+                            <field name="review_comments" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
+                            <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                         </tree>
                     </field>
                     <group>
-                        <field name="supplier_response" attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+                        <field name="supplier_response" attrs="{'readonly': [('state', 'not in', ['new', 'review_rejection'])], 'required': [('state', '=', 'new')], 'invisible': [('state', 'in', ['draft'])]}"/>
                     </group>
                     <group col="2">
                         <group>
-                            <field name="prepared_by_id" attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+                            <field name="prepared_by_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
                             <field name="prepared_by_signature_date"
-                                   attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+                                   attrs="{'readonly': [('state', 'not in', ['new', 'review_rejection'])], 'required': [('state', 'in', ['new', 'review_rejection'])], 'invisible': [('state', 'in', ['draft'])]}"/>
                             <field name="prepared_by_title"/>
                         </group>
                         <group>
                             <field name="reviewed_and_approved_by_id"
-                                   attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+                                   attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
                             <field name="reviewed_by_signature_date"
-                                   attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+                                   attrs="{'readonly': ['|', ('is_reviewer', '=', False), ('state', 'not in', ['review_in_progress'])], 'required': [('state', '=', 'review_in_progress')],'invisible': [('state', 'in', ['draft'])] }"/>
                             <field name="reviewed_by_title"/>
+                        </group>
+                        <group>
+                            <field name="is_approver" invisible="True"/>
+                            <field name="is_preparer" invisible="True"/>
+                            <field name="is_reviewer" invisible="True"/>
                             <button string="Save and Submit" colspan='2'
-                                    attrs="{'invisible': [('state', 'not in', ['new'])]}" type="object"
+                                    attrs="{'invisible': ['|',('is_preparer', '=', False),('state', 'not in', ['new', 'review_rejection'])]}" type="object"
                                     name="save_and_submit"
                                     class="oe_highlight" widget="button"
                                     confirm="Are you sure want to go with Save and Submit?"/>
+                            <button string="Review &amp; Approve" colspan='2'
+                                    attrs="{'invisible': ['|', ('is_reviewer', '=', False), ('state', 'not in', ['review_in_progress'])]}" type="object"
+                                    name="review_approve"
+                                    class="oe_highlight" widget="button"
+                                    confirm="Are you sure want to Approve it?"/>
                         </group>
                     </group>
-                    <group string="Part-3" attrs="{'invisible': [('state', '=', 'new')]}">
+                    <group string="Part-3" attrs="{'invisible': [('state', 'in', ['draft', 'new', 'review_in_progress', 'review_rejection'])]}">
                         <field name="ncr_nc_ids">
-                            <tree>
+                            <tree create="false">
                                 <field name="nc_s"/>
-                                <field name="cause_of_nc_id"
-                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                <field name="cause_of_nc_id" attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                                 <field name="disposition_type_id"/>
                                 <field name="immediate_action"
-                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                       attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                                 <field name="proposed_due_date"
-                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                       attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                                 <field name="response_attachment_ids"
-                                       attrs="{'column_invisible': [('parent.state', '!=', 'new')]}"/>
+                                       attrs="{'column_invisible': [('parent.state', 'not in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'new')]}"/>
                                 <field name="disposition_action"
-                                       attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                                <field name="review_comments"
-                                       attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                                <field name="ca_response_id"
-                                       attrs="{'column_invisible': [('parent.state', '=', 'new')]}"/>
-                                <field name="rca_response"/>
+                                       attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
+                                <field name="review_comments" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
+                                <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                             </tree>
                         </field>
                         <group col="2" attrs="{'invisible': [('state', '=', 'new')]}">
-                            <field name="total_cost_for_rework"/>
+                            <field name="total_cost_for_rework" attrs="{'readonly': [('state', '=', 'closed')]}"/>
                             <field name="rca_approver_id"/>
                             <field name="ncr_completion_status"/>
                             <field name="show_approve_button" invisible="True"/>
-                            <button string="Approve and Forward" colspan='2'
-                                    type="object"
-                                    name="approve_and_forward"
-                                    class="oe_highlight" attrs="{'invisible': [('show_approve_button', '=', False)]}"
-                                    confirm=" Are you sure want to go with Approve and Forward?"/>
+                            <field name="to_reject" invisible="True"/>
+
                         </group>
                         <group attrs="{'invisible': [('state', '=', 'new')]}">
-                            <field name="total_backcharge_amount"/>
+                            <field name="total_backcharge_amount" attrs="{'readonly': [('state', '=', 'closed')]}"/>
                             <field name="title"/>
-                            <field name="ncr_closed_date"/>
-                            <button string="RCA REJECTED" colspan='2'
-                                    type="object"
-                                    name="action_rca_rejected" class="oe_highlight"
-                                    attrs="{'invisible': [('show_approve_button', '=', True)]}"
-                                    confirm="Are you sure want to go with RCA REJECTED?"/>
+                            <field name="ncr_closed_date" attrs="{'required': [('show_approve_button', '=', True)]}"/>
+
+                        </group>
+                        <group>
+                            <button string="Approve and Forward" colspan='2'
+                                        type="object"
+                                        name="approve_and_forward"
+                                        class="oe_highlight" attrs="{'invisible': ['|', ('show_approve_button', '=', False), ('state', '=', 'closed')]}"
+                                        confirm=" Are you sure want to go with Approve and Forward?"/>
+                            <button string="Disposition Rejected" colspan='2'
+                                        type="object"
+                                        name="action_rca_rejected" class="oe_highlight"
+                                        attrs="{'invisible': ['|', ('to_reject', '=', False), ('state', '=', 'closed')]}"
+                                        confirm="Are you sure want to send the rejected items for further review?"/>
                         </group>
                     </group>
                 </sheet>
