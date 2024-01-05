@@ -39,11 +39,11 @@
                     <group col="2">
                         <group>
                             <field name="nc_s"
-                                   attrs="{'readonly': [ ('state', 'in', ['ncr_submitted', 'received_vendor_response', 'approved'])]}"/>
+                                   attrs="{'readonly': [ ('state', 'not in', ['new', 'return_for_further_actions'])]}"/>
                             <field name="nc_description" default_focus="1"
-                                   attrs="{'readonly': [ ('state', 'in', ['ncr_submitted', 'received_vendor_response', 'approved'])]}"/>
+                                   attrs="{'readonly': [ ('state', 'not in', ['new', 'return_for_further_actions'])]}"/>
                             <field name="uom"
-                                   attrs="{'readonly': [ ('state', 'in', ['ncr_submitted', 'received_vendor_response', 'approved'])]}"/>
+                                   attrs="{'readonly': [ ('state', 'not in', ['new', 'return_for_further_actions'])]}"/>
                             <field name="cause_of_nc_id"
                                    attrs="{'readonly': [ ('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
@@ -61,7 +61,7 @@
                             <field name="immediate_action"
                                    attrs="{'readonly': [ ('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"/>
                             <field name="quantity" class="oe_inline"
-                                   attrs="{'readonly': [ ('state', 'in', ['ncr_submitted', 'received_vendor_response', 'approved'])]}"/>
+                                   attrs="{'readonly': [ ('state', 'not in', ['new', 'return_for_further_actions'])]}"/>
                             <field name="disposition_type_id"
                                    attrs="{'readonly': [('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>

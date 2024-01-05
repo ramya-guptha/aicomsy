@@ -59,6 +59,24 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                 $(ncr_source).each(function(src) {
                     $('#src_selection').append("<option value=" + ncr_source[src].id + ">" + ncr_source[src].name + "</option>");
                 });
+                var startDateInput = document.getElementById("start_date");
+                var endDateInputt = document.getElementById("end_date");
+
+
+                // Set the value to a specific date (e.g., "2023-06-01")
+                var today = new Date();
+
+                var formattedDate = today.getFullYear() + '-' +
+                            ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + today.getDate()).slice(-2);
+                endDateInputt.value = formattedDate
+                var sixMonthsAgo = new Date();
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                sixMonthsAgo.setDate(1);
+                startDateInput.value = sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+
+
             })
         },
 
@@ -245,6 +263,32 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             }
         },
 
+        _getStartDate: function(){
+            var self = this;
+            if (self.flag === 0){
+                var sixMonthsAgo = new Date();
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                sixMonthsAgo.setDate(1);
+                return sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+            }
+            else {
+                return  $('#start_date').val();
+            }
+        },
+        _getEndDate: function(){
+            var self = this;
+            if (self.flag === 0){
+                var today = new Date();
+
+                return today.getFullYear() + '-' +
+                            ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + today.getDate()).slice(-2);
+            }
+            else {
+                return $('#end_date').val();
+            }
+        },
         /**
         function for getting values to location  graph
         */
@@ -252,8 +296,9 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncr_by_location");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
+
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -277,8 +322,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncs_source_classification");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -302,8 +347,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncs_cost_of_rework");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -327,8 +372,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncs_backcharges");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();

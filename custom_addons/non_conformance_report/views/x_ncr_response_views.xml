@@ -30,7 +30,10 @@
                     <field name="state" widget="statusbar" statusbar_visible="new,closed"/>
                 </header>
                 <sheet>
-                    <group string="Part-2">
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group string="Response To NCR">
 
                         <field name="ncr_id" readonly="True"/>
                         <field name="ncr_type_id"/>
@@ -87,7 +90,7 @@
                                     confirm="Are you sure want to Approve it?"/>
                         </group>
                     </group>
-                    <group string="Part-3" attrs="{'invisible': [('state', 'in', ['draft', 'new', 'review_in_progress', 'review_rejection'])]}">
+                    <group string="Disposition Decision" attrs="{'invisible': [('state', 'in', ['draft', 'new', 'review_in_progress', 'review_rejection'])]}">
                         <field name="ncr_nc_ids">
                             <tree create="false">
                                 <field name="nc_s"/>
@@ -123,12 +126,12 @@
                             <button string="Approve and Forward" colspan='2'
                                         type="object"
                                         name="approve_and_forward"
-                                        class="oe_highlight" attrs="{'invisible': ['|', ('show_approve_button', '=', False), ('state', '=', 'closed')]}"
+                                        class="oe_highlight" attrs="{'invisible': ['|','|', ('show_approve_button', '=', False), ('state', '=', 'closed'), ('is_approver', '=', False)]}"
                                         confirm=" Are you sure want to go with Approve and Forward?"/>
-                            <button string="Disposition Rejected" colspan='2'
+                            <button string="Reject Disposition" colspan='2'
                                         type="object"
                                         name="action_rca_rejected" class="oe_highlight"
-                                        attrs="{'invisible': ['|', ('to_reject', '=', False), ('state', '=', 'closed')]}"
+                                        attrs="{'invisible': ['|', '|', ('to_reject', '=', False), ('state', '=', 'closed'), ('is_approver', '=', False)]}"
                                         confirm="Are you sure want to send the rejected items for further review?"/>
                         </group>
                     </group>
