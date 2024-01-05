@@ -8,50 +8,304 @@
                     <div class="oe_structure"/>
                     <div class="row">
                         <div class="col-xs-8">
-                            <table class="table table-condensed" style="border: 3px solid black !important;">
-                                <tr>
-                                    <td width="40%">
-                                        <p style="text-align:center;padding-top:10px;">
-                                            Test
-                                        </p>
-                                    </td>
-                                    <td width="60%">
-                                        <table>
-                                            <tr>
-                                                <td colspan="3" class="text-center">
-                                                    <span t-field="o.name"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span>
-                                                        <strong>NCR Type:</strong>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span>:</span>
-                                                </td>
-                                                <td>
-                                                    <span t-field="o.ncr_type_id"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span>
-                                                        <strong>Project Number:</strong>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span>:</span>
-                                                </td>
-                                                <td>
-                                                    <span t-field="o.project_number"/>
-                                                </td>
-                                            </tr>
+                            <tr>
+                                <td width="10%">
+                                    <p style="text-align:center;padding-top:10px;">
+                                    </p>
+                                </td>
+                                <td width="60%">
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <span t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR Type:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_type_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Project Number:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.project_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Project Name Title:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.project_name_title"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Tag No Location:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.tag_no_location"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR Initiator:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_initiator_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Initiator Job Title:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.initiator_job_title"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="o.ncr_type_id in ['Supplier', 'Customer Site Compliant']">
+                                            <td>
+                                                <span>
+                                                    <strong>Discipline:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.discipline_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Supplier Name:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.supplier_name_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Purchase Order No:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.purchase_order_no"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Shipment Reference:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.shipment_reference"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Received Date:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.received_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Inspection Stage:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.inspection_stage"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>RFI Number:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.rfi_number"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <td>
+                                        <table class="table table-condensed"
+                                               style="border: 3px solid black !important;">
+                                            <thead>
+                                                <tr>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>NC S:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Source of NC:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>NC Description:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>UOM:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Quantity:</strong>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="o.ncr_nc_ids" t-as="nc">
+                                                    <tr>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.nc_s"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.source_of_nc"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.nc_description"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.uom"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.quantity"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
                                         </table>
                                     </td>
-                                </tr>
-                            </table>
+
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR Open Date:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_open_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR Approver:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_approver_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Approver Job Title:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.approver_job_title"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>RCA Response Due Date:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.rca_response_due_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR Category:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_category_id"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
                         </div>
                     </div>
                 </div>
@@ -65,7 +319,340 @@
                     <div class="oe_structure"/>
                     <div class="row">
                         <div class="col-xs-8">
-                            Testing
+                            <tr>
+                                <td width="10%">
+                                    <p style="text-align:center;padding-top:10px;">
+                                    </p>
+                                </td>
+                                <td width="60%">
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <span t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR Type:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_type_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>NCR No.:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.ncr_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Project Number:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.project_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Project Name / Title:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.project_name_title"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Supplier Response:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.supplier_response"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Prepared By:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.prepared_by_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Reviewed &amp; Approved By:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.reviewed_and_approved_by_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Prepared By Signature Date:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.prepared_by_signature_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Reviewed By Signature Date:</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.reviewed_by_signature_date"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Title (Prepared By):</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.prepared_by_title"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>
+                                                    <strong>Title (Reviewed &amp; Approved By):</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>:</span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.reviewed_by_title"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <td>
+                                        <table class="table table-condensed"
+                                               style="border: 3px solid black !important;">
+                                            <thead>
+                                                <tr>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>NC S:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Source of NC:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>NC Description:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>UOM:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Quantity:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Cause of NC ID:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Disposition Type ID:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Immediate Action:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Proposed Due Date:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Review Comments:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>CA Response ID:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>RCA Response:</strong>
+                                                    </td>
+                                                    <td style="border-right: 1px solid black;">
+                                                        <strong>Disposition Action:</strong>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="o.ncr_nc_ids" t-as="nc">
+                                                    <tr>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.nc_s"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.source_of_nc"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.nc_description"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.uom"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.quantity"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.cause_of_nc_id"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.disposition_type_id"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.immediate_action"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.proposed_due_date"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.review_comments"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.ca_response_id"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.rca_response"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="nc.disposition_action"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <t t-if="o.state not in ('new')">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Total Cost for Rework:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.total_cost_for_rework"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>RCA Approver:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.rca_approver_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>NCR Completion Status:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.ncr_completion_status"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Total Backcharge Amount:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.total_backcharge_amount"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>Title (RCA Approver):</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.title"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>
+                                                        <strong>NCR Closed Date:</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span>:</span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.ncr_closed_date"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </t>
+                                </td>
+                            </tr>
                         </div>
                     </div>
                 </div>
