@@ -141,12 +141,17 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             self.render_ncr_cost_of_rework_graph();
             self.render_ncr_backcharges();
         },
-        createBarChart: function(ctx, data, colors, title) {
+        createBarChart: function(ctx, data, title) {
             var input1 = data.labels;
             var input2 = data.data;
             var input3 = data.classification;
 
             var dataByMonth = {};
+            var colors_list = ["#ef9b20", "#82C341", "#EA5545", "#1179DC", "#82F341", "#A1FB8E", "#73FBFD", "#D0FD81",
+                               "#0F0396", "#7E909A", "#1C4E80", "#488A99", "#AC3E31", "#DADADA", "1F3F49", "#3484848"];
+
+            var colors = new Map();
+            var count = 0;
             for (var i = 0; i < input1.length; i++) {
                 var dateString = input1[i];
                 var date = new Date(dateString);
@@ -164,6 +169,10 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                 var classification = input3[i];
                 if (!dataByMonth[monthKey].datasets[classification]) {
                     dataByMonth[monthKey].datasets[classification] = [];
+                }
+                if(!colors.get(classification)){
+                    colors.set(classification, colors_list[count]);
+                    count++;
                 }
 
                 dataByMonth[monthKey].datasets[classification].push(input2[i]);
@@ -196,7 +205,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                                 var newDataset = {
                                     label: classification,
                                     data: [],
-                                    backgroundColor: colors[classification] || getRandomColor(),
+                                    backgroundColor: colors.get(classification) || getRandomColor(),
                                     borderColor: '#ffffff',
                                     borderWidth: 1
                                 };
@@ -314,7 +323,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'Plant location - 4': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Location");
+                        self.createBarChart(ctx, data, "NCR Breakdown By Location");
                     });
         },
 
@@ -339,7 +348,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Source");
+                        self.createBarChart(ctx, data, "NCR Breakdown By Source");
                     });
         },
 
@@ -364,7 +373,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "Cost of Rework");
+                        self.createBarChart(ctx, data, "Cost of Rework");
                     });
         },
 
@@ -389,7 +398,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "Customer Backcharges on Site Discrepancy");
+                        self.createBarChart(ctx, data, "Customer Backcharges on Site Discrepancy");
                     });
         },
 
