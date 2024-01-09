@@ -55,6 +55,19 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                 $(locations).each(function(location) {
                     $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
                 });
+                var startDateInput = document.getElementById("start_date");
+                var endDateInput = document.getElementById("end_date");
+                // Set the value to a specific date (e.g., "2023-06-01")
+                var today = new Date();
+                var formattedDate = today.getFullYear() + '-' +
+                            ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + today.getDate()).slice(-2);
+                endDateInput.value = formattedDate
+                var sixMonthsAgo = new Date();
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                sixMonthsAgo.setDate(1);
+                startDateInput.value = sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
             })
         },
         // Function to destroy existing charts
@@ -120,8 +133,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
         render_normal_days_mom_graph: function() {
             var self = this
             var ctx = self.$(".normal_days_mom");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
 
@@ -182,8 +195,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
          render_incident_status_graph: function() {
             var self = this
             var ctx = self.$(".incident_status");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
             rpc.query({
@@ -192,6 +205,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                 args: [start_date, end_date, location, incident_type],
             }).then(function(data) {
                 var modifiedLabel = []
+                var colors_list = ["#ef9b20", "#82C341", "#EA5545", "#1179DC", "#82F341", "#A1FB8E", "#73FBFD", "#D0FD81",
+                               "#0F0396", "#7E909A", "#1C4E80", "#488A99", "#AC3E31", "#DADADA", "1F3F49", "#3484848"];
 
                 for(var i=0;i <data.labels.length ;i++){
                     if(data.labels[i] === "new"){
@@ -221,15 +236,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                     datasets: [{
                             label: "Incident Status",
                             data: data.data,
-                            backgroundColor:  [
-                                "rgba(17, 131, 220,1)",
-                                "#ef9b20",
-                                "rgba(130, 195, 65,1)",
-
-                                "rgba(115, 251, 253,1)",
-                                "rgba(208, 253, 129,1)",
-                                "rgba(15, 3, 150,1)",
-                            ],
+                            backgroundColor:  colors_list,
                             borderColor: [
                                 "rgba(255, 255, 255,1)",
 
@@ -269,8 +276,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
         render_incident_frequency_rate_graph: function() {
             var self = this
             var ctx = self.$(".incident_frequency_rate");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
             rpc.query({
@@ -333,8 +340,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".incident_severity_classification");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
              rpc.query({
@@ -347,6 +354,11 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                         var input2 = data.data;
                         var input3 = data.classification;
 
+                        // Define a list of colors
+                        var colors_list = ["#ef9b20", "#82C341", "#EA5545", "#1179DC", "#82F341", "#A1FB8E", "#73FBFD", "#D0FD81",
+                               "#0F0396", "#7E909A", "#1C4E80", "#488A99", "#AC3E31", "#DADADA", "1F3F49", "#3484848"];
+                        var colors = new Map();
+                        var count = 0;
                         // Organize data by month
                         var dataByMonth = {};
                         for (var i = 0; i < input1.length; i++) {
@@ -368,22 +380,18 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                             if (!dataByMonth[monthKey].datasets[classification]) {
                                 dataByMonth[monthKey].datasets[classification] = [];
                             }
-
+                            if(!colors.get(classification)){
+                                colors.set(classification, colors_list[count]);
+                                count++;
+                            }
                             dataByMonth[monthKey].datasets[classification].push(input2[i]);
                         }
 
                         // Extract data for the chart
                         var labels = [];
                         var datasets = [];
-                        // Define a list of colors for each classification
 
-                        var classificationColors = {
-                            'Class A': '#ef9b20',
-                            'Class B': '#82C341',
-                            'Class C': '#ea5545',
-                            'Class D': '#1179DC',
-                            // Add more colors as needed
-                        };
+
                         // Iterate through each month
                         for (var monthKey in dataByMonth) {
                             if (dataByMonth.hasOwnProperty(monthKey)) {
@@ -415,7 +423,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                                             var newDataset = {
                                                 label: classification,
                                                 data: [],
-                                                backgroundColor:  classificationColors[classification],
+                                                backgroundColor: colors.get(classification),
                                                 borderColor:  '#ffffff',
                                                 borderWidth: 1
                                             };
@@ -493,8 +501,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
              var self = this
 
             var ctx = self.$(".incident_cost_impact");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
             rpc.query({
@@ -559,8 +567,8 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
         render_inc_severity_graph: function() {
             var self = this
             var ctx = self.$(".incident_severity_rate");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
             rpc.query({
@@ -617,6 +625,31 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             });
         },
 
+        _getStartDate: function(){
+            var self = this;
+            if (self.flag === 0){
+                var sixMonthsAgo = new Date();
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                sixMonthsAgo.setDate(1);
+                return sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+            }
+            else {
+                return  $('#start_date').val();
+            }
+        },
+        _getEndDate: function(){
+            var self = this;
+            if (self.flag === 0){
+                var today = new Date();
+                return today.getFullYear() + '-' +
+                            ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + today.getDate()).slice(-2);
+            }
+            else {
+                return $('#end_date').val();
+            }
+        },
 
         on_reverse_breadcrumb: function() {
             var self = this;
