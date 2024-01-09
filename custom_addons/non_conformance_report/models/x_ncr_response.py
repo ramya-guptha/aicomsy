@@ -22,6 +22,7 @@ class NcrResponse(models.Model):
             ncr = self.env['x.ncr.report'].browse(ncr_id)
             ncr.write({'state': 'awaiting_vendor_response'})
 
+        response.create_activity('Prepare Response for NCR', 'To Do', response.prepared_by_id.user_id.id, (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d'))
         return response
 
     name = fields.Char(string="NCR Reference", default='New', readonly=True)
@@ -70,8 +71,9 @@ class NcrResponse(models.Model):
 
     def save_and_submit(self):
         if self.state == 'review_rejection':
-            print("In If")
             self.mark_activity_as_done("Review Reject Items")
+        elif self.state == 'new':
+            self.mark_activity_as_done("Prepare Response for NCR")
         # Your logic for save_and_submit
         self.write({'state': 'review_in_progress'})
         # Trigger the email report function
@@ -127,8 +129,10 @@ class NcrResponse(models.Model):
                 nc.write({'state': 'approved'})
             elif nc.disposition_action == 'reinspect':
                 nc.write({'state': 'return_for_further_actions'})
-        self.show_approve_button = False
+            elif nc.disposition_action == 'reject':
+                raise ValidationError("NCR Response can\'t be approved when items are in Reject state")
 
+        self.show_approve_button = False
         if self.to_reinspect:
             ncr_id.write({'state': 'return_for_further_actions'})
             ncr_id.create_activity('Reinspect', 'To Do', ncr_id.ncr_initiator_id.user_id.id, ncr_id.due_date)
@@ -152,6 +156,11 @@ class NcrResponse(models.Model):
 
     def action_rca_rejected(self):
         # Additional logic can be added here if needed
+        reject_records = self.ncr_nc_ids.filtered(
+            lambda nc: nc.disposition_action == 'reject'
+        )
+        if not reject_records:
+            raise ValidationError("NCR Response are in Approved / Reinspect status and can\'t be rejected")
         domain = [
             ('res_name', '=', self.name),
             ('user_id', '=', self.env.user.id),
@@ -322,5 +331,5 @@ class NcrResponse(models.Model):
         for record in self:
             for nc in record.ncr_nc_ids:
                 if not(nc.cause_of_nc_id and nc.disposition_type_id and nc.proposed_due_date and nc.immediate_action):
-                    raise ValidationError('Mandatory fields - Cause of NC, Dispoostion Type, Due date and Immediate Action are required')
+                    raise ValidationError('Mandatory fields - Cause of NC, Disposition Type, Due date and Immediate Action are required')
 

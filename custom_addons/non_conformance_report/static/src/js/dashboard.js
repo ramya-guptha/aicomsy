@@ -59,6 +59,24 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                 $(ncr_source).each(function(src) {
                     $('#src_selection').append("<option value=" + ncr_source[src].id + ">" + ncr_source[src].name + "</option>");
                 });
+                var startDateInput = document.getElementById("start_date");
+                var endDateInputt = document.getElementById("end_date");
+
+
+                // Set the value to a specific date (e.g., "2023-06-01")
+                var today = new Date();
+
+                var formattedDate = today.getFullYear() + '-' +
+                            ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + today.getDate()).slice(-2);
+                endDateInputt.value = formattedDate
+                var sixMonthsAgo = new Date();
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                sixMonthsAgo.setDate(1);
+                startDateInput.value = sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+
+
             })
         },
 
@@ -123,12 +141,17 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             self.render_ncr_cost_of_rework_graph();
             self.render_ncr_backcharges();
         },
-        createBarChart: function(ctx, data, colors, title) {
+        createBarChart: function(ctx, data, title) {
             var input1 = data.labels;
             var input2 = data.data;
             var input3 = data.classification;
 
             var dataByMonth = {};
+            var colors_list = ["#ef9b20", "#82C341", "#EA5545", "#1179DC", "#82F341", "#A1FB8E", "#73FBFD", "#D0FD81",
+                               "#0F0396", "#7E909A", "#1C4E80", "#488A99", "#AC3E31", "#DADADA", "1F3F49", "#3484848"];
+
+            var colors = new Map();
+            var count = 0;
             for (var i = 0; i < input1.length; i++) {
                 var dateString = input1[i];
                 var date = new Date(dateString);
@@ -146,6 +169,10 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                 var classification = input3[i];
                 if (!dataByMonth[monthKey].datasets[classification]) {
                     dataByMonth[monthKey].datasets[classification] = [];
+                }
+                if(!colors.get(classification)){
+                    colors.set(classification, colors_list[count]);
+                    count++;
                 }
 
                 dataByMonth[monthKey].datasets[classification].push(input2[i]);
@@ -178,7 +205,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                                 var newDataset = {
                                     label: classification,
                                     data: [],
-                                    backgroundColor: colors[classification] || getRandomColor(),
+                                    backgroundColor: colors.get(classification) || getRandomColor(),
                                     borderColor: '#ffffff',
                                     borderWidth: 1
                                 };
@@ -245,6 +272,32 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             }
         },
 
+        _getStartDate: function(){
+            var self = this;
+            if (self.flag === 0){
+                var sixMonthsAgo = new Date();
+                sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+                sixMonthsAgo.setDate(1);
+                return sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+            }
+            else {
+                return  $('#start_date').val();
+            }
+        },
+        _getEndDate: function(){
+            var self = this;
+            if (self.flag === 0){
+                var today = new Date();
+
+                return today.getFullYear() + '-' +
+                            ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + today.getDate()).slice(-2);
+            }
+            else {
+                return $('#end_date').val();
+            }
+        },
         /**
         function for getting values to location  graph
         */
@@ -252,8 +305,9 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncr_by_location");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
+
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -269,7 +323,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'Plant location - 4': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Location");
+                        self.createBarChart(ctx, data, "NCR Breakdown By Location");
                     });
         },
 
@@ -277,8 +331,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncs_source_classification");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -294,7 +348,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "NCR Breakdown By Source");
+                        self.createBarChart(ctx, data, "NCR Breakdown By Source");
                     });
         },
 
@@ -302,8 +356,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncs_cost_of_rework");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -319,7 +373,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "Cost of Rework");
+                        self.createBarChart(ctx, data, "Cost of Rework");
                     });
         },
 
@@ -327,8 +381,8 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
 
             var ctx = self.$(".ncs_backcharges");
-            var start_date = $('#start_date').val();
-            var end_date = $('#end_date').val();
+            var end_date = self._getEndDate();
+            var start_date = self._getStartDate();
             var location = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
@@ -344,7 +398,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                             'In-Process Welding/Brazing': '#1179DC',
                             // Add more colors as needed
                         };
-                        self.createBarChart(ctx, data, classificationColors, "Customer Backcharges on Site Discrepancy");
+                        self.createBarChart(ctx, data, "Customer Backcharges on Site Discrepancy");
                     });
         },
 
