@@ -1,5 +1,5 @@
 {
-    'name': 'Non conformance Management',
+    'name': 'Non conformance',
     'category': 'Aicomsy/Aicomsy',
     'depends': [
         'base', 'aicomsy_base', 'hr', 'account', 'mail'
@@ -27,6 +27,7 @@
     'assets': {
         'web.assets_backend': [
             'non_conformance_report/static/src/js/dashboard.js',
+            'non_conformance_report/static/src/js/chart_script.js',
             'non_conformance_report/static/src/xml/dashboard.xml',
         ],
     },

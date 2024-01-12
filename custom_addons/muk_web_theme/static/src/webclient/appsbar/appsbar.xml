@@ -38,6 +38,7 @@
 			                		class="mk_apps_sidebar_icon" 
 			                		src="/muk_web_theme/static/img/default_icon.png"
 			                	/>
+                                <br/>
 						        <span class="mk_apps_sidebar_name">
 						            <t t-out="app.name"/>
 						        </span>
