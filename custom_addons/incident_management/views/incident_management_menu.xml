@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="incidents_management_menu" name="Incidents Management">
+    <menuitem id="incidents_management_menu" name="Incidents">
         <menuitem id="incidents" name="Incidents">
             <menuitem id="incidents_menu_action" action="incident_record_model_action" sequence="1"/>
         </menuitem>

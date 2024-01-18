@@ -25,7 +25,8 @@ class IncidentPersonRecord(models.Model):
     employee_id = fields.Integer(related="employee.id", string='Employee ID')
     visitor_name = fields.Char(string='Visitor Name')
     nationality = fields.Many2one('res.country', "Nationality")
-    age = fields.Integer(string="Age", compute="_compute_age")
+    manual_age = fields.Integer(string="Age", default=0)
+    age = fields.Integer(string="Age", compute="_compute_age", inverse="_inverse_age")
     # experience = fields.Integer(string="Experience", related="employee.experience")
     job_title = fields.Char(related='employee.job_id.name', string="Job Title")
     involved_victim = fields.Selection(
@@ -62,18 +63,27 @@ class IncidentPersonRecord(models.Model):
         for record in self:
             record.selected_category = record.person_category.name
 
-    @api.onchange('person_category', 'employee', 'visitor_name')
+    @api.onchange('person_category', 'employee', 'visitor_name', 'manual_age')
     def _compute_age(self):
-        for employees in self:
-            if employees.employee is not None:
-                dob = employees.employee.birthday
+        for record in self:
+            if record.manual_age != 0:
+                record.age = record.manual_age
+                record.manual_age = 0
+            elif record.employee is not None:
+                dob = record.employee.birthday
                 if dob:
                     dob_datetime = fields.Date.from_string(dob)
                     today = datetime.now().date()
-                    employees.age = today.year - dob_datetime.year - (
+                    record.age = today.year - dob_datetime.year - (
                             (today.month, today.day) < (dob_datetime.month, dob_datetime.day))
                 else:
-                    employees.age = False
+                    record.age = False
+
+    def _inverse_age(self):
+        for record in self:
+            record.manual_age = record.age
+
+
 
 
 class IncPersonCategory(models.Model):

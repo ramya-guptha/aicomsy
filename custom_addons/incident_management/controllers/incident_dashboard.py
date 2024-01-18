@@ -63,47 +63,68 @@ class IncidentFilter(http.Controller):
         incidents_in_location_ids = [incident.id for incident in incidents_in_location]
 
         if(start_date != 'null' and end_date != 'null'):
-            incidents_in_location = request.env['x.incident.record'].search(
-                [
-                    ('location', 'in', loc_selected),
-                    ('inc_date_time', '>=', start_date),
-                    ('inc_date_time', '<=', end_date),
-                ]
-            )
-            incidents_in_location_ids = [incident.id for incident in incidents_in_location]
+            if incidents != 'null':
+                incidents_in_location = request.env['x.incident.record'].search(
+                    [('location', 'in', loc_selected),
+                        ('inc_date_time', '>=', start_date),
+                        ('inc_date_time', '<=', end_date),
+                        '|',
+                        ('notified_by', '=', employee_id),
+                        ('create_uid', '=', uid),
+                    ]
+                )
+                incidents_in_location_ids = [incident.id for incident in incidents_in_location]
+            else:
+                incidents_in_location = request.env['x.incident.record'].search(
+                    [
+                        ('location', 'in', loc_selected),
+                        ('inc_date_time', '>=', start_date),
+                        ('inc_date_time', '<=', end_date),
+                    ]
+                )
+                incidents_in_location_ids = [incident.id for incident in incidents_in_location]
 
         elif start_date != 'null':
 
-            incidents_in_location = request.env['x.incident.record'].search(
-                [
-                    ('location', 'in', loc_selected),
-                    ('inc_date_time', '>=', start_date),
+            if incidents != 'null':
+                incidents_in_location = request.env['x.incident.record'].search(
+                    [('location', 'in', loc_selected),
+                     ('inc_date_time', '>=', start_date),
+                     '|',
+                     ('notified_by', '=', employee_id),
+                     ('create_uid', '=', uid),
+                     ]
+                )
+                incidents_in_location_ids = [incident.id for incident in incidents_in_location]
+            else:
+                incidents_in_location = request.env['x.incident.record'].search(
+                    [
+                        ('location', 'in', loc_selected),
+                        ('inc_date_time', '>=', start_date),
 
-                ]
-            )
-
-            incidents_in_location_ids = [incident.id for incident in incidents_in_location]
+                    ]
+                )
+                incidents_in_location_ids = [incident.id for incident in incidents_in_location]
 
         elif end_date != 'null':
-
-            incidents_in_location = request.env['x.incident.record'].search(
-                [
-                    ('location', 'in', loc_selected),
-                    ('inc_date_time', '<=', end_date),
-                ]
-            )
-            incidents_in_location_ids = [incident.id for incident in incidents_in_location]
-
-        if incidents != 'null':
-            incidents_in_location = request.env['x.incident.record'].search(
-                [
-                    '|',
-                    ('notified_by', '=', employee_id),
-                    ('create_uid', '=', uid),
-                ]
-            )
-            incidents_in_location_ids = [incident.id for incident in incidents_in_location]
-
+            if incidents != 'null':
+                incidents_in_location = request.env['x.incident.record'].search(
+                    [('location', 'in', loc_selected),
+                        ('inc_date_time', '<=', end_date),
+                        '|',
+                        ('notified_by', '=', employee_id),
+                        ('create_uid', '=', uid),
+                    ]
+                )
+                incidents_in_location_ids = [incident.id for incident in incidents_in_location]
+            else:
+                incidents_in_location = request.env['x.incident.record'].search(
+                    [
+                        ('location', 'in', loc_selected),
+                        ('inc_date_time', '<=', end_date),
+                    ]
+                )
+                incidents_in_location_ids = [incident.id for incident in incidents_in_location]
         return {
             'total_locations': loc_selected,
             'total_incidents_ids': incidents_in_location_ids,
