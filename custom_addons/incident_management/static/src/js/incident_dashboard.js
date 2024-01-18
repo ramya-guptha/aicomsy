@@ -55,19 +55,18 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
                 $(locations).each(function(location) {
                     $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
                 });
-                var startDateInput = document.getElementById("start_date");
-                var endDateInput = document.getElementById("end_date");
+
                 // Set the value to a specific date (e.g., "2023-06-01")
                 var today = new Date();
                 var formattedDate = today.getFullYear() + '-' +
                             ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
                             ('0' + today.getDate()).slice(-2);
-                endDateInput.value = formattedDate
+                $('#end_date').val(formattedDate)
                 var sixMonthsAgo = new Date();
                 sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
                 sixMonthsAgo.setDate(1);
-                startDateInput.value = sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
-                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+                $('#start_date').val(sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2));
             })
         },
         // Function to destroy existing charts
@@ -692,9 +691,14 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
         fetch_data: function() {
             this.flag = 0
             var self = this;
+            var start_date = self._getStartDate();
+            var end_date = self._getEndDate();
+            var location = $('#locations_selection').val();
+            var incident_type = $('#incidents_selection').val();
             var def1 = this._rpc({
                 model: 'x.incident.record',
-                method: 'get_tiles_data'
+                method: 'get_tiles_data',
+                args: [start_date, end_date]
             }).then(function(result) {
                     self.total_locations = result['total_locations']
                     self.total_incidents = result['total_incidents']

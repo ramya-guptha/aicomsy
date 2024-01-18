@@ -8,9 +8,19 @@ class Incident(models.Model):
     _inherit = 'x.incident.record'
 
     @api.model
-    def get_tiles_data(self):
-        all_incidents = self.env['x.incident.record'].search([])
+    def get_tiles_data(self, start_date, end_date):
+        # Convert the str to datetime
+        start_datetime = datetime.combine(fields.Date.from_string(start_date), datetime.min.time())
+        end_datetime = datetime.combine(fields.Date.from_string(end_date), datetime.max.time())
+        # Construct the domain
+        domain = [
+            ('inc_date_time', '>=', start_datetime),
+            ('inc_date_time', '<=', end_datetime),
+        ]
+
         all_locations = self.env['x.location'].search([])
+        # Search for records within the datetime range
+        all_incidents = self.env['x.incident.record'].search(domain)
 
         return {
             'total_incidents': len(all_incidents),
