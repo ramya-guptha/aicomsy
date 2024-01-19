@@ -362,6 +362,7 @@ class CorrectiveAction(models.Model):
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
     implementation_date = fields.Date(string="Implementation Date")
     proposed_action = fields.Text(string="Proposed Action")
+    action_review_ids = fields.One2many("x.inc.inv.action.review", "corrective_action_id", string="Action Reviews")
     state = fields.Selection(
         selection=[
             ("new", "New"),

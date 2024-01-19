@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_incident" model="ir.actions.report">
+        <field name="name">Incident Report</field>
+        <field name="model">x.incident.record</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">incident_management.report_incident_report</field>
+        <field name="report_file">incident_management.report_incident_report</field>
+        <field name="binding_model_id" ref="model_x_incident_record"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+    <record id="report_investigation" model="ir.actions.report">
+        <field name="name">Investigation Report</field>
+        <field name="model">x.inc.investigation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">incident_management.report_investigation_report</field>
+        <field name="report_file">incident_management.report_investigation_report</field>
+        <field name="binding_model_id" ref="model_x_inc_investigation"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

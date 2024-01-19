@@ -19,7 +19,7 @@
                                                   t-field="o.name"/>
                                         </td>
                                     </tr>
-                                    <table>
+                                    <table class=" table-borderless">
                                         <tr>
                                             <td>
                                                 <span style="display: block; margin-bottom: 10px; margin-right: 40px;">
@@ -165,7 +165,7 @@
                                         <table class="table table-condensed"
                                                style="border: 3px solid black !important; margin-bottom: 30px; margin-top: 30px; text-align: center;">
                                             <thead>
-                                                <tr>
+                                                <tr style="background-color: lightblue;">
                                                     <td style="border-right: 1px solid black;">
                                                         <strong>NC S</strong>
                                                     </td>
@@ -206,7 +206,7 @@
                                             </tbody>
                                         </table>
                                     </td>
-                                    <table>
+                                    <table class=" table-borderless">
                                         <tr>
                                             <td>
                                                 <span style="display: block; margin-bottom: 10px; margin-right: 40px;">
@@ -275,7 +275,7 @@
                                                   t-field="o.name"/>
                                         </td>
                                     </tr>
-                                    <table>
+                                   <table class=" table-borderless">
                                         <tr>
                                             <td>
                                                 <span style="display: block; margin-bottom: 10px; margin-right: 30px;">
@@ -391,7 +391,7 @@
                                         <table class="table table-condensed"
                                                style="border: 3px solid black !important; margin-bottom: 30px; margin-top: 30px; text-align: center;">
                                             <thead>
-                                                <tr>
+                                                <tr style="background-color: lightblue;">
                                                     <td style="border-right: 1px solid black; vertical-align: top;">
                                                         <strong>NC S</strong>
                                                     </td>
@@ -481,7 +481,7 @@
                                         </table>
                                     </td>
                                     <t t-if="o.state not in ('new')">
-                                        <table>
+                                        <table class=" table-borderless">
                                             <tr>
                                                 <td>
                                                     <span style="display: block; margin-bottom: 10px; margin-right: 40px;">
