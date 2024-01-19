@@ -67,19 +67,19 @@
 	                </div>
 	                <div class="col-12 col-lg-6 o_setting_box">
 	                    <div class="o_setting_right_pane">
-	                        <span class="o_form_label">Background Image</span>
-                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+	                        <span class="o_form_label">Form Controls</span>
                             <div class="text-muted">
-                                Set the background image for the apps menu
+                                Set the Form Control Colors
                             </div>
                             <div class="content-group">
                                 <div class="mt16 row">
-                                    <field name="theme_background_image" widget="image" class="ml-4 w-75"/>
+                                    <label for="theme_input_field" string="Textbox bg Color" class="col-3 o_light_label"/>
+                                    <field name="theme_input_field" class="d-block w-25 p-0 m-0" widget="color"/>
                                 </div>
                             </div>
 	                    </div>
-	                </div>
-	                <div class="col-12 col-lg-6 o_setting_box">
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
 	                    <div class="o_setting_right_pane">
 	                        <span class="o_form_label">Favicon</span>
                             <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
@@ -89,6 +89,20 @@
                             <div class="content-group">
                                 <div class="mt16 row">
                                     <field name="theme_favicon" widget="image" class="ml-4 oe_avatar"/>
+                                </div>
+                            </div>
+	                    </div>
+	                </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+	                    <div class="o_setting_right_pane">
+	                        <span class="o_form_label">Background Image</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Set the background image for the apps menu
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                    <field name="theme_background_image" widget="image" class="ml-4 w-75"/>
                                 </div>
                             </div>
 	                    </div>
