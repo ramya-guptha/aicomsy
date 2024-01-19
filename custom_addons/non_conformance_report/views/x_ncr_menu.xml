@@ -1,5 +1,5 @@
 <odoo>
-    <menuitem id="non_conformance_report" name="Non Conformance Management" sequence="1">
+    <menuitem id="non_conformance_report" name="Non Conformance" sequence="1">
         <menuitem id="non_conformance" name="Report" sequence="2">
             <menuitem id="x_ncr_report_menu_action" action="x_ncr_report_action"/>
         </menuitem>
