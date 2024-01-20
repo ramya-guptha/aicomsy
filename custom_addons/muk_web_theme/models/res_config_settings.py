@@ -53,6 +53,10 @@ class ResConfigSettings(models.TransientModel):
     theme_color_appbar_background = fields.Char(
         string='Theme AppBar Background'
     )
+
+    theme_input_field = fields.Char(
+        string='Theme Input Text'
+    )
     
     #----------------------------------------------------------
     # Action
@@ -79,6 +83,7 @@ class ResConfigSettings(models.TransientModel):
             'mk-menu-color',
             'mk-appbar-color',
             'mk-appbar-background',
+            'o-input-background-color',
         ]
         colors = self.env['web_editor.assets'].get_theme_variables_values(
             '/muk_web_theme/static/src/colors.scss', 'web._assets_primary_variables', variables
@@ -89,6 +94,7 @@ class ResConfigSettings(models.TransientModel):
         colors_changed.append(self.theme_color_menu != colors['mk-menu-color'])
         colors_changed.append(self.theme_color_appbar_color != colors['mk-appbar-color'])
         colors_changed.append(self.theme_color_appbar_background != colors['mk-appbar-background'])
+        colors_changed.append(self.theme_input_field != colors['o-input-background-color'])
         if(any(colors_changed)):
             variables = [
                 {'name': 'o-brand-odoo', 'value': self.theme_color_brand or "#243742"},
@@ -96,6 +102,7 @@ class ResConfigSettings(models.TransientModel):
                 {'name': 'mk-menu-color', 'value': self.theme_color_menu or "#f8f9fa"},
                 {'name': 'mk-appbar-color', 'value': self.theme_color_appbar_color or "#dee2e6"},
                 {'name': 'mk-appbar-background', 'value': self.theme_color_appbar_background or "#000000"},
+                {'name': 'o-input-background-color', 'value': self.theme_input_field or "#E9ECEF"},
             ]
             self.env['web_editor.assets'].replace_theme_variables_values(
                 '/muk_web_theme/static/src/colors.scss', 'web._assets_primary_variables', variables
@@ -111,6 +118,7 @@ class ResConfigSettings(models.TransientModel):
             'mk-menu-color',
             'mk-appbar-color',
             'mk-appbar-background',
+            'o-input-background-color',
         ]
         colors = self.env['web_editor.assets'].get_theme_variables_values(
             '/muk_web_theme/static/src/colors.scss', 'web._assets_primary_variables', variables
@@ -121,5 +129,6 @@ class ResConfigSettings(models.TransientModel):
             'theme_color_menu': colors['mk-menu-color'],
             'theme_color_appbar_color': colors['mk-appbar-color'],
             'theme_color_appbar_background': colors['mk-appbar-background'],
+            'theme_input_field': colors['o-input-background-color'],
         })
         return res
