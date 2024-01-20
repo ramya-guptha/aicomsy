@@ -27,6 +27,8 @@
         'views/company_monthly_metrics_views.xml',
         'views/incident_management_menu.xml',
         'views/dashboard_views.xml',
+        'report/incident_management_report.xml',
+        'report/report.xml',
         'data/mail_template_data.xml',
         'data/incident_type_data.xml',
         'data/incident_person_category_data.xml',
