@@ -9,7 +9,6 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'security/ir_rule.xml',
         'data/ir_sequence_data.xml',
         'views/incident_record_views.xml',
         'views/inc_person_views.xml',
