@@ -1,0 +1,894 @@
+<odoo>
+    <template id="report_incident_report">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <tr>
+                                <td width="10%">
+                                    <p style="text-align:center;padding-top:10px;">
+                                    </p>
+                                </td>
+                                <td width="60%">
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;"
+                                                  t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <table class=" table-borderless">
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Date Reported</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.inc_reported_date"/>
+                                            </td>
+                                            <td style="width: 30%;">
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Date &amp; Time</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.inc_date_time"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Shift</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.shift"/>
+                                            </td>
+                                            <td style="width: 30%;">
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Notified_By</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.notified_by"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Location of Incident</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.location"/>
+                                            </td>
+                                            <td style="width: 30%;">
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Notified By ID</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.notified_by_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Type of Incident</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.type"/>
+                                            </td>
+                                            <td style="width: 30%;">
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Employee Type</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.notified_by_type"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Description</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.description"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; font-weight: bold;">
+                                                    <strong>Severity Classification</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.severity"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <tr>
+                                        <td>
+                                            <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-top: 10px;">
+                                                Health and Safety (OH)
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <td>
+                                        <table class="table table-condensed"
+                                               style="border: 3px solid black !important; margin-bottom: 30px; margin-top: 30px; text-align: center;">
+                                            <thead>
+                                                <tr style="background-color: lightblue;">
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Name</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Person Category</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Employee ID</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Nationality</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Age</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Job Title</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Involved/Victim</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Task at Incident</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Employer</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Nature of Injury</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Name of the Hospital</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Days Off</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Immediate Response</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>OH Incident Classification</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Severity Consequence</strong>
+                                                    </td>
+                                                    <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                        <strong>Experience</strong>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="o.incident_person_ids" t-as="record">
+                                                    <tr>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.person_name"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.person_category"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.employee_id"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.nationality"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.age"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.job_title"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.involved_victim"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.person_task"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.person_employer"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.incident_injured_body_parts"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.visited_hospital"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.person_days_off"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.immediate_response"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.oh_incident_classification"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.oh_severity_consequence"/>
+                                                        </td>
+                                                        <td style="border-right: 1px solid black;">
+                                                            <span t-field="record.experience"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <t t-foreach="o.type" t-as="type">
+                                        <span t-field="type.name" t-if="type.name in ['Environmental (ENV)', 'Asset']"
+                                              style="font-size: 30px; font-weight: bold;"/>
+                                        <td>
+                                            <table class="table table-condensed"
+                                                   style="border: 3px solid black !important; margin-bottom: 10px; margin-top: 30px; text-align: center;">
+                                                <thead>
+                                                    <tr t-if="type.name in ['Environmental (ENV)']"
+                                                        style="background-color: lightblue;">
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>ENV Incident Classification</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>QTY of Emission / Spill/ Spoilage</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Unit</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Env Impact</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Immediate Response</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Severity Consequence</strong>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="o.incident_spill_ids" t-as="record">
+                                                        <tr t-if="type.name in ['Environmental (ENV)']">
+
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.env_incident_classification"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.qty"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.unit"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.env_impact"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.immediate_response"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.env_severity_consequence"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="table table-condensed"
+                                                   style="border: 3px solid black !important; margin-bottom: 30px;  text-align: center;">
+                                                <thead>
+                                                    <tr t-if="type.name in ['Asset']"
+                                                        style="background-color: lightblue;">
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Asset Category</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Asset Title</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Equipment Name</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Asset Type</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Description of the Damage</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black;">
+                                                            <strong>Immediate Response</strong>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="o.incident_asset_ids" t-as="record">
+                                                        <tr t-if="type.name in ['Asset']">
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.asset_category"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.asset_id"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.asset_title"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.asset_type"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.description"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black;">
+                                                                <span t-field="record.immediate_response"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </t>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="report_investigation_report">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <tr>
+                                <td width="10%">
+                                    <p style="text-align:center;padding-top:10px;">
+                                    </p>
+                                </td>
+                                <td width="60%">
+                                    <tr>
+                                        <table class=" table-borderless">
+                                            <td colspan="3" class="text-center">
+                                                <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;"
+                                                      t-field="o.name"/>
+                                            </td>
+                                            <td style="width: 55%;">
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                    <strong>Status</strong>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.state"/>
+                                            </td>
+                                        </table>
+                                        <table class=" table-borderless">
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        <strong>Incident Id</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.incident_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        <strong>Description</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.description"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-top: 10px;">
+                                                        Investigation Team
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        <strong>HSE Officer</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.hse_officer"/>
+                                                </td>
+                                                <td style="width: 25%;">
+                                                </td>
+                                                <td>
+                                                    <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        <strong>Field Executive</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.field_executive"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        <strong>HR Administration</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.hr_administration"/>
+                                                </td>
+                                                <td style="width: 25%;">
+                                                </td>
+                                                <td>
+                                                    <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        <strong>Finance</strong>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.finance"/>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="o.investigation_team" t-as="team">
+                                                <tr>
+                                                    <td>
+                                                        <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                            <strong>Investigation Team</strong>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="team.employee"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        Investigation Details
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <table class=" table-borderless">
+                                                    <td>
+                                                        <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                            <strong>Investigation Details</strong>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="o.investigation_details"/>
+                                                    </td>
+                                                </table>
+                                            </tr>
+                                            <td>
+                                                <table class="table table-condensed"
+                                                       style="border: 3px solid black !important; margin-bottom: 30px; margin-top: 30px; text-align: center;">
+                                                    <thead>
+                                                        <tr style="background-color: lightblue;">
+                                                            <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                                <strong>Person Category</strong>
+                                                            </td>
+                                                            <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                                <strong>Name</strong>
+                                                            </td>
+                                                            <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                                <strong>Relation to Incident</strong>
+                                                            </td>
+                                                            <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                                <strong>Details of Interview</strong>
+                                                            </td>
+                                                            <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                                <strong>Remarks</strong>
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                    <t t-foreach="o.people_interviewed_ids" t-as="interview">
+                                                        <tr>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="interview.person_category"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="interview.person_name"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="interview.relation_to_incident"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="interview.details_of_interview"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="interview.remarks"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </table>
+                                            </td>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                        Consequences
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <table class="table table-condensed"
+                                                   style="border: 3px solid black !important; margin-bottom: 50px; margin-top: 30px; text-align: center;">
+                                                <thead>
+                                                    <tr style="background-color: lightblue;">
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                            <strong>Actions/ Damages</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                            <strong>Quantity</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                            <strong>Units</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                            <strong>Unit Rate</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                            <strong>Total Cost</strong>
+                                                        </td>
+                                                        <td style="font-size: 20px; font-weight: bold; border-right: 1px solid black; vertical-align: top;">
+                                                            <strong>Impact</strong>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="o.consequences_ids" t-as="consequence">
+                                                        <tr>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="consequence.actions_damages"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="consequence.quantity"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="consequence.unit"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="consequence.unit_rate"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="consequence.total_cost"/>
+                                                            </td>
+                                                            <td style="border-right: 1px solid black; text-align: center;">
+                                                                <span t-field="consequence.impact"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <span style="font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px;">
+                                                        Corrective Action &amp; Closure
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="o.corrective_actions_ids" t-as="ca">
+                                                <t t-foreach="ca.action_review_ids" t-as="ac">
+                                                </t>
+                                                <tr>
+                                                    <td>
+                                                        <table class="table-borderless"
+                                                               style="background-color: lightblue;">
+                                                            <td>
+                                                                <span t-esc="str(ca_index + 1) + '.'"
+                                                                      style="font-size: 20px; font-weight: bold; margin-bottom: 20px; margin-right: 5px;">
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ac.corrective_action_id"
+                                                                      style="font-size: 20px; font-weight: bold; margin-bottom: 20px; margin-right: 10px;">
+                                                                </span>
+                                                            </td>
+                                                            <td style="width: 70%;">
+                                                            </td>
+                                                            <td>
+                                                                <span style="font-size: 20px; font-weight: bold; margin-bottom: 10px; margin-right: 20px;">
+                                                                    <strong>Status</strong>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ca.state"/>
+                                                            </td>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+
+                                                <table class="table-borderless" style="margin-left: 40px;">
+                                                    <tr>
+                                                        <td>
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 70px; color: blue;">
+                                                                <strong>Primary Root Cause</strong>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field="ca.primary_root_cause_id"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                <strong>Secondary Root Cause</strong>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field="ca.secondary_root_cause_ids"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table class="table-borderless" style="margin-left: 40px;">
+                                                    <tr>
+                                                        <td>
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 53px; color: blue;">
+                                                                <strong>Action Type</strong>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field="ca.action_type"/>
+                                                        </td>
+                                                        <td style="width: 15%;">
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                <strong>Action Party</strong>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field="ca.action_party"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 53px; color: blue;">
+                                                                <strong>Implementation Date</strong>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field="ca.implementation_date"/>
+                                                        </td>
+                                                        <td style="width: 15%;">
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                <strong>Target Date</strong>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-field="ca.target_date"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table class="table-borderless" style="margin-left: 40px;">
+                                                    <tr>
+                                                        <td colspan="99">
+                                                            <span style="font-size: 20px; font-weight: bold; display: block; margin-bottom: 5px; margin-right: 10px; color: blue;">
+                                                                <strong>Proposed Action</strong>
+                                                            </span>
+                                                            <span t-field="ca.proposed_action"
+                                                                  style="margin-left: 40px; margin-bottom: 20px;"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <t t-foreach="ca.action_review_ids" t-as="ac">
+                                                    <tr>
+                                                        <table class=" table-borderless">
+                                                            <td colspan="5">
+                                                                <span style="margin-left: 40px; font-size: 22px; font-weight: bold; display: block; margin-bottom: 10px; text-decoration: underline;">
+                                                                    Action Review
+                                                                </span>
+                                                            </td>
+                                                            <td style="width: 55%;">
+                                                            </td>
+                                                            <td>
+                                                                <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px;">
+                                                                    <strong>Status</strong>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ac.state"/>
+                                                            </td>
+                                                        </table>
+                                                    </tr>
+                                                    <table class="table-borderless" style="margin-left: 40px;">
+                                                        <tr>
+                                                            <td>
+                                                                <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                    <strong>Reviewer</strong>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ac.reviewer"/>
+                                                            </td>
+                                                            <td style="width: 10%;">
+                                                            </td>
+                                                            <td>
+                                                                <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                    <strong>Risks and Opportunities Reviewed?
+                                                                    </strong>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ac.risks_and_opportunities_reviewed"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                    <strong>Review Completion Date</strong>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ac.review_completion_date"/>
+                                                            </td>
+                                                            <td style="width: 10%;">
+                                                            </td>
+                                                            <td>
+                                                                <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                    <strong>Job Hazard Analysis reviewed?</strong>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="ac.job_hazard_analysis_reviewed"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <t t-if="ac.state != 'review'">
+                                                        <tr>
+                                                            <td colspan="5">
+                                                                <span style="font-size: 22px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; text-decoration: underline; margin-left: 40px;">
+                                                                    Followup &amp; Closure
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <table class="table-borderless" style="margin-left: 40px;">
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                        <strong>Report Closed by</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="ac.report_closed_by"/>
+                                                                </td>
+                                                                <td style="width:8%;">
+                                                                </td>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 10px; color: blue;">
+                                                                        <strong>Closure Date</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="ac.closure_date"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                        <strong>Action Follow-up Required</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="ac.action_follow_up_required"/>
+                                                                </td>
+                                                                <td style="width: 8%;">
+                                                                </td>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                        <strong>Review by CEO/VP/GM Required
+                                                                        </strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="ac.review_by_ceo_vp_gm_required"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <table class="table-borderless" style="margin-left: 40px;">
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weigh: bold;display: block; margin-bottom: 10px; margin-right: 50px; color: blue;">
+                                                                        <strong>Comments</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td colspan="99">
+                                                                    <span t-field="ac.comments"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 50px; color: blue;">
+                                                                        <strong>If no, give justification</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td colspan="99">
+                                                                    <span t-field="ac.justification"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </t>
+                                                    <t t-if="ac.review_by_ceo_vp_gm_required == 'yes'">
+                                                        <tr>
+                                                            <td colspan="5">
+                                                                <span style=" margin-left: 40px; font-size: 22px; font-weight: bold; display: block; margin-bottom: 10px; margin-right: 40px; text-decoration: underline;">
+                                                                    Management Review
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <table class="table-borderless"
+                                                               style="margin-left: 40px;">
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                        <strong>Reviewed by CEO/VP/GM</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td colspan="99">
+                                                                    <span t-field="ac.reviewed_by_ceo_vp_gm"/>
+                                                                </td>
+                                                                <td style="width: 10%;">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 10px; margin-right: 40px; color: blue;">
+                                                                        <strong>Comments</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td colspan="99">
+                                                                    <span t-field="ac.reviewed_comments"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <span style="font-size: 20px; font-weight: bold;display: block; margin-bottom: 30px; margin-right: 40px; color: blue;">
+                                                                        <strong>Date</strong>
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span t-field="ac.review_date"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </table>
+                                    </tr>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,6 +1,6 @@
 <odoo>
     <record id="ncr_type_action" model="ir.actions.act_window">
-        <field name="name">NCR Types</field>
+        <field name="name">NCR Type</field>
         <field name="res_model">x.ncr.type</field>
         <field name="view_mode">tree</field>
     </record>
@@ -14,7 +14,7 @@
         </field>
     </record>
     <record id="ncr_discipline_action" model="ir.actions.act_window">
-        <field name="name">NCR Disciplines</field>
+        <field name="name">Discipline</field>
         <field name="res_model">x.ncr.discipline</field>
         <field name="view_mode">tree</field>
     </record>
@@ -28,7 +28,7 @@
         </field>
     </record>
     <record id="ncr_category_action" model="ir.actions.act_window">
-        <field name="name">NCR Categories</field>
+        <field name="name">NCR Category</field>
         <field name="res_model">x.ncr.category</field>
         <field name="view_mode">tree</field>
     </record>
@@ -42,7 +42,7 @@
         </field>
     </record>
     <record id="ncr_cause_action" model="ir.actions.act_window">
-        <field name="name">NCR Causes</field>
+        <field name="name">Cause of NC</field>
         <field name="res_model">x.ncr.cause</field>
         <field name="view_mode">tree</field>
     </record>
@@ -56,7 +56,7 @@
         </field>
     </record>
     <record id="ncr_disposition_type_action" model="ir.actions.act_window">
-        <field name="name">NCR Disposition Types</field>
+        <field name="name">Disposition Type</field>
         <field name="res_model">x.ncr.disposition.type</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -71,7 +71,7 @@
         </field>
     </record>
     <record id="ncr_ca_response_action" model="ir.actions.act_window">
-        <field name="name">NCR CA Responses</field>
+        <field name="name">RCA Response</field>
         <field name="res_model">x.ncr.ca.response</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -82,6 +82,20 @@
             <tree editable="bottom">
                 <field name="name"/>
                 <field name="rca_response"/>
+            </tree>
+        </field>
+    </record>
+    <record id="ncr_source_action" model="ir.actions.act_window">
+        <field name="name">Source of NC</field>
+        <field name="res_model">x.ncr.source</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="ncr_source_view_tree" model="ir.ui.view">
+        <field name="name">x.ncr.source.tree</field>
+        <field name="model">x.ncr.source</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
             </tree>
         </field>
     </record>
