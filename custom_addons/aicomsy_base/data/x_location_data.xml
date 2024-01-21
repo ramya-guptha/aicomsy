@@ -2,54 +2,88 @@
     <data noupdate="1">
         <record id="l1" model="x.location">
             <field name="name">Plant location - 1</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l2" model="x.location">
             <field name="name">Plant location - 2</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l3" model="x.location">
             <field name="name">Plant location - 3</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l4" model="x.location">
             <field name="name">Plant location - 4</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l5" model="x.location">
             <field name="name">Machine ID-1</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l6" model="x.location">
             <field name="name">Machine ID-2</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l7" model="x.location">
             <field name="name">Machine ID-3</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l8" model="x.location">
             <field name="name">Machine ID-4</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l9" model="x.location">
             <field name="name">Machine ID-5</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l10" model="x.location">
             <field name="name">Warehouse - 1</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l11" model="x.location">
             <field name="name">Warehouse - 2</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l12" model="x.location">
             <field name="name">Warehouse - 3</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l13" model="x.location">
             <field name="name">Manufacturing section - 1</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l14" model="x.location">
             <field name="name">Manufacturing section - 2</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l15" model="x.location">
             <field name="name">Manufacturing section - 3</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l16" model="x.location">
             <field name="name">Manufacturing section - 4</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
         <record id="l17" model="x.location">
             <field name="name">Manufacturing section - 5</field>
+            <field name="location_incharge">1</field>
+            <field name="location_manager">1</field>
         </record>
     </data>
 </odoo>
