@@ -9,7 +9,7 @@
         <field name="model">x.inc.consequences</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="actions_damages" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="actions_damages" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                 <field name="quantity"/>
                 <field name="unit" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="unit_rate"/>
