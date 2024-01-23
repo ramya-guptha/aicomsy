@@ -109,17 +109,17 @@
                         <field name="assembly_number"/>
                         <field name="part_number"/>
                         <field name="unit_weight"/>
-                        <field name="affected_part_weight"/>
-                        <field name="completion_percentage"/>
-                        <field name="production_date"/>
                         <field name="quantity"/>
+                        <field name="total_weight"/>
+                        <field name="affected_part_weight"/>
+                        <field name="production_date"/>
                     </group>
                     <group>
                         <field name="operator_employee_id"/>
-                        <field name="total_weight"/>
                         <field name="disposition_priority"/>
                         <field name="disposition_cost"/>
                         <field name="estimated_backcharge_price"/>
+                        <field name="completion_percentage"/>
                         <field name="quarantine" widget="radio" options="{'horizontal': true}" style="display: inline"/>
                     </group>
                 </group>
