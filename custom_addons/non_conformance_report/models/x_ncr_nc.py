@@ -88,7 +88,7 @@ class NonConformanceModel(models.Model):
             ('approved', 'Approved'),
             ('rejected', 'Rejected'),
             ('return_for_further_actions', 'Return for Further Actions'),
-        ], tracking=True,
+        ],
         # Set a default value for the state field
         default='new',
     )
@@ -110,7 +110,9 @@ class NonConformanceModel(models.Model):
 class NCRSource(models.Model):
     _name = 'x.ncr.source'
     _description = 'x NCR Source'
-
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Source of NC must be unique !'),
+    ]
     # Fields for YourModelName
     name = fields.Char(string='Name', required=True)
 
@@ -147,6 +149,9 @@ class NcPartDetails(models.Model):
 class NcrCause(models.Model):
     _name = 'x.ncr.cause'
     _description = 'Cause of NC'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Cause of NC  must be unique !'),
+    ]
 
     name = fields.Char(string='Cause Name', required=True)
 
@@ -154,6 +159,9 @@ class NcrCause(models.Model):
 class NcrDispositionType(models.Model):
     _name = 'x.ncr.disposition.type'
     _description = 'Disposition Type'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Disposition Type must be unique !'),
+    ]
 
     name = fields.Char(string='Disposition Type', required=True)
 
@@ -161,6 +169,9 @@ class NcrDispositionType(models.Model):
 class NcrCaResponse(models.Model):
     _name = 'x.ncr.ca.response'
     _description = 'NCR RCA Response'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'RCA Response must be unique !'),
+    ]
 
     name = fields.Char(string='Name', required=True)
     rca_response = fields.Char(string='Response Type')

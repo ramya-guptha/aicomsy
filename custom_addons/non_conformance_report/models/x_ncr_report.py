@@ -8,6 +8,9 @@ class NcrReport(models.Model):
     _name = 'x.ncr.report'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'NCR Report'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'NCR Id must be unique !'),
+    ]
 
     # Override the create method to set default values and generate a unique name
     @api.model
@@ -231,6 +234,9 @@ class NcrReport(models.Model):
 class NcrType(models.Model):
     _name = 'x.ncr.type'
     _description = 'NCR Type'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'NCR Type must be unique !'),
+    ]
 
     # Fields for NcrType
     name = fields.Char(string='Name', required=True)
@@ -240,7 +246,9 @@ class NcrType(models.Model):
 class Discipline(models.Model):
     _name = 'x.ncr.discipline'
     _description = 'Discipline'
-
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Supplier Discipline Classification  must be unique !'),
+    ]
     # Fields for Discipline
     name = fields.Char(string='Name', required=True)
 
@@ -249,6 +257,9 @@ class Discipline(models.Model):
 class Category(models.Model):
     _name = 'x.ncr.category'
     _description = 'Category'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'NCR Category must be unique !'),
+    ]
 
     # Fields for Category
     name = fields.Char(string='Name', required=True)
