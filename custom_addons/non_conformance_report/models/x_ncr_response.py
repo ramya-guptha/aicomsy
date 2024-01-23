@@ -7,6 +7,9 @@ class NcrResponse(models.Model):
     _name = 'x.ncr.response'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'NCR Response'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'NCR Response Id must be unique !'),
+    ]
 
     @api.model
     def create(self, vals_list):
