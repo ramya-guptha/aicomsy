@@ -60,7 +60,6 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                     $('#src_selection').append("<option value=" + ncr_source[src].id + ">" + ncr_source[src].name + "</option>");
                 });
                 var startDateInput = document.getElementById("start_date");
-                var endDateInputt = document.getElementById("end_date");
 
 
                 // Set the value to a specific date (e.g., "2023-06-01")
@@ -69,12 +68,12 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
                 var formattedDate = today.getFullYear() + '-' +
                             ('0' + (today.getMonth() + 1)).slice(-2) + '-' +
                             ('0' + today.getDate()).slice(-2);
-                endDateInputt.value = formattedDate
+                $('#end_date').val(formattedDate)
                 var sixMonthsAgo = new Date();
                 sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
                 sixMonthsAgo.setDate(1);
-                startDateInput.value = sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
-                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2);
+                $('#start_date').val(sixMonthsAgo.getFullYear() + '-' + ('0' + (sixMonthsAgo.getMonth() + 1)).slice(-2)
+                                    + '-' + ('0' + sixMonthsAgo.getDate()).slice(-2));
 
 
             })
