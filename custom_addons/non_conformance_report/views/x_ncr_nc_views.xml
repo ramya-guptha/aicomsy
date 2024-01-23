@@ -15,7 +15,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="nc_s"/>
-                <field name="source_of_nc" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="source_of_nc" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                 <field name="nc_description"/>
                 <field name="uom"/>
                 <field name="quantity" class="oe_inline"/>
@@ -46,25 +46,25 @@
                                    attrs="{'readonly': [ ('state', 'not in', ['new', 'return_for_further_actions'])]}"/>
                             <field name="cause_of_nc_id"
                                    attrs="{'readonly': [ ('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="proposed_due_date"
                                    attrs="{'readonly': [ ('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"/>
                             <field name="ca_response_id"
                                    attrs="{'readonly': [('state', '!=', 'received_vendor_response')], 'required': [('state', '=', 'received_vendor_response')]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="rca_response"/>
                         </group>
                         <group>
                             <field name="source_of_nc"
                                    attrs="{'readonly': [ ('state', 'in', ['ncr_submitted', 'received_vendor_response', 'approved'])]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="immediate_action"
                                    attrs="{'readonly': [ ('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"/>
                             <field name="quantity" class="oe_inline"
                                    attrs="{'readonly': [ ('state', 'not in', ['new', 'return_for_further_actions'])]}"/>
                             <field name="disposition_type_id"
                                    attrs="{'readonly': [('state', 'not in', ['ncr_submitted', 'rejected'])], 'required': [('state', '=', 'ncr_submitted')]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="disposition_action"
                                    attrs="{'readonly': [('state', '!=', 'received_vendor_response')]}"/>
                             <field name="review_comments" attrs="{'readonly': [('state', '!=', 'received_vendor_response')]}"/>

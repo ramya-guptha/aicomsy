@@ -40,7 +40,7 @@
                             <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')], 'readonly': [('state', 'not in', ('new', 'investigation_assigned'))]}" options="{'no_create': True, 'no_create_edit': True}" readonly="True"/>
                         </group>
                         <group>
-                            <field name="shift"  attrs="{'readonly': [('state', 'in', 'closed')]}"/>
+                            <field name="shift"  attrs="{'readonly': [('state', 'in', 'closed')]}" options='{"no_open": True}'/>
                             <field name="type" widget="many2many_tags"
                                    options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state', 'in', 'closed')]}"/>
                             <field name="location" options="{'no_create': True, 'no_create_edit':True}" attrs="{'readonly': [('state', 'in', 'closed')]}"/>
