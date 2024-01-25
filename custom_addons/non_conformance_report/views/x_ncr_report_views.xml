@@ -42,10 +42,10 @@
                             <field name="ncr_type_check" invisible="1"
                                    attrs="{'readonly': [('state','not in', ['new', 'approval_pending','closed'])]}"/>
                             <field name="ncr_type_id"
-                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="discipline_id"
                                    attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="supplier_name_id"
                                    attrs="{'invisible': [('ncr_type_check', '=', False)], 'readonly': [('state','not in', ['new', 'approval_pending'])]}"
                                    options="{'no_create': True, 'no_create_edit': True}"/>
@@ -72,7 +72,7 @@
                     <field name="ncr_nc_ids" options="{'no_create': [('state', '!=', 'new')]}">
                         <tree editable="bottom" create="attrs.get('create', True)">
                             <field name="nc_s"/>
-                            <field name="source_of_nc" options="{'no_create': True, 'no_create_edit': True, 'required': True}" />
+                            <field name="source_of_nc" options="{'no_create': True, 'no_create_edit': True, 'no_open': True, 'required': True}" />
                            <field name="nc_description" required="True" />
                             <field name="uom" required="True"/>
                             <field name="quantity" required="True"/>
@@ -96,7 +96,7 @@
                             <field name="initiator_job_title"/>
                             <field name="approver_job_title"/>
                             <field name="ncr_category_id" attrs="{'readonly': [('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                         </group>
                     </group>
                     <field name="is_approver" invisible="True"/>

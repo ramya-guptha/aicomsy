@@ -88,7 +88,7 @@ class NonConformanceModel(models.Model):
             ('approved', 'Approved'),
             ('rejected', 'Rejected'),
             ('return_for_further_actions', 'Return for Further Actions'),
-        ], tracking=True,
+        ],
         # Set a default value for the state field
         default='new',
     )
@@ -110,7 +110,9 @@ class NonConformanceModel(models.Model):
 class NCRSource(models.Model):
     _name = 'x.ncr.source'
     _description = 'x NCR Source'
-
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Source of NC must be unique !'),
+    ]
     # Fields for YourModelName
     name = fields.Char(string='Name', required=True)
 
@@ -123,24 +125,33 @@ class NcPartDetails(models.Model):
     # Fields for NcPartDetails
     assembly_number = fields.Char(string='Assembly Number')
     part_number = fields.Char(string='Part Number')
-    unit_weight = fields.Float(string='Unit Weight')
+    unit_weight = fields.Float(string='Unit Weight', default=0)
     affected_part_weight = fields.Float(string='Affected Part Weight')
     completion_percentage = fields.Float(string='% of Completion')
     production_date = fields.Date(string='Production Date')
-    quantity = fields.Float(string='Quantity')
+    quantity = fields.Float(string='Quantity', default=0)
     quarantine = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Quarantine')
     operator_employee_id = fields.Char(string='Operator / Production Employee ID')
-    total_weight = fields.Float(string='Total Weight')
+    total_weight = fields.Float(string='Total Weight', compute='_calculate_total_weight')
     disposition_priority = fields.Char(string='Disposition Priority')
     disposition_cost = fields.Float(string='Disposition Cost')
     estimated_backcharge_price = fields.Float(string='Estimated Backcharge Price')
     nc_details_id = fields.Many2one('x.ncr.nc', string='NCR Details', required=True, ondelete='cascade')
     ncr_id = fields.Many2one(related="nc_details_id.ncr_id")
 
+    # Compute method to set the value of ncr_list based on the ncr_type
+    @api.depends('unit_weight', 'quantity')
+    def _calculate_total_weight(self):
+        for record in self:
+            record.total_weight = record.unit_weight * record.quantity
+
 
 class NcrCause(models.Model):
     _name = 'x.ncr.cause'
     _description = 'Cause of NC'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Cause of NC  must be unique !'),
+    ]
 
     name = fields.Char(string='Cause Name', required=True)
 
@@ -148,6 +159,9 @@ class NcrCause(models.Model):
 class NcrDispositionType(models.Model):
     _name = 'x.ncr.disposition.type'
     _description = 'Disposition Type'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Disposition Type must be unique !'),
+    ]
 
     name = fields.Char(string='Disposition Type', required=True)
 
@@ -155,6 +169,9 @@ class NcrDispositionType(models.Model):
 class NcrCaResponse(models.Model):
     _name = 'x.ncr.ca.response'
     _description = 'NCR RCA Response'
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'RCA Response must be unique !'),
+    ]
 
     name = fields.Char(string='Name', required=True)
     rca_response = fields.Char(string='Response Type')

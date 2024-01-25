@@ -24,10 +24,10 @@
                                attrs="{'readonly': [('state', '=', 'completed')]}"/>
                         <field name="action_type"
                                attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"
-                               options="{'no_create': True, 'no_create_edit':True}"/>
+                               options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                         <field name="hierarchy_of_control"
                                attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"
-                               options="{'no_create': True, 'no_create_edit':True}"/>
+                               options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                         <field name="proposed_action"
                                attrs="{'invisible': [('state', '=', 'new')], 'required': [('state', 'in', ('in_progress', 'returned'))], 'readonly': [('state', '=', 'completed')]}"/>
                         <field name="target_date"

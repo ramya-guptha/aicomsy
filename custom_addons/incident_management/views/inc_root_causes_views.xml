@@ -9,7 +9,7 @@
         <field name="model">x.inc.root.causes</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="primary_root_cause_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="primary_root_cause_id" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                 <field name="secondary_root_cause_ids" widget='many2many_tags'
                        options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="comments"/>

@@ -36,7 +36,7 @@
                 <sheet>
                     <group col="2">
                         <group>
-                            <field name="person_category"/>
+                            <field name="person_category" options='{"no_open": True}'/>
                             <field name="employee"
                                    attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))], 'required': [('selected_category', 'in', ('Employee','Contractor'))]}"/>
                             <field name="visitor_name"
@@ -44,7 +44,7 @@
                             <field name="person_task"/>
                             <field name="immediate_response"
                                    attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"
-                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="job_title"/>
                             <field name="person_employer"
                                    attrs="{'readonly': [('selected_category', '!=', 'Contractor')]}"/>
@@ -66,8 +66,8 @@
                                    attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
                             <field name="person_days_off"
                                    attrs="{'invisible': [('involved_victim', 'not in', ('victim', 'both'))]}"/>
-                            <field name="oh_incident_classification"/>
-                            <field name="oh_severity_consequence"/>
+                            <field name="oh_incident_classification" options='{"no_open": True}' />
+                            <field name="oh_severity_consequence" options='{"no_open": True}'/>
                             <field name="selected_category" invisible="1"/>
                             <field name="person_name" invisible="1"/>
                         </group>

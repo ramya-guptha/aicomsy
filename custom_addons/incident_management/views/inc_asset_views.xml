@@ -27,7 +27,7 @@
                            attrs="{'invisible': [('asset_category', '!=', 'equipment')]}"/>
                     <field name="asset_type"/>
                     <field name="description"/>
-                    <field name="immediate_response" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="immediate_response" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                 </group>
             </form>
         </field>
