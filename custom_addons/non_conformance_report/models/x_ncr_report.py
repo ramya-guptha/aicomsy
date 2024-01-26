@@ -45,6 +45,7 @@ class NcrReport(models.Model):
     is_location_incharge = fields.Boolean(compute="_is_location_incharge")
     is_approver = fields.Boolean(compute="_is_approver")
     is_initiator = fields.Boolean(compute="_is_initiator")
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     # State field for the NcrReport
     state = fields.Selection(
         selection=[
