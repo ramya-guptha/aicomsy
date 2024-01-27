@@ -33,6 +33,7 @@
                     <h1>
                         <field name="name"/>
                     </h1>
+                    <field name="company_id" invisible="1"/>
                     <group string="Response To NCR">
 
                         <field name="ncr_id" readonly="True"/>

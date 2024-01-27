@@ -9,7 +9,7 @@ class NcrReport(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'NCR Report'
     _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'NCR Id must be unique !'),
+        ('name_uniq', 'unique(name, company_id)', 'NCR Id and Company Id must be unique !'),
     ]
 
     # Override the create method to set default values and generate a unique name
@@ -23,21 +23,22 @@ class NcrReport(models.Model):
     # Fields for NcrReport
     name = fields.Char(string="NCR Reference", default='New', readonly=True, required=True)
     ncr_type_id = fields.Many2one('x.ncr.type', string='NCR Type', required=True, tracking=True)
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     discipline_id = fields.Many2one('x.ncr.discipline', string='Discipline')
     supplier_name_id = fields.Many2one('res.partner', domain=[('supplier_rank', '>', 0)], string='Supplier Name')
     purchase_order_no = fields.Char(string='Purchase Order No.')
     project_number = fields.Char(string='Project Number', required=True)
     project_name_title = fields.Char(string='Project Name / Title')
-    tag_no_location = fields.Many2one("x.location", string="Tag No. / Location", required=True)
+    tag_no_location = fields.Many2one("x.location", string="Tag No. / Location", domain="[('company_id', '=', company_id)]", required=True)
     shipment_reference = fields.Char(string='Shipment Reference')
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
     ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True, default=lambda
-        self: self.env.user.employee_id.id if self.env.user.employee_id else False, tracking=True)
+        self: self.env.user.employee_id.id if self.env.user.employee_id else False, domain="[('company_id', '=', company_id)]", tracking=True)
     initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
     ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, copy=False, tracking=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', store=True, tracking=True)
+    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', store=True, domain="[('company_id', '=', company_id)]", tracking=True)
     approver_job_title = fields.Char(related='ncr_approver_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date', copy=False )
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category', copy=False)
@@ -76,6 +77,9 @@ class NcrReport(models.Model):
         self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id
 
     def _is_initiator(self):
+        print("self.env.user", self.env.user)
+        print("self.ncr_initiator_id.user_id", self.ncr_initiator_id.user_id)
+        print(self.env.user == self.ncr_initiator_id.user_id)
         self.is_initiator = self.env.user == self.ncr_initiator_id.user_id
 
     def _is_approver(self):
