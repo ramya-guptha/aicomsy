@@ -77,9 +77,6 @@ class NcrReport(models.Model):
         self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id
 
     def _is_initiator(self):
-        print("self.env.user", self.env.user)
-        print("self.ncr_initiator_id.user_id", self.ncr_initiator_id.user_id)
-        print(self.env.user == self.ncr_initiator_id.user_id)
         self.is_initiator = self.env.user == self.ncr_initiator_id.user_id
 
     def _is_approver(self):
