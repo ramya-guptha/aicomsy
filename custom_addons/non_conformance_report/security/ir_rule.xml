@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record model="ir.rule" id="aicomsy_ncr_report">
+        <field name="name">NCR Report company rule</field>
+        <field name="model_id" ref="non_conformance_report.model_x_ncr_report"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', '=', company_id)]</field>
+    </record>
+   <record model="ir.rule" id="aicomsy_ncr_response">
+        <field name="name">NCR Response company rule</field>
+        <field name="model_id" ref="non_conformance_report.model_x_ncr_response"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', '=', company_id)]</field>
+    </record>
+</odoo>

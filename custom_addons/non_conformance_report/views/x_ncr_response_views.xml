@@ -11,6 +11,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="ncr_id"/>
+                <field name="name"/>
+                <field name="company_id"/>
                 <field name="ncr_type_id"/>
                 <field name="project_name_title"/>
                 <field name="project_number"/>
@@ -37,6 +39,7 @@
                     <group string="Response To NCR">
 
                         <field name="ncr_id" readonly="True"/>
+                        <field name="company_id"/>
                         <field name="ncr_type_id"/>
                         <field name="project_number"/>
                         <field name="project_name_title"/>
