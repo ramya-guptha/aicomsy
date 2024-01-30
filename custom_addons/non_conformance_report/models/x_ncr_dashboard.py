@@ -12,7 +12,7 @@ class NCRDashboard(models.Model):
     _auto = False
 
     @api.model
-    def get_ncr_by_location(self, start_date, end_date, location,src, ncr):
+    def get_ncr_by_location(self, start_date, end_date, location,src, ncr, currentCompany):
 
         # Your initial query
         base_query = """ SELECT DATE(
@@ -24,7 +24,7 @@ class NCRDashboard(models.Model):
                         LEFT JOIN x_ncr_nc as nc on nc.ncr_id = report.id"""
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"report.company_id = '{currentCompany}'"]
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
             conditions.append(f"ncr_open_date BETWEEN '{start_date}'  AND  '{end_date}'")
 
@@ -58,7 +58,7 @@ class NCRDashboard(models.Model):
         return {'labels': labels, 'data': data, 'classification': classification}
 
     @api.model
-    def get_ncr_source_classification(self, start_date, end_date, location, src, ncr):
+    def get_ncr_source_classification(self, start_date, end_date, location, src, ncr, currentCompany):
         # Your initial query
         base_query = """SELECT  DATE(
                                 TO_CHAR(ncr_open_date, 'YYYY') || '-' || 
@@ -70,7 +70,7 @@ class NCRDashboard(models.Model):
                 LEFT JOIN x_ncr_source  as src ON nc.source_of_nc = src.id"""
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"report.company_id = '{currentCompany}'"]
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
             conditions.append(f"ncr_open_date BETWEEN '{start_date}'  AND  '{end_date}'")
 
@@ -106,7 +106,7 @@ class NCRDashboard(models.Model):
         return {'labels': labels, 'data': data, 'classification': classification}
 
     @api.model
-    def get_cost_of_rework(self, start_date, end_date, location, src, ncr):
+    def get_cost_of_rework(self, start_date, end_date, location, src, ncr, currentCompany):
         # Your initial query
         base_query = """SELECT  DATE(
                             TO_CHAR(ncr_open_date, 'YYYY') || '-' || 
@@ -118,7 +118,7 @@ class NCRDashboard(models.Model):
                     LEFT JOIN x_ncr_part AS part ON nc.id = part.nc_details_id"""
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"report.company_id = '{currentCompany}'"]
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
             conditions.append(f"ncr_open_date BETWEEN '{start_date}'  AND  '{end_date}'")
 
@@ -155,7 +155,7 @@ class NCRDashboard(models.Model):
         return {'labels': labels, 'data': data, 'classification': classification}
 
     @api.model
-    def get_customer_backcharges(self, start_date, end_date, location, src, ncr):
+    def get_customer_backcharges(self, start_date, end_date, location, src, ncr, currentCompany):
         # Your initial query
         base_query = """SELECT  DATE(
                                 TO_CHAR(ncr_open_date, 'YYYY') || '-' || 
@@ -166,7 +166,7 @@ class NCRDashboard(models.Model):
                             LEFT JOIN x_ncr_part AS part ON nc.id = part.nc_details_id"""
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"report.company_id = '{currentCompany}'"]
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
             conditions.append(f"ncr_open_date BETWEEN '{start_date}'  AND  '{end_date}'")
 

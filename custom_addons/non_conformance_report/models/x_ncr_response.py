@@ -31,7 +31,7 @@ class NcrResponse(models.Model):
     name = fields.Char(string="NCR Reference", default='New', readonly=True)
     ncr_type_id = fields.Many2one('x.ncr.type', related="ncr_id.ncr_type_id", string='NCR Type')
     ncr_id = fields.Many2one("x.ncr.report", string='NCR No.')
-    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
+    company_id = fields.Many2one(related="ncr_id.company_id")
     project_number = fields.Char(related="ncr_id.project_number", string='Project Number')
     project_name_title = fields.Char(related="ncr_id.project_name_title", string='Project Name / Title')
     supplier_response = fields.Text(string='Supplier Response', tracking=True)

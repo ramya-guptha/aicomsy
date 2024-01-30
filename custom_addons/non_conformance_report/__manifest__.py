@@ -6,6 +6,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
+        'security/ir_rule.xml',
         'data/ir_sequence_data.xml',
         'views/x_ncr_report_views.xml',
         'views/x_ncr_nc_views.xml',

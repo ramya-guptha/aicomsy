@@ -111,10 +111,11 @@ class NCRSource(models.Model):
     _name = 'x.ncr.source'
     _description = 'x NCR Source'
     _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'Source of NC must be unique !'),
+        ('name_uniq', 'unique(name, company_id)', 'Source of NC must be unique !'),
     ]
     # Fields for YourModelName
     name = fields.Char(string='Name', required=True)
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
 
 
 # Define NcPartDetails class
