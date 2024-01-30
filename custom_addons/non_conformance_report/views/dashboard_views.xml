@@ -13,6 +13,6 @@
                   name="NCR Dashboard"
                   action="ncr_action_dashboard"
                   parent="non_conformance_report.non_conformance_report"
-                  sequence="1"/>
+                  sequence="1" groups="aicomsy_base.access_appuser"/>
     </data>
 </odoo>

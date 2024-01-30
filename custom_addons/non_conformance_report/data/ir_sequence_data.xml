@@ -3,6 +3,7 @@
         <record id="ir_sequence_ncr_report" model="ir.sequence">
             <field name="name">NCR Reports</field>
             <field name="code">x.ncr.report</field>
+            <field name="company_id" eval="False"/>
             <field name="prefix">NCR</field>
             <field name="padding">4</field>
             <field name="number_increment">1</field>
@@ -10,6 +11,7 @@
         <record id="ir_sequence_ncr_response" model="ir.sequence">
             <field name="name">NC Response</field>
             <field name="code">x.ncr.response</field>
+            <field name="company_id" eval="False"/>
             <field name="prefix">RES</field>
             <field name="padding">4</field>
             <field name="number_increment">1</field>

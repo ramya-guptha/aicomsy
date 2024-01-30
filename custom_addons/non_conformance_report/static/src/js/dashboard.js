@@ -10,6 +10,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
     var web_client = require('web.web_client');
     // Declare an array to store chart instances
     var chartInstances = [];
+    var currentCompany;
     var NCRDashboard = AbstractAction.extend({
         template: 'NCRDashboard',
         events: {
@@ -30,6 +31,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var self = this;
             this.set("title", 'Dashboard');
             return this._super().then(function() {
+                currentCompany = session.user_context.allowed_company_ids[0];
                 self.render_dashboards();
                 self.render_graphs();
                 self.render_filter();
@@ -50,9 +52,13 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
         function for getting values to the filters
         */
         render_filter: function() {
-            ajax.rpc('/ncr/filter').then(function(data) {
-                var locations = data[0]
-                var ncr_source =data[1]
+            ajax.rpc('/ncr/filter', {
+                'params': {
+                    'company_id': currentCompany,
+                },
+                }).then(function(data) {
+                var locations = data[0];
+                var ncr_source =data[1];
                 $(locations).each(function(location) {
                     $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
                 });
@@ -313,7 +319,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
              rpc.query({
                          model: "x.ncr.dashboard",
                          method: 'get_ncr_by_location',
-                         args: [start_date, end_date, location,src_selection, ncr_selection],
+                         args: [start_date, end_date, location,src_selection, ncr_selection, currentCompany],
                     }).then(function(data) {
                         var classificationColors = {
                             'Plant location - 1': '#ef9b20',
@@ -338,7 +344,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
              rpc.query({
                         model: "x.ncr.dashboard",
                         method: 'get_ncr_source_classification',
-                        args: [start_date, end_date, location, src_selection, ncr_selection],
+                        args: [start_date, end_date, location, src_selection, ncr_selection, currentCompany],
                     }).then(function(data) {
                         var classificationColors = {
                             'Material': '#ef9b20',
@@ -363,7 +369,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
              rpc.query({
                         model: "x.ncr.dashboard",
                         method: 'get_cost_of_rework',
-                        args: [start_date, end_date, location, src_selection, ncr_selection],
+                        args: [start_date, end_date, location, src_selection, ncr_selection, currentCompany],
                     }).then(function(data) {
                         var classificationColors = {
                             'Material': '#ef9b20',
@@ -388,7 +394,7 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
              rpc.query({
                         model: "x.ncr.dashboard",
                         method: 'get_customer_backcharges',
-                        args: [start_date, end_date, location, src_selection, ncr_selection],
+                        args: [start_date, end_date, location, src_selection, ncr_selection, currentCompany],
                     }).then(function(data) {
                         var classificationColors = {
                             'Material': '#ef9b20',

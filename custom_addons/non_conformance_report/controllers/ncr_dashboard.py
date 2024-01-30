@@ -7,7 +7,7 @@ from odoo.http import request
 class NCRFilter(http.Controller):
 
     @http.route('/ncr/filter', auth='public', type='json')
-    def ncr_filter(self):
+    def ncr_filter(self, **kw):
         """
 
         Summery:
@@ -18,10 +18,11 @@ class NCRFilter(http.Controller):
 
 
         """
-        location_list =[]
+        location_list = []
         source_list = []
-        location_ids = request.env['x.location'].search([])
-        ncr_source_ids = request.env['x.ncr.source'].search([])
+        company_id = kw.get('params', {}).get('company_id')
+        location_ids = request.env['x.location'].search([('company_id', '=', company_id)])
+        ncr_source_ids = request.env['x.ncr.source'].search([('company_id', '=', company_id)])
         # getting location data
         for location_id in location_ids:
             dic = {'name': location_id.name,
