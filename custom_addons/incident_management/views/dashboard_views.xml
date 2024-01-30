@@ -13,6 +13,6 @@
                   name="Incident Dashboard"
                   action="incident_action_dashboard"
                   parent="incident_management.incidents_management_menu"
-                  sequence="1"/>
+                  sequence="1" groups="aicomsy_base.access_appuser"/>
     </data>
 </odoo>

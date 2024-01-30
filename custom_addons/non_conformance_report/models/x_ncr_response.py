@@ -8,7 +8,7 @@ class NcrResponse(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'NCR Response'
     _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'NCR Response Id must be unique !'),
+        ('name_uniq', 'unique(name, company_id)', 'NCR Response Id and Company Id must be unique !'),
     ]
 
     @api.model
@@ -31,11 +31,12 @@ class NcrResponse(models.Model):
     name = fields.Char(string="NCR Reference", default='New', readonly=True)
     ncr_type_id = fields.Many2one('x.ncr.type', related="ncr_id.ncr_type_id", string='NCR Type')
     ncr_id = fields.Many2one("x.ncr.report", string='NCR No.')
+    company_id = fields.Many2one(related="ncr_id.company_id")
     project_number = fields.Char(related="ncr_id.project_number", string='Project Number')
     project_name_title = fields.Char(related="ncr_id.project_name_title", string='Project Name / Title')
     supplier_response = fields.Text(string='Supplier Response', tracking=True)
-    prepared_by_id = fields.Many2one('hr.employee', string='Prepared by', required=True, tracking=True)
-    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', required=True,
+    prepared_by_id = fields.Many2one('hr.employee', string='Prepared by', domain="[('company_id', '=', company_id)]", required=True, tracking=True)
+    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', domain="[('company_id', '=', company_id)]", required=True,
                                                   tracking=True)
     prepared_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only',
                                              tracking=True)
@@ -56,7 +57,6 @@ class NcrResponse(models.Model):
     to_reinspect = fields.Boolean(" Items in Reinspect", default=False, store=False, compute='_compute_to_reinspect')
     to_reject = fields.Boolean(" Items in Reject", default=False, store=False, compute='_compute_to_reject')
     assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
-    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     state = fields.Selection(
         selection=[("draft", "Draft"),
                    ("new", "New"),

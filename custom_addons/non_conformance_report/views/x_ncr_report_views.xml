@@ -12,6 +12,7 @@
                 <field name="name"/>
                 <field name="ncr_type_id"/>
                 <field name="project_name_title"/>
+                <field name="company_id"/>
                 <field name="tag_no_location"/>
                 <field name="state"/>
                 <field name="assigned_to_id"/>
@@ -39,8 +40,7 @@
                     </h1>
                     <group col="2">
                         <group>
-                            <field name="ncr_type_check" invisible="1"
-                                   attrs="{'readonly': [('state','not in', ['new', 'approval_pending','closed'])]}"/>
+                            <field name="ncr_type_check" invisible="1"/>
                             <field name="ncr_type_id"
                                    attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="discipline_id"
@@ -55,6 +55,7 @@
                                    attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
                             <field name="project_name_title"
                                    attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}"/>
+                            <field name="company_id"/>
                             <field name="tag_no_location"
                                    attrs="{'readonly': [('state','not in', ['new', 'approval_pending'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
                         </group>
@@ -98,12 +99,12 @@
                             <field name="ncr_open_date"
                                    attrs="{'readonly': [('state','!=', 'new')]}"/>
                             <field name="rca_response_due_date"
-                                   attrs="{'readonly': [('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"/>
+                                   attrs="{'readonly': ['|', ('is_approver', '=', False), ('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"/>
                         </group>
                         <group>
                             <field name="initiator_job_title"/>
                             <field name="approver_job_title"/>
-                            <field name="ncr_category_id" attrs="{'readonly': [('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"
+                            <field name="ncr_category_id" attrs="{'readonly': ['|', ('is_approver', '=', False), ('state', '!=', 'approval_pending')], 'required': [('state','=','approval_pending')]}"
                                    options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                         </group>
                     </group>
