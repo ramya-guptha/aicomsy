@@ -48,8 +48,7 @@ class NcrReport(models.Model):
     assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
     is_location_incharge = fields.Boolean(compute="_is_location_incharge")
     is_approver = fields.Boolean(compute="_is_approver")
-    is_initiator = fields.Boolean(compute="_is_initiator")
-    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
+    is_initiator = fields.Boolean(compute="_is_initiator")    
     # State field for the NcrReport
     state = fields.Selection(
         selection=[
