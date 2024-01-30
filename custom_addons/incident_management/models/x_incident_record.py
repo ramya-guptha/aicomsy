@@ -38,7 +38,7 @@ class IncidentRecord(models.Model):
     notified_by_id = fields.Integer(related="notified_by.id", string="Notified By ID")
     notified_by_type = fields.Selection(related="notified_by.employee_type")
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
-
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     incident_person_ids = fields.One2many(
         'x.inc.person.record', 'incident_id', string='People'
     )
