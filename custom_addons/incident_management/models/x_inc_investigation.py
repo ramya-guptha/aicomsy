@@ -144,13 +144,14 @@ class IncidentPeopleInterviewed(models.Model):
     # relation_to_incident = fields.Char(string='Relation to Incident')
     relation_to_incident = fields.Selection(string='Relation to Incident',
                                             selection=[('involved', "Involved"), ('affected', "Affected"),
-                                                       ('others', 'Others'), ('witness', 'Witness')])
+                                                       ('others', 'Others'), ('witness', 'Witness')],
+                                            help='Relation to Incident')
     details_of_interview = fields.Text(string='Details of Interview(If Required)',
                                        help="Details of Interview(If Required)")
-    remarks = fields.Text(string='Remarks')
-    person_category = fields.Many2one("x.inc.person.category", required="True")
+    remarks = fields.Text(string='Remarks', help='Remarks')
+    person_category = fields.Many2one("x.inc.person.category", required="True", help='Person Category')
     selected_category = fields.Char(compute='_compute_selected_category')
-    person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly="True")
+    person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly="True", help='Name')
     visitor_name = fields.Char(string='Visitor Name')
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
     Question_1 = fields.Text(string='Q 1: Why did this incident happen?')
@@ -211,12 +212,13 @@ class IncidentConsequences(models.Model):
     _description = "Consequences of Incidents"
 
     # --------------------------------------- Fields Declaration ----------------------------------
-    actions_damages = fields.Many2one('x.inc.action.damage', string="Actions/ Damages", required=True)
-    quantity = fields.Float(string="Quantity")
-    unit = fields.Many2one('x.inc.unit', string="Units")
-    unit_rate = fields.Float(string="Unit Rate")
-    total_cost = fields.Float(string="Total Cost", compute='_compute_total_cost', store=True)
-    impact = fields.Selection([('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], string="Impact")
+    actions_damages = fields.Many2one('x.inc.action.damage', string="Actions/ Damages", required=True,
+                                      help='Actions/ Damages')
+    quantity = fields.Float(string="Quantity", help='Quantity')
+    unit = fields.Many2one('x.inc.unit', string="Units", help='Units')
+    unit_rate = fields.Float(string="Unit Rate", help='Unit Rate')
+    total_cost = fields.Float(string="Total Cost", compute='_compute_total_cost', store=True, help='Total Cost')
+    impact = fields.Selection([('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], string="Impact", help='Impact')
     investigation_id = fields.Many2one("x.inc.investigation")
 
     @api.depends('quantity', 'unit_rate')
@@ -254,11 +256,11 @@ class IncidentRootCauses(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     investigation_id = fields.Many2one("x.inc.investigation")
-    primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True)
+    primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True, help='Primary Root Cause')
     secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
                                                 domain="[('primary_root_causes_id', '=', primary_root_cause_id)]",
-                                                required=True)
-    comments = fields.Text(string="Comments")
+                                                required=True, help='Secondary Root Cause')
+    comments = fields.Text(string="Comments", help='Comments')
 
     def corrective_action(self):
         existing_record = self.env['x.inc.inv.corrective.actions'].search([
@@ -350,18 +352,20 @@ class CorrectiveAction(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char(string="Corrective Action", default='New', readonly=True)
     investigation_id = fields.Many2one("x.inc.investigation")
-    primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True, readonly=True)
+    primary_root_cause_id = fields.Many2one('x.inc.primary.root.causes', required=True, readonly=True,
+                                            help='Primary Root Cause')
     secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
                                                 domain="[('primary_root_causes_id', '=', primary_root_cause_id)]",
                                                 required=True, readonly=True)
-    action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type")
-    hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control")
-    action_party = fields.Many2one('hr.employee', string="Action Party")
-    assigner = fields.Many2one('hr.employee', string="Assigner")
-    target_date = fields.Date(string="Target Date of Completion")
+    action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type", help='Action Type')
+    hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control",
+                                           help='Hierarchy of Control')
+    action_party = fields.Many2one('hr.employee', string="Action Party", help='Action Party')
+    assigner = fields.Many2one('hr.employee', string="Assigner", help='Assigner')
+    target_date = fields.Date(string="Target Date of Completion", help='Target Date of Completion')
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
-    implementation_date = fields.Date(string="Implementation Date")
+    implementation_date = fields.Date(string="Implementation Date", help='Implementation Date')
     proposed_action = fields.Text(string="Proposed Action")
     action_review_ids = fields.One2many("x.inc.inv.action.review", "corrective_action_id", string="Action Reviews")
     state = fields.Selection(
@@ -372,7 +376,7 @@ class CorrectiveAction(models.Model):
             ("completed", "Completed"),
         ],
         string="Status",
-        copy=False,
+        copy=False, help='Status'
     )
 
     def action_send_email(self):

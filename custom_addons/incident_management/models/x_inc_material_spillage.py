@@ -12,13 +12,13 @@ class IncidentMaterialSpillageRecord(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     incident_id = fields.Many2one('x.incident.record', required=True)
-    env_incident_classification = fields.Many2one("x.inc.env.classification", string="ENV Incident Classification")
+    env_incident_classification = fields.Many2one("x.inc.env.classification", string="ENV Incident Classification", help='ENV Incident Classification')
     qty = fields.Integer(string="QTY of Emission / Spill/ Spoilage")
-    unit = fields.Many2one("x.inc.unit", string="Unit")
-    env_impact = fields.Many2one('x.inc.spill.env.impact')
-    immediate_response = fields.Many2one("x.inc.material.spill.immediate.response")
+    unit = fields.Many2one("x.inc.unit", string="Unit", help='Unit')
+    env_impact = fields.Many2one('x.inc.spill.env.impact', help='env_impact')
+    immediate_response = fields.Many2one("x.inc.material.spill.immediate.response", help='Immediate Response')
     env_severity_consequence = fields.Many2one("x.inc.env.severity.consequence",
-                                               string="Severity Consequence", required=True)
+                                               string="Severity Consequence", required=True, help='Severity Consequence')
 
 
 class IncAssetImmediateResponse(models.Model):
