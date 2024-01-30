@@ -57,7 +57,6 @@ class NcrResponse(models.Model):
     to_reinspect = fields.Boolean(" Items in Reinspect", default=False, store=False, compute='_compute_to_reinspect')
     to_reject = fields.Boolean(" Items in Reject", default=False, store=False, compute='_compute_to_reject')
     assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
-    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     state = fields.Selection(
         selection=[("draft", "Draft"),
                    ("new", "New"),
