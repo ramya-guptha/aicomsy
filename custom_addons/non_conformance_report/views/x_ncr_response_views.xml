@@ -59,6 +59,11 @@
                                    attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                             <field name="review_comments" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                             <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
+                            <field name="nc_s" optional="hide"/>
+                            <field name="source_of_nc" optional="hide"/>
+                            <field name="nc_description" optional="hide"/>
+                            <field name="uom" optional="hide"/>
+                            <field name="quantity" optional="hide"/>
                         </tree>
                     </field>
                     <group>
@@ -110,6 +115,11 @@
                                        attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                                 <field name="review_comments" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                                 <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
+                                <field name="nc_s" optional="hide"/>
+                                <field name="source_of_nc" optional="hide"/>
+                                <field name="nc_description" optional="hide"/>
+                                <field name="uom" optional="hide"/>
+                                <field name="quantity" optional="hide"/>
                             </tree>
                         </field>
                         <group col="2" attrs="{'invisible': [('state', '=', 'new')]}">

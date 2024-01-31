@@ -18,9 +18,9 @@ class IncidentPersonRecord(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     incident_id = fields.Many2one('x.incident.record', required=True)
-    person_category = fields.Many2one("x.inc.person.category", required=True)
+    person_category = fields.Many2one("x.inc.person.category", required=True, help='Person Category')
     selected_category = fields.Char(compute='_compute_selected_category')
-    person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly=True)
+    person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly=True, help='Name')
     employee = fields.Many2one('hr.employee', string='Employee Name')
     employee_id = fields.Integer(related="employee.id", string='Employee ID')
     visitor_name = fields.Char(string='Visitor Name')
@@ -31,19 +31,19 @@ class IncidentPersonRecord(models.Model):
     job_title = fields.Char(related='employee.job_id.name', string="Job Title")
     involved_victim = fields.Selection(
         string="Involved/ Victim",
-        selection=[('involved', "Involved"), ('victim', "Victim"), ('both', 'Both')], required=True)
+        selection=[('involved', "Involved"), ('victim', "Victim"), ('both', 'Both')], required=True, help='Involved/ Victim')
     person_task = fields.Text(string="Task being done at the time of incident")
     person_employer = fields.Char(string="Employer")
-    incident_injured_body_parts = fields.Many2many("x.inc.injured.body.parts", string="Injured Body Part")
-    incident_type_of_illness = fields.Many2many("x.inc.injury.type", string="Nature of Injury")
+    incident_injured_body_parts = fields.Many2many("x.inc.injured.body.parts", string="Injured Body Part", help='Injured Body Part')
+    incident_type_of_illness = fields.Many2many("x.inc.injury.type", string="Nature of Injury", help='Nature of Injury')
     visited_hospital = fields.Char(string="Name of the Hospital Visited")
     person_days_off = fields.Integer(string="Days Off")
     is_visitor = fields.Boolean(string='Is Visitor', compute='_compute_is_visitor')
-    immediate_response = fields.Many2one('x.inc.person.immediate.response', string="Immediate Response")
+    immediate_response = fields.Many2one('x.inc.person.immediate.response', string="Immediate Response", help='Immediate Response')
     oh_incident_classification = fields.Many2one("x.inc.oh.classification", string="OH Incident Classification",
-                                                 required=True)
+                                                 required=True, help='OH Incident Classification')
     oh_severity_consequence = fields.Many2one("x.inc.oh.severity.consequence",
-                                              string="Severity Consequence", required=True)
+                                              string="Severity Consequence", required=True, help='Severity Consequence')
     location = fields.Many2one("x.location", string="Incident Location")
     experience = fields.Integer(string="Experience")
 

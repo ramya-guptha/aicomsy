@@ -13,14 +13,15 @@ class IncidentAssetRecord(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     incident_id = fields.Many2one('x.incident.record', required=True)
-    asset_category = fields.Selection([('equipment', 'Equipment'), ('others', 'Others')], string="Asset Category")
+    asset_category = fields.Selection([('equipment', 'Equipment'), ('others', 'Others')], string="Asset Category",
+                                      help='Asset Category')
     asset_id = fields.Many2one("maintenance.equipment", string="Asset Title")
     asset_title = fields.Char(related="asset_id.name")
-    asset_type = fields.Selection([('owned', 'Owned'), ('rental', 'Rental')])
-    description = fields.Text(string="Description of the Damage")
-    immediate_response = fields.Many2one("x.inc.asset.immediate.response")
+    asset_type = fields.Selection([('owned', 'Owned'), ('rental', 'Rental')], help='Asset Type')
+    description = fields.Text(string="Description of the Damage", help='Description of the Damage')
+    immediate_response = fields.Many2one("x.inc.asset.immediate.response", help='Immediate Response')
     others_asset_category = fields.Char(string="Others")
-    asset_name = fields.Char(string="Asset Name", compute="_compute_asset_name", store=True)
+    asset_name = fields.Char(string="Asset Name", compute="_compute_asset_name", store=True, help='Asset Name')
 
     @api.depends('asset_id', 'others_asset_category', 'asset_category')
     def _compute_asset_name(self):

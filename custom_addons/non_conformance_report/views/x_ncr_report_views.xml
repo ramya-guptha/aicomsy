@@ -81,6 +81,14 @@
                                     name="nc_part_details_popup"/>
                             <field name="attachment_ids" string="Attachments" widget="many2many_binary"
                                    options="{'no_open': True}"/>
+                            <field name="immediate_action" optional="hide"/>
+                            <field name="cause_of_nc_id" optional="hide"/>
+                            <field name="proposed_due_date" optional="hide"/>
+                            <field name="ca_response_id" optional="hide"/>
+                            <field name="rca_response" optional="hide"/>
+                            <field name="disposition_type_id" optional="hide"/>
+                            <field name="disposition_action" optional="hide"/>
+                            <field name="review_comments" optional="hide"/>
                         </tree>
                     </field>
                     <group col="2">

@@ -36,18 +36,18 @@ class ActionReview(models.Model):
 
     investigation_id = fields.Many2one("x.inc.investigation")
     corrective_action_id = fields.Many2one("x.inc.inv.corrective.actions")
-    reviewer = fields.Many2one('hr.employee', string="Reviewer")
+    reviewer = fields.Many2one('hr.employee', string="Reviewer", help='Reviewer')
     review_completion_date = fields.Date(string="Review Completion Date")
     risks_and_opportunities_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                                        string="Risks and Opportunities Reviewed?")
+                                                        string="Risks and Opportunities Reviewed?", help='Risks and Opportunities Reviewed?')
     job_hazard_analysis_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="JHAs Reviewed?",
                                                     help="Job Hazard Analysis reviewed?")
     report_closed_by = fields.Many2one('hr.employee', string="Report Closed by", compute='_compute_report_closed_by',
-                                       store=True)
+                                       store=True, help='Report Closed by')
     closure_date = fields.Date(string="Closure Date")
-    comments = fields.Text(string="Comments")
+    comments = fields.Text(string="Comments", help='Comments')
     action_follow_up_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Action Follow-up Required",
-                                                 default="no")
+                                                 default="no", help='Action Follow-up Required')
     review_by_ceo_vp_gm_required = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                     string="Review by CEO/VP/GM Required", default="no")
     justification = fields.Text(string="If no, give justification")
@@ -64,7 +64,7 @@ class ActionReview(models.Model):
         ],
         string="Status",
         copy=False,
-        default="new"
+        default="new", help='Status'
     )
 
     @api.depends('reviewer')

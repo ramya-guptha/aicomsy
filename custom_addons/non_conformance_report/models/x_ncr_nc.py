@@ -47,7 +47,8 @@ class NonConformanceModel(models.Model):
             if records.state == 'received_vendor_response':
                 if ((not 'disposition_action' in values or not 'ca_response_id' in values)
                         and (records.disposition_action == None or records.ca_response_id == None)):
-                    raise ValidationError("Enter the required parameters: Disposition Type, Disposition Action and RCA Response")
+                    raise ValidationError(
+                        "Enter the required parameters: Disposition Type, Disposition Action and RCA Response")
 
         return super().write(values)
 
@@ -62,23 +63,25 @@ class NonConformanceModel(models.Model):
     # Fields for NonConformanceModel
     ncr_id = fields.Many2one('x.ncr.report', string='NCR Report', required=True, ondelete='cascade')
     ncr_response_id = fields.Many2one('x.ncr.response', string='NCR Response', ondelete='cascade')
-    nc_s = fields.Char(string='NCS #', readonly=True)
-    source_of_nc = fields.Many2one('x.ncr.source', string='Source of NC', required=True)
-    nc_description = fields.Text(string='NC Description', help="Max 400 Characters", required=True)
-    uom = fields.Char(string='Unit of Measure', help="Max 10 Characters", required=True)
-    quantity = fields.Float(string='Quantity', required=True)
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', string='NC Details')
-    cause_of_nc_id = fields.Many2one('x.ncr.cause', string='Cause of NC')
-    disposition_type_id = fields.Many2one('x.ncr.disposition.type', string='Disposition Type')
-    immediate_action = fields.Text(string='Immediate Action', help='Maximum 400 character only')
-    proposed_due_date = fields.Date(string='Proposed Due Date')
-    response_attachment_ids = fields.One2many('ir.attachment', 'res_id', string="RCA / CA Response")
-    review_comments = fields.Text(string='Review Comments (If Any)', help='Max 400 Characters')
-    ca_response_id = fields.Many2one('x.ncr.ca.response', string='RCA Response')
-    rca_response = fields.Char(related='ca_response_id.rca_response', string="RCA Response", store=True)
+    nc_s = fields.Char(string='NCS #', readonly=True, help='NCS #')
+    source_of_nc = fields.Many2one('x.ncr.source', string='Source of NC', required=True, help='Source of NC')
+    nc_description = fields.Text(string='NC Description', help='NC Description (Max 400 Characters)', required=True)
+    uom = fields.Char(string='Unit of Measure', help='Unit of Measure (Max 10 Characters)', required=True)
+    quantity = fields.Float(string='Quantity', required=True, help='Quantity')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', string='NC Details', help='Attachment')
+    cause_of_nc_id = fields.Many2one('x.ncr.cause', string='Cause of NC', help='Cause of NC')
+    disposition_type_id = fields.Many2one('x.ncr.disposition.type', string='Disposition Type', help='Disposition Type')
+    immediate_action = fields.Text(string='Immediate Action', help='Immediate Action (Maximum 400 character only)')
+    proposed_due_date = fields.Date(string='Proposed Due Date', help='Proposed Due Date')
+    response_attachment_ids = fields.One2many('ir.attachment', 'res_id', string="RCA / CA Response",
+                                              help='RCA / CA Response')
+    review_comments = fields.Text(string='Review Comments (If Any)', help='Review Comments (If Any) Max 400 Characters')
+    ca_response_id = fields.Many2one('x.ncr.ca.response', string='RCA Response Code', help='RCA Response Code')
+    rca_response = fields.Char(related='ca_response_id.rca_response', string="RCA Response", store=True,
+                               help='RCA Response')
     disposition_action = fields.Selection(
         [('accept', 'Accept'), ('reject', 'Reject'), ('reinspect', 'Reinspect')],
-        string='Disposition Action',
+        string='Disposition Action', help='Disposition Action'
     )
     state = fields.Selection(
         selection=[
@@ -124,17 +127,17 @@ class NcPartDetails(models.Model):
     _description = 'NC Part Details'
 
     # Fields for NcPartDetails
-    assembly_number = fields.Char(string='Assembly Number')
-    part_number = fields.Char(string='Part Number')
+    assembly_number = fields.Char(string='Assembly Number', help='Assembly Number')
+    part_number = fields.Char(string='Part Number', help='Part Number')
     unit_weight = fields.Float(string='Unit Weight', default=0)
     affected_part_weight = fields.Float(string='Affected Part Weight')
     completion_percentage = fields.Float(string='% of Completion')
     production_date = fields.Date(string='Production Date')
-    quantity = fields.Float(string='Quantity', default=0)
-    quarantine = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Quarantine')
+    quantity = fields.Float(string='Quantity', default=0, help='Quantity')
+    quarantine = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Quarantine', help='Quarantine')
     operator_employee_id = fields.Char(string='Operator / Production Employee ID')
     total_weight = fields.Float(string='Total Weight', compute='_calculate_total_weight')
-    disposition_priority = fields.Char(string='Disposition Priority')
+    disposition_priority = fields.Char(string='Disposition Priority', help='Disposition Priority')
     disposition_cost = fields.Float(string='Disposition Cost')
     estimated_backcharge_price = fields.Float(string='Estimated Backcharge Price')
     nc_details_id = fields.Many2one('x.ncr.nc', string='NCR Details', required=True, ondelete='cascade')
