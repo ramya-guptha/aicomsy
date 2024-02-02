@@ -17,3 +17,13 @@ $mk-appbar-color: #dee2e6;
 $mk-appbar-background: #000000;
 
 $o-input-background-color: #E9ECEF;
+/* Label fonts to be bold,
+   Input box with rounded corners,
+   INput box border color for required and optional fields
+*/
+$font-weight-bold: 900 !default;
+$o-input-radius: 7px;
+
+$theme-required-input-border-color: #1183DC;
+$theme-input-border-color: #000000;
+
