@@ -34,13 +34,12 @@ class NcrReport(models.Model):
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
-    ncr_initiator_id = fields.Many2one('hr.employee', string='NCR Initiator Name', required=True, default=lambda
-        self: self.env.user.employee_id.id if self.env.user.employee_id else False, domain="[('company_id', '=', company_id)]", tracking=True)
-    initiator_job_title = fields.Char(related='ncr_initiator_id.job_id.name', string="Job Title")
-    ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, copy=False, tracking=True)
-    ncr_approver_id = fields.Many2one('hr.employee', string='NCR Approver Name', store=True, domain="[('company_id', '=', company_id)]", tracking=True)
-    approver_job_title = fields.Char(related='ncr_approver_id.job_id.name', string="Job Title", store=True)
-    rca_response_due_date = fields.Date(string='RCA Response Due Date', copy=False )
+    ncr_initiator_id = fields.Many2one('res.users', string='NCR Initiator Name', required=True,default=lambda self: self.env.user.id if self.env.user else False,domain="[('company_id', '=', company_id)]", tracking=True)
+    initiator_job_title = fields.Char(string="Initiator Job Title", store=True)
+    ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, copy=False,tracking=True)
+    ncr_approver_id = fields.Many2one('res.users', string='NCR Approver Name', store=True,domain="[('company_id', '=', company_id)]", tracking=True)
+    approver_job_title = fields.Char(related='ncr_approver_id.employee_id.job_id.name', string="Job Title", store=True)
+    rca_response_due_date = fields.Date(string='RCA Response Due Date', copy=False)
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category', copy=False)
     ncr_type_check = fields.Boolean(string='ncr_type_check', compute='_compute_ncr_type_check')
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_id', string='NCR NC', required=True)
@@ -67,11 +66,24 @@ class NcrReport(models.Model):
     due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
 
     @api.onchange('ncr_initiator_id')
-    def _set_approver_id(self):
-        if self.ncr_initiator_id.parent_id:
-            self.ncr_approver_id = self.ncr_initiator_id.parent_id
+    def _onchange_ncr_initiator_id(self):
+        if self.ncr_initiator_id:
+            if self.ncr_initiator_id:
+                self.initiator_job_title = self.ncr_initiator_id.employee_id.job_id.name if self.ncr_initiator_id.employee_id else "No Job Title"
+            else:
+                self.initiator_job_title = "No Job Title"
         else:
-            self.ncr_approver_id = None
+            self.initiator_job_title = False
+
+    @api.onchange('ncr_initiator_id')
+    def _set_approver_id(self):
+        if self.ncr_initiator_id:
+            manager = self.ncr_initiator_id.employee_id.parent_id.user_id if self.ncr_initiator_id.employee_id.parent_id else False
+            self.ncr_approver_id = manager
+            self.approver_job_title = manager.employee_id.job_id.name if manager and manager.employee_id else "No Job Title"
+        else:
+            self.ncr_approver_id = False
+            self.approver_job_title = False
 
     def _is_location_incharge(self):
         self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id
