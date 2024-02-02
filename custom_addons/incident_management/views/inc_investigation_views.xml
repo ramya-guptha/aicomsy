@@ -13,6 +13,8 @@
                 <field name="name"/>
                 <field name="incident_id"/>
                 <field name="description"/>
+                <field name="activity_date_deadline" string="Due Date" widget="remaining_days"/>
+                <field name="activity_ids" widget="list_activity"/>
             </tree>
         </field>
     </record>
