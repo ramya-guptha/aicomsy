@@ -29,7 +29,7 @@ class NcrReport(models.Model):
     purchase_order_no = fields.Char(string='Purchase Order No.')
     project_number = fields.Char(string='Project Number', required=True)
     project_name_title = fields.Char(string='Project Name / Title')
-    tag_no_location = fields.Many2one("x.location", string="Tag No. / Location",domain="[('company_id', '=', company_id)]", required=True)
+    tag_no_location = fields.Many2one("x.location", string="Tag No. / Location", domain="[('company_id', '=', company_id)]", required=True)
     shipment_reference = fields.Char(string='Shipment Reference')
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
@@ -100,8 +100,6 @@ class NcrReport(models.Model):
         for record in self:
             if not record.ncr_nc_ids:
                 raise ValidationError('At least one Non-Conformance record is required in the Table')
-
-
     # Compute method to set the value of ncr_list based on the ncr_type
     @api.depends('ncr_type_id')
     def _compute_ncr_type_check(self):
@@ -135,8 +133,8 @@ class NcrReport(models.Model):
         mail_template.send_mail(self.id, force_send=True)
         self.mark_activity_as_done("Approval Pending")
         if self.tag_no_location.location_incharge.user_id.id:
-            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id,self.due_date)
-        self.write({'state': 'approved'})
+            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
+            self.write({'state': 'approved'})
 
         # Update the state of associated Non-Conformance Records to 'ncr_submitted'
         nc_records = self.mapped('ncr_nc_ids')
@@ -144,12 +142,14 @@ class NcrReport(models.Model):
         for nc in nc_records:
             nc.write({'state': 'ncr_submitted'})
 
+
     def reinspect_completed(self):
         nc_records = self.mapped('ncr_nc_ids')
         for nc in nc_records:
             if nc.disposition_action == 'reinspect':
                 nc.write({'state': 'ncr_submitted'})
         self.state = "closed"
+
 
     def add_supplier(self):
         # Open a form to add a new supplier
