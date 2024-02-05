@@ -2,8 +2,18 @@
     <record id="investigation_model_action" model="ir.actions.act_window">
         <field name="name">All Investigations</field>
         <field name="res_model">x.inc.investigation</field>
-        <field name="context">{'create': False}</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'create': False, 'search_default_current_company':1}</field>
+    </record>
+    <record id="investigation_search_view" model="ir.ui.view">
+        <field name="name">investigation.search</field>
+        <field name="model">x.inc.investigation</field>
+        <field name="arch" type="xml">
+            <search string="Investigation Search">
+                <field name="company_id"/>
+                <filter string="Current Company" name="current_company" domain="[('company_id', '=', context['allowed_company_ids'][0])]"/>
+            </search>
+        </field>
     </record>
     <record id="investigation_list_view" model="ir.ui.view">
         <field name="name">investigation.tree</field>
@@ -13,6 +23,7 @@
                 <field name="name"/>
                 <field name="incident_id"/>
                 <field name="description"/>
+                <field name="company_id"/>
             </tree>
         </field>
     </record>

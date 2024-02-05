@@ -9,11 +9,14 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
     var _t = core._t;
     var web_client = require('web.web_client');
     var chartInstances = [];
+    var currentCompany;
+    var selectedCompany = "null";
     var IncidentDashboard = AbstractAction.extend({
         template: 'IncidentDashboard',
         events: {
             'click .tot_incidents': 'tot_incidents',
             'click #apply_btn': '_onchangeFilter',
+            'change #company_selection': '_onchangeCompany',
         },
         init: function(parent, context) {
             this._super(parent, context);
@@ -30,6 +33,7 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var self = this;
             this.set("title", 'Dashboard');
             return this._super().then(function() {
+                currentCompany = session.user_context.allowed_company_ids[0];
                 self.render_dashboards();
                 self.render_graphs();
                 self.render_filter();
@@ -50,12 +54,25 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
         function for getting values to the filters
         */
         render_filter: function() {
-            ajax.rpc('/incident/filter').then(function(data) {
+
+            ajax.rpc('/incident/filter', {
+                'params': {
+                    'company_id': currentCompany,
+                    'company_ids' : session.user_context.allowed_company_ids
+                },
+                }).then(function(data) {
                 var locations = data[0]
+                var companies =data[1]
+
                 $(locations).each(function(location) {
                     $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
                 });
 
+
+                $(companies).each(function(company) {
+                    $('#company_selection').append("<option value=" + companies[company].id + ">" + companies[company].name + "</option>");
+                });
+                $('#company_selection').val(selectedCompany);
                 // Set the value to a specific date (e.g., "2023-06-01")
                 var today = new Date();
                 var formattedDate = today.getFullYear() + '-' +
@@ -93,22 +110,78 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             if (!end_date) {
                 end_date = "null"
             }
+
             var locations_selection = $('#locations_selection').val();
             var incidents_selection = $('#incidents_selection').val();
+            var company_selection = $('#company_selection').val();
+
+            if (company_selection === 'null')
+                company_selection = currentCompany
 
             ajax.rpc('/incident/filter-apply', {
                 'data': {
                     'start_date': start_date,
                     'end_date': end_date,
                     'location': locations_selection,
+                    'company': company_selection,
                     'incidents': incidents_selection,
                     'uid': session.uid
                 }
             }).then(function(data) {
                 self.total_incidents_ids = data['total_incidents_ids']
                 document.getElementById("tot_incidents").innerHTML = data['total_incidents_ids'].length
-            })
+            });
+            ajax.rpc('/incident/filter', {
+                'params': {
+                    'company_id': company_selection,
+                    'company_ids' : session.user_context.allowed_company_ids
+                },
+                }).then(function(data) {
+                var locations = data[0]
+                var companies =data[1]
+
+                $('#locations_selection').empty();
+                $('#locations_selection').append("<option value='null'>" + "All Locations" + "</option>");
+                $(locations).each(function(location) {
+                    $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
+                });
+                $('#locations_selection').val(locations_selection);
+                //$('#company_selection').val(company_selection);
+                // Set the value to a specific date (e.g., "2023-06-01")
+
+            });
+
+            //self.render_filter();
             self.render_graphs();
+
+        },
+
+        _onchangeCompany: function() {
+
+            var company_selection = $('#company_selection').val();
+
+            if (company_selection === 'null')
+                company_selection = currentCompany
+            ajax.rpc('/incident/filter', {
+                'params': {
+                    'company_id': company_selection,
+                    'company_ids' : session.user_context.allowed_company_ids
+                },
+                }).then(function(data) {
+                var locations = data[0]
+                var companies =data[1]
+
+                $('#locations_selection').empty();
+                $('#locations_selection').append("<option value='null'>" + "All Locations" + "</option>");
+                $(locations).each(function(location) {
+                    $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
+                });
+                $('#locations_selection').val('null');
+                //$('#company_selection').val(company_selection);
+                // Set the value to a specific date (e.g., "2023-06-01")
+
+            })
+
 
         },
         // Function to generate random color
@@ -136,11 +209,15 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+            if (company === undefined || company === 'null'){
+                 company = currentCompany;
+            }
 
             rpc.query({
                 model: "x.inc.report.normal.days",
                 method: 'get_normal_mom',
-                args: [start_date, end_date, location, incident_type],
+                args: [start_date, end_date, location, incident_type, company],
             }).then(function(data) {
                 var formattedLabels = data.labels.map(function(label) {
                     var date = new Date(label);
@@ -198,10 +275,15 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+
+            if (company === undefined || company === 'null'){
+                 company = currentCompany;
+            }
             rpc.query({
                 model: "x.inc.report.normal.days",
                 method: 'get_incident_status',
-                args: [start_date, end_date, location, incident_type],
+                args: [start_date, end_date, location, incident_type, company],
             }).then(function(data) {
                 var modifiedLabel = []
                 var colors_list = ["#ef9b20", "#82C341", "#EA5545", "#1179DC", "#82F341", "#A1FB8E", "#73FBFD", "#D0FD81",
@@ -279,10 +361,14 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+            if (company === undefined || company === 'null'){
+                 company = currentCompany;
+            }
             rpc.query({
                 model: "x.inc.report.normal.days",
                 method: 'get_incident_frequency_rate',
-                args: [start_date, end_date, location, incident_type],
+                args: [start_date, end_date, location, incident_type, company],
             }).then(function(data) {
 
                 var formattedLabels = data.labels.map(function(label) {
@@ -343,10 +429,14 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+            if (company === undefined || company === 'null'){
+                 company = currentCompany;
+            }
              rpc.query({
                         model: "x.inc.report.normal.days",
                         method: 'get_severity_classification',
-                        args: [start_date, end_date, location, incident_type],
+                        args: [start_date, end_date, location, incident_type, company],
                     }).then(function(data) {
                         // Sample Inputs
                         var input1 = data.labels;
@@ -504,10 +594,14 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+            if (company === undefined || company === 'null'){
+                 company = currentCompany;
+            }
             rpc.query({
                 model: "x.inc.report.cost.impact",
                 method: 'get_cost_impact',
-                args: [start_date, end_date, location, incident_type],
+                args: [start_date, end_date, location, incident_type, company],
             }).then(function(data) {
                  var formattedLabels = data.labels.map(function(label) {
                     var date = new Date(label);
@@ -570,10 +664,15 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+            if (company === undefined || company === 'null'){
+                 company = currentCompany;
+            }
+
             rpc.query({
                 model: "x.inc.report.severity.rate",
                 method: 'get_severity_rate',
-                args: [start_date, end_date, location, incident_type],
+                args: [start_date, end_date, location, incident_type, company],
             }).then(function(data) {
                 var formattedLabels = data.labels.map(function(label) {
                     var date = new Date(label);
@@ -695,10 +794,14 @@ odoo.define('incident_dashboard.Dashboard', function(require) {
             var end_date = self._getEndDate();
             var location = $('#locations_selection').val();
             var incident_type = $('#incidents_selection').val();
+            var company = $('#company_selection').val();
+            if (company === undefined || company === 'null'){
+                 company =  session.user_context.allowed_company_ids[0]
+            }
             var def1 = this._rpc({
                 model: 'x.incident.record',
                 method: 'get_tiles_data',
-                args: [start_date, end_date]
+                args: [start_date, end_date, company]
             }).then(function(result) {
                     self.total_locations = result['total_locations']
                     self.total_incidents = result['total_incidents']

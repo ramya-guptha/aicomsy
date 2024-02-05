@@ -20,7 +20,9 @@ class NCRFilter(http.Controller):
         """
         location_list = []
         source_list = []
-        company_id = kw.get('params', {}).get('company_id')
+        company_list = []
+        company_id = int(kw.get('params', {}).get('company_id'))
+        company_ids = kw.get('params', {}).get('company_ids')
         location_ids = request.env['x.location'].search([('company_id', '=', company_id)])
         ncr_source_ids = request.env['x.ncr.source'].search([('company_id', '=', company_id)])
         # getting location data
@@ -33,5 +35,12 @@ class NCRFilter(http.Controller):
             dic = {'name': ncr_source_id.name,
                    'id': ncr_source_id.id}
             source_list.append(dic)
-        return [location_list, source_list]
+
+        # Do something with the allowed company IDs
+        for company_id1 in company_ids:
+            company = http.request.env['res.company'].browse(company_id1)
+            dic = {'name': company.name,
+                   'id': company.id}
+            company_list.append(dic)
+        return [location_list, source_list, company_list]
 

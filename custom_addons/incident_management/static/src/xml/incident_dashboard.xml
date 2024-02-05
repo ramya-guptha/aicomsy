@@ -32,6 +32,12 @@
                         <option value="my">My Incidents</option>
                     </select>
                 </p>
+                <p>Company :</p>
+                <p>
+                    <select class="inner_select" id="company_selection">
+                        <option value="null">Current Company</option>
+                    </select>
+                </p>
                  <p>
                     <button type="button" id="apply_btn" class="inner_select btn-primary">Apply</button>
                 </p>

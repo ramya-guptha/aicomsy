@@ -3,7 +3,20 @@
         <field name="name">All Incidents</field>
         <field name="res_model">x.incident.record</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_current_company':1}</field>
+
     </record>
+    <record id="incident_record_search_view" model="ir.ui.view">
+        <field name="name">incident.search</field>
+        <field name="model">x.incident.record</field>
+        <field name="arch" type="xml">
+            <search string="Incident Search">
+                <field name="company_id"/>
+                <filter string="Current Company" name="current_company" domain="[('company_id', '=', context['allowed_company_ids'][0])]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="incident_record_list_view" model="ir.ui.view">
         <field name="name">incident.tree</field>
         <field name="model">x.incident.record</field>
@@ -13,6 +26,7 @@
                 <field name="inc_date_time"/>
                 <field name="inc_reported_date"/>
                 <field name="type" widget="many2many_tags"/>
+                <field name="company_id"/>
                 <field name="location"/>
                 <field name="state"/>
             </tree>
@@ -37,6 +51,7 @@
                         <group>
                             <field name="inc_date_time" attrs="{'readonly': [('state', 'in', 'closed')]}"/>
                             <field name="inc_reported_date" attrs="{'readonly': [('state', 'in', 'closed')]}"/>
+                            <field name="company_id"/>
                             <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')], 'readonly': [('state', 'not in', ('new', 'investigation_assigned'))]}" options="{'no_create': True, 'no_create_edit': True}" readonly="True"/>
                         </group>
                         <group>
