@@ -112,15 +112,9 @@ body, p, h1, h2, h3 {
 .o_menu_sections {
     button,
     select {
-      text-transform: uppercase !important;
+
       font-weight: $font-weight-bold;
     }
 }
 
-.o_main_navbar {
-    .dropdown-item {
-        text-transform: uppercase;
-        font-weight: $font-weight-bold !important;
-    }
-}
 
