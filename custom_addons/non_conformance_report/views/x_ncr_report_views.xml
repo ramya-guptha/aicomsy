@@ -14,7 +14,9 @@
                 <field name="project_name_title"/>
                 <field name="company_id"/>
                 <field name="tag_no_location"/>
-                <field name="state"/>
+                <field name="activity_date_deadline" string="Due Date" widget="remaining_days"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="state" decoration-info="state == 'new'" decoration-success="state == 'closed'" decoration-warning="state in ['approval_pending', 'approved', 'awaiting_vendor_response', 'received_vendor_response', 'rejected', 'return_for_further_actions']" widget="badge"/>
                 <field name="assigned_to_id"/>
             </tree>
         </field>
