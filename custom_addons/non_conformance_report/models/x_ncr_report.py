@@ -29,15 +29,20 @@ class NcrReport(models.Model):
     purchase_order_no = fields.Char(string='Purchase Order No.')
     project_number = fields.Char(string='Project Number', required=True)
     project_name_title = fields.Char(string='Project Name / Title')
-    tag_no_location = fields.Many2one("x.location", string="Tag No. / Location", domain="[('company_id', '=', company_id)]", required=True)
+    tag_no_location = fields.Many2one("x.location", string="Tag No. / Location",
+                                      domain="[('company_id', '=', company_id)]", required=True)
     shipment_reference = fields.Char(string='Shipment Reference')
     received_date = fields.Date(string='Received Date')
     inspection_stage = fields.Char(string='Inspection Stage')
     rfi_number = fields.Char(string='RFI Number')
-    ncr_initiator_id = fields.Many2one('res.users', string='NCR Initiator Name', required=True,default=lambda self: self.env.user.id if self.env.user else False,domain="[('company_id', '=', company_id)]", tracking=True)
+    ncr_initiator_id = fields.Many2one('res.users', string='NCR Initiator Name', required=True,
+                                       default=lambda self: self.env.user.id if self.env.user else False,
+                                       domain="[('company_id', '=', company_id)]", tracking=True)
     initiator_job_title = fields.Char(string="Initiator Job Title", store=True)
-    ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, copy=False,tracking=True)
-    ncr_approver_id = fields.Many2one('res.users', string='NCR Approver Name', store=True,domain="[('company_id', '=', company_id)]", tracking=True)
+    ncr_open_date = fields.Date(string='NCR Open Date', required=True, default=fields.Date.context_today, copy=False,
+                                tracking=True)
+    ncr_approver_id = fields.Many2one('res.users', string='NCR Approver Name', store=True,
+                                      domain="[('company_id', '=', company_id)]", tracking=True)
     approver_job_title = fields.Char(related='ncr_approver_id.employee_id.job_id.name', string="Job Title", store=True)
     rca_response_due_date = fields.Date(string='RCA Response Due Date', copy=False)
     ncr_category_id = fields.Many2one(comodel_name='x.ncr.category', string='NCR Category', copy=False)
@@ -81,7 +86,8 @@ class NcrReport(models.Model):
             if self.ncr_initiator_id.employee_id:
                 manager = self.ncr_initiator_id.employee_id.parent_id.user_id if self.ncr_initiator_id.employee_id.parent_id else False
                 self.ncr_approver_id = manager
-                self.approver_job_title = manager.employee_id.job_id.name if manager and manager.employee_id.job_id else "No Job Title"
+                if manager.employee_id:
+                    self.approver_job_title = manager.employee_id.job_id.name if manager.employee_id.job_id else "No Job Title"
             else:
                 self.ncr_approver_id = False
                 self.approver_job_title = False
@@ -99,6 +105,7 @@ class NcrReport(models.Model):
         for record in self:
             if not record.ncr_nc_ids:
                 raise ValidationError('At least one Non-Conformance record is required in the Table')
+
     # Compute method to set the value of ncr_list based on the ncr_type
     @api.depends('ncr_type_id')
     def _compute_ncr_type_check(self):
@@ -132,7 +139,8 @@ class NcrReport(models.Model):
         mail_template.send_mail(self.id, force_send=True)
         self.mark_activity_as_done("Approval Pending")
         if self.tag_no_location.location_incharge.user_id.id:
-            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
+            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id,
+                                 self.due_date)
         self.write({'state': 'approved'})
 
         # Update the state of associated Non-Conformance Records to 'ncr_submitted'
@@ -141,14 +149,12 @@ class NcrReport(models.Model):
         for nc in nc_records:
             nc.write({'state': 'ncr_submitted'})
 
-
     def reinspect_completed(self):
         nc_records = self.mapped('ncr_nc_ids')
         for nc in nc_records:
             if nc.disposition_action == 'reinspect':
                 nc.write({'state': 'ncr_submitted'})
         self.state = "closed"
-
 
     def add_supplier(self):
         # Open a form to add a new supplier
