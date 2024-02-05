@@ -134,7 +134,7 @@ class NcrReport(models.Model):
         self.mark_activity_as_done("Approval Pending")
         if self.tag_no_location.location_incharge.user_id.id:
             self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
-            self.write({'state': 'approved'})
+        self.write({'state': 'approved'})
 
         # Update the state of associated Non-Conformance Records to 'ncr_submitted'
         nc_records = self.mapped('ncr_nc_ids')
