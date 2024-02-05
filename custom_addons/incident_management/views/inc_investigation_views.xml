@@ -24,6 +24,9 @@
                 <field name="incident_id"/>
                 <field name="description"/>
                 <field name="company_id"/>
+                <field name="activity_date_deadline" string="Due Date" widget="remaining_days"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="state"  decoration-info="state == 'assigned'" decoration-success="state == 'closed'" decoration-warning="state =='in_progress'" widget="badge"/>
             </tree>
         </field>
     </record>

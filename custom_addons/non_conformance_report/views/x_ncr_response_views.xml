@@ -27,7 +27,9 @@
                 <field name="ncr_type_id"/>
                 <field name="project_name_title"/>
                 <field name="project_number"/>
-                <field name="state"/>
+                <field name="activity_date_deadline" string="Due Date" widget="remaining_days"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="state" decoration-info="state == 'new'" decoration-success="state == 'closed'" decoration-warning="state in ['review_in_progress', 'approval_pending', 'review_rejection']" widget="badge"/>
                 <field name="assigned_to_id"/>
             </tree>
         </field>
