@@ -68,8 +68,8 @@ class NcrReport(models.Model):
     @api.onchange('ncr_initiator_id')
     def _onchange_ncr_initiator_id(self):
         if self.ncr_initiator_id:
-            if self.ncr_initiator_id:
-                self.initiator_job_title = self.ncr_initiator_id.employee_id.job_id.name if self.ncr_initiator_id.employee_id else "No Job Title"
+            if self.ncr_initiator_id.employee_id:
+                self.initiator_job_title = self.ncr_initiator_id.employee_id.job_id.name if self.ncr_initiator_id.employee_id.job_id else "No Job Title"
             else:
                 self.initiator_job_title = "No Job Title"
         else:
@@ -78,12 +78,13 @@ class NcrReport(models.Model):
     @api.onchange('ncr_initiator_id')
     def _set_approver_id(self):
         if self.ncr_initiator_id:
-            manager = self.ncr_initiator_id.employee_id.parent_id.user_id if self.ncr_initiator_id.employee_id.parent_id else False
-            self.ncr_approver_id = manager
-            self.approver_job_title = manager.employee_id.job_id.name if manager and manager.employee_id else "No Job Title"
-        else:
-            self.ncr_approver_id = False
-            self.approver_job_title = False
+            if self.ncr_initiator_id.employee_id:
+                manager = self.ncr_initiator_id.employee_id.parent_id.user_id if self.ncr_initiator_id.employee_id.parent_id else False
+                self.ncr_approver_id = manager
+                self.approver_job_title = manager.employee_id.job_id.name if manager and manager.employee_id.job_id else "No Job Title"
+            else:
+                self.ncr_approver_id = False
+                self.approver_job_title = False
 
     def _is_location_incharge(self):
         self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id

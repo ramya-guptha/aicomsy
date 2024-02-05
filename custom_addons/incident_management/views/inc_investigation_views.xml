@@ -15,6 +15,7 @@
                 <field name="description"/>
                 <field name="activity_date_deadline" string="Due Date" widget="remaining_days"/>
                 <field name="activity_ids" widget="list_activity"/>
+                <field name="state"  decoration-success="state == 'closed'" decoration-warning="state in ['assigned', 'in_progress']" widget="badge"/>
             </tree>
         </field>
     </record>
