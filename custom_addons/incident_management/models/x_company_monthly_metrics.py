@@ -7,7 +7,7 @@ class MonthlyMetrics(models.Model):
     _name = 'x.company.monthly.metrics'
     _description = 'Monthly Metrics'
     _sql_constraints = [
-        ('unique_month_year', 'unique(month, year)', 'Monthly metrics for the same month and year already exist.'),
+        ('unique_company_month_year', 'unique(month, year, company_id)', 'Monthly metrics for the selected company, record with same month and year already exist.'),
     ]
 
     MONTHS = [
@@ -28,6 +28,7 @@ class MonthlyMetrics(models.Model):
     month = fields.Integer(string='Month (Integer)', store=True)
     year = fields.Integer(string='Year (Integer)', store=True)
     month_selection = fields.Selection(MONTHS, string='Month')
+    company_id = fields.Many2one('res.company', required=True, default=lambda self: self.env.company)
 
     year_selection = fields.Selection(
         [(str(year), str(year)) for year in range(1990, 2050)],

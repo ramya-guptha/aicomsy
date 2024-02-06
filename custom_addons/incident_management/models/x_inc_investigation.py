@@ -74,7 +74,7 @@ class IncInvestigation(models.Model):
     # Actions Review & Closure Tab
     actions_review_ids = fields.One2many("x.inc.inv.action.review", "investigation_id",
                                          string="Action Review & Closure ")
-    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
+    company_id = fields.Many2one(related="incident_id.company_id")
     state = fields.Selection(
         selection=[
             ("assigned", "Assigned"),

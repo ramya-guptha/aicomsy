@@ -4,6 +4,17 @@
         <field name="res_model">x.ncr.response</field>
         <field name="context">{'create': False}</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_current_company':1}</field>
+    </record>
+    <record id="ncr_response_search_view" model="ir.ui.view">
+        <field name="name">ncr.response.search</field>
+        <field name="model">x.ncr.response</field>
+        <field name="arch" type="xml">
+            <search string="NCR Response Search">
+                <field name="company_id"/>
+                <filter string="Current Company" name="current_company" domain="[('company_id', '=', context['allowed_company_ids'][0])]"/>
+            </search>
+        </field>
     </record>
     <record id="x_ncr_response_view_tree" model="ir.ui.view">
         <field name="name">x.ncr.response.tree</field>
@@ -62,6 +73,7 @@
                             <field name="review_comments" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                             <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                             <field name="nc_s" optional="hide"/>
+                            <field name="company_id" invisible="True"/>
                             <field name="source_of_nc" optional="hide"/>
                             <field name="nc_description" optional="hide"/>
                             <field name="uom" optional="hide"/>
@@ -118,6 +130,7 @@
                                 <field name="review_comments" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                                 <field name="ca_response_id" attrs="{'column_invisible': [('parent.state', 'in', ['new','review_in_progress', 'review_rejection'])], 'required': [('parent.state', '=', 'approval_pending')]}"/>
                                 <field name="nc_s" optional="hide"/>
+                                <field name="company_id" invisible="True"/>
                                 <field name="source_of_nc" optional="hide"/>
                                 <field name="nc_description" optional="hide"/>
                                 <field name="uom" optional="hide"/>

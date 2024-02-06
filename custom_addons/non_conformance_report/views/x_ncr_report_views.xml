@@ -3,6 +3,17 @@
         <field name="name">NCR Reports</field>
         <field name="res_model">x.ncr.report</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_current_company':1}</field>
+    </record>
+    <record id="ncreport_search_view" model="ir.ui.view">
+        <field name="name">ncreport.search</field>
+        <field name="model">x.ncr.report</field>
+        <field name="arch" type="xml">
+            <search string="NC Report Search">
+                <field name="company_id"/>
+                <filter string="Current Company" name="current_company" domain="[('company_id', '=', context['allowed_company_ids'][0])]"/>
+            </search>
+        </field>
     </record>
     <record id="x_ncr_report_list_view" model="ir.ui.view">
         <field name="name">report.tree</field>
@@ -75,7 +86,8 @@
                     <field name="ncr_nc_ids" options="{'no_create': [('state', '!=', 'new')]}">
                         <tree editable="bottom" create="attrs.get('create', True)">
                             <field name="nc_s"/>
-                            <field name="source_of_nc" options="{'no_create': True, 'no_create_edit': True, 'no_open': True, 'required': True}" />
+                            <field name="company_id" invisible="True"/>
+                            <field name="source_of_nc" options="{'no_create': True, 'no_create_edit': True, 'no_open': True, 'required': True}"/>
                            <field name="nc_description" required="True" />
                             <field name="uom" required="True"/>
                             <field name="quantity" required="True"/>

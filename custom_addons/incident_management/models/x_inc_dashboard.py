@@ -8,7 +8,7 @@ class Incident(models.Model):
     _inherit = 'x.incident.record'
 
     @api.model
-    def get_tiles_data(self, start_date, end_date):
+    def get_tiles_data(self, start_date, end_date, company):
         # Convert the str to datetime
         start_datetime = datetime.combine(fields.Date.from_string(start_date), datetime.min.time())
         end_datetime = datetime.combine(fields.Date.from_string(end_date), datetime.max.time())
@@ -16,6 +16,7 @@ class Incident(models.Model):
         domain = [
             ('inc_date_time', '>=', start_datetime),
             ('inc_date_time', '<=', end_datetime),
+            ('company_id', '=', company),
         ]
 
         all_locations = self.env['x.location'].search([])
@@ -39,7 +40,7 @@ class NormalDays(models.Model):
     _auto = False
 
     @api.model
-    def get_normal_mom(self, start_date, end_date, location, incident_type):
+    def get_normal_mom(self, start_date, end_date, location, incident_type, company):
         start_date_object = None
         end_date_object = None
 
@@ -57,26 +58,26 @@ class NormalDays(models.Model):
                         working_days - COUNT(DISTINCT DATE(inc_date_time)) as normal_days           
                         FROM x_company_monthly_metrics AS x  
                         LEFT JOIN  x_incident_record ON EXTRACT(MONTH from inc_date_time) = x.month             
-                        AND EXTRACT(YEAR from inc_date_time) = x.year 
+                        AND EXTRACT(YEAR from inc_date_time) = x.year AND x.company_id = x_incident_record.company_id
                         """
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"x_incident_record.company_id = '{company}'"]
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
-            conditions.append(f"inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
+            conditions.append(f"(inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
                               f" OR Make_date(year, month, 1) BETWEEN Make_date('{start_date_object.year}', '{start_date_object.month}', 1)"
                               f" AND Make_date('{end_date_object.year}', '{end_date_object.month}', 1)"
-                              f" AND inc_date_time  is NULL")
+                              f" AND inc_date_time  is NULL)")
 
         elif start_date is not None and start_date != '':
             conditions.append(
-                f"(inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
-                f" and month >= '{start_date_object.month}')")
+                f"((inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
+                f" and month >= '{start_date_object.month}'))")
 
         elif end_date is not None and end_date != '':
             conditions.append(
-                f"(inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
-                f" and month <= '{end_date_object.month}')  ")
+                f"((inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
+                f" and month <= '{end_date_object.month}'))  ")
 
         if location is not None and location != 'null':
             if (len(conditions) > 0):
@@ -101,7 +102,7 @@ class NormalDays(models.Model):
         return {'labels': labels, 'data': data}
 
     @api.model
-    def get_incident_frequency_rate(self, start_date, end_date, location, incident_type):
+    def get_incident_frequency_rate(self, start_date, end_date, location, incident_type, company):
         start_date_object = None
         end_date_object = None
 
@@ -119,27 +120,27 @@ class NormalDays(models.Model):
        END as incident_frequency_rate            
     		from  x_company_monthly_metrics as x
             left join x_incident_record  on EXTRACT(MONTH from inc_date_time) = x.month 
-            and EXTRACT(YEAR from inc_date_time) = x.year            
+            and EXTRACT(YEAR from inc_date_time) = x.year AND x.company_id = x_incident_record.company_id          
             """
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"x_incident_record.company_id = '{company}'"]
 
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
-            conditions.append(f"inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
+            conditions.append(f"(inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
                               f" OR Make_date(year, month, 1) BETWEEN Make_date('{start_date_object.year}', '{start_date_object.month}', 1)"
                               f" AND Make_date('{end_date_object.year}', '{end_date_object.month}', 1)"
-                              f" AND inc_date_time  is NULL")
+                              f" AND inc_date_time  is NULL)")
 
         elif start_date is not None and start_date != '':
             conditions.append(
-                f"(inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
-                f" and month >= '{start_date_object.month}')")
+                f"((inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
+                f" and month >= '{start_date_object.month}'))")
 
         elif end_date is not None and end_date != '':
             conditions.append(
-                f"(inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
-                f" and month <= '{end_date_object.month}')  ")
+                f"((inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
+                f" and month <= '{end_date_object.month}'))  ")
 
         if location is not None and location != 'null':
             if (len(conditions) > 0):
@@ -166,7 +167,7 @@ class NormalDays(models.Model):
         return {'labels': labels, 'data': data}
 
     @api.model
-    def get_severity_classification(self, start_date, end_date, location, incident_type):
+    def get_severity_classification(self, start_date, end_date, location, incident_type, company):
         start_date_object = None
         end_date_object = None
 
@@ -180,28 +181,29 @@ class NormalDays(models.Model):
                 s.name as severity_classification_mom,
                 count(s.name) as severity_count from x_company_monthly_metrics as x
                 left join x_incident_record  ON EXTRACT(MONTH from inc_date_time) = x.month
-                        AND EXTRACT(YEAR from inc_date_time) = x.year              
-                left join x_inc_severity as s on s.id = severity
+                        AND EXTRACT(YEAR from inc_date_time) = x.year AND x.company_id = x_incident_record.company_id          
+                left join x_inc_severity as s on s.id = severity 
 
                 """
 
-        conditions = []
+        # Construct the WHERE clause based on conditions
+        conditions = [f"x_incident_record.company_id = '{company}'"]
 
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
-            conditions.append(f"inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
+            conditions.append(f"(inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
                               f" OR Make_date(year, month, 1) BETWEEN Make_date('{start_date_object.year}', '{start_date_object.month}', 1)"
                               f" AND Make_date('{end_date_object.year}', '{end_date_object.month}', 1)"
-                              f" AND inc_date_time  is NULL")
+                              f" AND inc_date_time  is NULL)")
 
         elif start_date is not None and start_date != '':
             conditions.append(
-                f"(inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
-                f" and month >= '{start_date_object.month}')")
+                f"((inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
+                f" and month >= '{start_date_object.month}'))")
 
         elif end_date is not None and end_date != '':
             conditions.append(
-                f"(inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
-                f" and month <= '{end_date_object.month}')  ")
+                f"((inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
+                f" and month <= '{end_date_object.month}'))  ")
 
         if location is not None and location != 'null':
             if (len(conditions) > 0):
@@ -228,7 +230,7 @@ class NormalDays(models.Model):
         return {'labels': labels, 'data': data, 'classification': classification}
 
     @api.model
-    def get_incident_status(self, start_date, end_date, location, incident_type):
+    def get_incident_status(self, start_date, end_date, location, incident_type, company):
         start_date_object = None
         end_date_object = None
 
@@ -240,21 +242,22 @@ class NormalDays(models.Model):
 
         base_query = """select count(name),state from x_incident_record  
                 """
-        conditions = []
+        # Construct the WHERE clause based on conditions
+        conditions = [f"x_incident_record.company_id = '{company}'"]
 
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
-            conditions.append(f"inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'")
+            conditions.append(f"(inc_date_time BETWEEN '{start_date}'  AND  '{end_date}')")
 
         elif start_date is not None and start_date != '':
             conditions.append(
-                f"inc_date_time >= '{start_date}'")
+                f"(inc_date_time >= '{start_date}')")
 
         elif end_date is not None and end_date != '':
             conditions.append(
                 f"(inc_date_time <= '{end_date}') ")
 
         if location is not None and location != 'null':
-            conditions.append(f"location = '{location}'")
+            conditions.append(f"(location = '{location}')")
 
         if incident_type is not None and incident_type != 'null':
             conditions.append(f"(x_incident_record.create_uid = '{self.env.uid}' OR x_incident_record.notified_by = '{self.env['hr.employee'].search([('user_id', '=', self.env.uid)]).id}')")
@@ -283,7 +286,7 @@ class IncidentSeverityRate(models.Model):
     _auto = False
 
     @api.model
-    def get_severity_rate(self, start_date, end_date, location, incident_type):
+    def get_severity_rate(self, start_date, end_date, location, incident_type, company):
         start_date_object = None
         end_date_object = None
 
@@ -295,22 +298,22 @@ class IncidentSeverityRate(models.Model):
         base_query = """SELECT  MAKE_DATE(year, month ,1) as inc_month_year,             
                           round((sum(quantity) * 200000 / x.hour_worked)::numeric,2) as incident_severity_rate
                           FROM x_company_monthly_metrics AS x
-    					  LEFT JOIN  x_incident_record inc ON EXTRACT(MONTH FROM inc.inc_date_time) = x.month AND EXTRACT(YEAR FROM inc.inc_date_time) = x.year
+    					  LEFT JOIN  x_incident_record inc ON EXTRACT(MONTH FROM inc.inc_date_time) = x.month AND EXTRACT(YEAR FROM inc.inc_date_time) = x.year AND x.company_id = inc.company_id
                           LEFT JOIN x_inc_investigation inv ON inc.id = inv.incident_id
                           LEFT JOIN x_inc_consequences con ON con.investigation_id = inv.id
                           LEFT JOIN x_inc_action_damage damage ON damage.id = con.actions_damages               
 
                          """
 
-        conditions = []
+        conditions = [f"inc.company_id = '{company}'"]
 
         conditions.append(f" (damage.name='Lost Work Days' or damage.name is NULL)")
 
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
-            conditions.append(f"inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
+            conditions.append(f"(inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
                               f" OR Make_date(year, month, 1) BETWEEN Make_date('{start_date_object.year}', '{start_date_object.month}', 1)"
                               f" AND Make_date('{end_date_object.year}', '{end_date_object.month}', 1)"
-                              f" AND inc_date_time  is NULL")
+                              f" AND inc_date_time  is NULL)")
 
         elif start_date is not None and start_date != '':
             conditions.append(
@@ -369,7 +372,7 @@ class IncidentsCostImpact(models.Model):
     _auto = False
 
     @api.model
-    def get_cost_impact(self, start_date, end_date, location, incident_type):
+    def get_cost_impact(self, start_date, end_date, location, incident_type, company):
         start_date_object = None
         end_date_object = None
 
@@ -380,22 +383,22 @@ class IncidentsCostImpact(models.Model):
             end_date_object = datetime.strptime(end_date, "%Y-%m-%d")
 
         # Construct the WHERE clause based on conditions
-        conditions = []
+        conditions = [f"inc.company_id = '{company}'"]
         if (start_date is not None and start_date != '') and (end_date is not None and end_date != ''):
-            conditions.append(f"inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
+            conditions.append(f"(inc_date_time BETWEEN '{start_date}'  AND  '{end_date}'"
                               f" OR Make_date(year, month, 1) BETWEEN Make_date('{start_date_object.year}', '{start_date_object.month}', 1)"
                               f" AND Make_date('{end_date_object.year}', '{end_date_object.month}', 1)"
-                              f" AND inc_date_time  is NULL")
+                              f" AND inc_date_time  is NULL)")
 
         elif start_date is not None and start_date != '':
             conditions.append(
-                f"(inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
-                f" and month >= '{start_date_object.month}')")
+                f"((inc_date_time >= '{start_date}'  OR inc_date_time  is NULL) AND (year  >= '{start_date_object.year}'"
+                f" and month >= '{start_date_object.month}'))")
 
         elif end_date is not None and end_date != '':
             conditions.append(
-                f"(inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
-                f" and month <= '{end_date_object.month}')  ")
+                f"((inc_date_time <= '{end_date}' OR inc_date_time  is NULL) AND (year  <= '{end_date_object.year}'"
+                f" and month <= '{end_date_object.month}'))  ")
 
         if location is not None and location != 'null':
             if (len(conditions) > 0):
@@ -422,7 +425,8 @@ class IncidentsCostImpact(models.Model):
                                   ON Extract(month FROM inc.inc_date_time) =
                                      Cast(x.month AS INTEGER)
                                      AND Extract(year FROM inc.inc_date_time) = Cast(
-                                         x.year AS INTEGER)
+                                         x.year AS INTEGER) 
+                                     AND x.company_id = inc.company_id
                            left join x_inc_investigation inv
                                   ON inc.id = inv.incident_id
                            left join x_inc_consequences con

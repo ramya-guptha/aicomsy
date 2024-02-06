@@ -11,10 +11,12 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
     // Declare an array to store chart instances
     var chartInstances = [];
     var currentCompany;
+    var selectedCompany = "null";
     var NCRDashboard = AbstractAction.extend({
         template: 'NCRDashboard',
         events: {
             'click #apply_btn': '_onchangeFilter',
+            'change #company_selection': '_onchangeCompany',
         },
         init: function(parent, context) {
             this._super(parent, context);
@@ -55,16 +57,22 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             ajax.rpc('/ncr/filter', {
                 'params': {
                     'company_id': currentCompany,
+                    'company_ids' : session.user_context.allowed_company_ids,
                 },
                 }).then(function(data) {
                 var locations = data[0];
                 var ncr_source =data[1];
+                var companies =data[2];
                 $(locations).each(function(location) {
                     $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
                 });
                 $(ncr_source).each(function(src) {
                     $('#src_selection').append("<option value=" + ncr_source[src].id + ">" + ncr_source[src].name + "</option>");
                 });
+                $(companies).each(function(company) {
+                    $('#company_selection').append("<option value=" + companies[company].id + ">" + companies[company].name + "</option>");
+                });
+                $('#company_selection').val(selectedCompany);
                 var startDateInput = document.getElementById("start_date");
 
 
@@ -94,29 +102,76 @@ odoo.define('noncr_dashboard.Dashboard', function(require) {
             var end_date = $('#end_date').val();
             var self = this;
             if (!start_date) {
-                start_date = "null"
+                start_date = "null";
             }
             if (!end_date) {
-                end_date = "null"
+                end_date = "null";
             }
             var locations_selection = $('#locations_selection').val();
             var src_selection = $('#src_selection').val();
             var ncr_selection = $('#ncr_selection').val();
+            var company_selection = $('#company_selection').val();
 
-            /**ajax.rpc('/incident/filter-apply', {
-                'data': {
-                    'start_date': start_date,
-                    'end_date': end_date,
-                    'location': locations_selection,
-                    'ncr': src_selection,
-                    'uid': session.uid
-                }
-            }).then(function(data) {
-                self.total_incidents_ids = data['total_incidents_ids']
-                document.getElementById("tot_incidents").innerHTML = data['total_incidents_ids'].length
-            })**/
+
+            if (company_selection === 'null')
+                company_selection = currentCompany;
+
+            ajax.rpc('/ncr/filter', {
+                'params': {
+                    'company_id': company_selection,
+                    'company_ids' : session.user_context.allowed_company_ids,
+                },
+                }).then(function(data) {
+                var locations = data[0];
+                var ncr_source =data[1];
+                var companies =data[2];
+                $('#locations_selection').empty();
+                $('#locations_selection').append("<option value='null'>" + "All Locations" + "</option>");
+                $('#src_selection').empty();
+                $('#src_selection').append("<option value='null'>" + "All Sources" + "</option>");
+                $(locations).each(function(location) {
+                    $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
+                });
+                $(ncr_source).each(function(src) {
+                    $('#src_selection').append("<option value=" + ncr_source[src].id + ">" + ncr_source[src].name + "</option>");
+                });
+                $('#locations_selection').val(locations_selection);
+                $('#src_selection').val(src_selection);
+
+             });
+
             self.render_graphs();
 
+        },
+        _onchangeCompany: function() {
+
+            var company_selection = $('#company_selection').val();
+
+            if (company_selection === 'null')
+                company_selection = currentCompany
+            ajax.rpc('/ncr/filter', {
+                'params': {
+                    'company_id': company_selection,
+                    'company_ids' : session.user_context.allowed_company_ids,
+                },
+                }).then(function(data) {
+                var locations = data[0];
+                var ncr_source =data[1];
+                var companies =data[2];
+                console.log(">>", locations, ncr_source,companies )
+                $('#locations_selection').empty();
+                $('#locations_selection').append("<option value='null'>" + "All Locations" + "</option>");
+                $('#src_selection').empty();
+                $('#src_selection').append("<option value='null'>" + "All Sources" + "</option>");
+                $(locations).each(function(location) {
+                    $('#locations_selection').append("<option value=" + locations[location].id + ">" + locations[location].name + "</option>");
+                });
+                $(ncr_source).each(function(src) {
+                    $('#src_selection').append("<option value=" + ncr_source[src].id + ">" + ncr_source[src].name + "</option>");
+                });
+
+
+            });
         },
 
         // Function to generate random color

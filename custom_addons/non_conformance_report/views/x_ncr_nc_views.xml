@@ -15,6 +15,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="nc_s"/>
+                <field name="company_id" invisible="True"/>
                 <field name="source_of_nc" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                 <field name="nc_description"/>
                 <field name="uom"/>
@@ -55,6 +56,7 @@
                             <field name="rca_response"/>
                         </group>
                         <group>
+                            <field name="company_id" invisible="True"/>
                             <field name="source_of_nc"
                                    attrs="{'readonly': [ ('state', 'in', ['ncr_submitted', 'received_vendor_response', 'approved'])]}"
                                    options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>

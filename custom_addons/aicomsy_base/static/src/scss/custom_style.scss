@@ -2,6 +2,7 @@
     border: solid 1px #ced4da !important;
     color: #495057 !important;
     background-color: $o-input-background-color;
+    border-radius: $o-input-radius;
 }
 .o_form_view:not(.o_field_highlight) {
     .o_field_many2one_selection {
@@ -99,3 +100,27 @@ body, p, h1, h2, h3 {
 .o_field_selection {
     background: $o-input-background-color;
 }
+
+// Labels - Override form readonly variable labels to Bold
+.o_form_label {
+    &.o_form_label_readonly {
+        font-weight: $font-weight-bold !important;
+    }
+}
+
+/* Top menu to Uppercase*/
+.o_menu_sections {
+    button,
+    select {
+
+      font-weight: $font-weight-bold;
+    }
+}
+.o_main_navbar .o_nav_entry {
+    font-weight: bold;
+}
+
+.o_main_navbar .o_menu_brand {
+    font-weight: bold;
+}
+
