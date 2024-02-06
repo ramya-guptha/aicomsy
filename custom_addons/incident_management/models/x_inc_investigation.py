@@ -126,8 +126,8 @@ class InvestigationTeam(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
-    employee = fields.Many2one('hr.employee', string='Team Members')
-    company_id = fields.Many2one(related="investigation_id.company_id", domain="[('company_id', '=', company_id)]")
+    employee = fields.Many2one('hr.employee', string='Team Members', domain="[('company_id', '=', company_id)]")
+    company_id = fields.Many2one(related="investigation_id.company_id")
 
 class IncidentPeopleInterviewed(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
