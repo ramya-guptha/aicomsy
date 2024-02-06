@@ -100,6 +100,7 @@
                         <group>
                             <field name="review_date"
                                    attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
+                            <field name="company_id"/>
                         </group>
                     </group>
                     <group attrs="{'invisible': [('state', 'in', ['new','review', 'followup','closed'])]}" groups="aicomsy_base.access_management_team">
@@ -127,6 +128,7 @@
                 <field name="closure_date" optional="1"/>
                 <field name="action_follow_up_required"/>
                 <field name="review_by_ceo_vp_gm_required" optional="1"/>
+                <field name="company_id"/>
             </tree>
         </field>
     </record>

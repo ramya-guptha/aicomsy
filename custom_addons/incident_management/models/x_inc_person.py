@@ -21,7 +21,7 @@ class IncidentPersonRecord(models.Model):
     person_category = fields.Many2one("x.inc.person.category", required=True, help='Person Category')
     selected_category = fields.Char(compute='_compute_selected_category')
     person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly=True, help='Name')
-    employee = fields.Many2one('hr.employee', string='Employee Name')
+    employee = fields.Many2one('hr.employee', string='Employee Name', domain="[('company_id', '=', company_id)]")
     employee_id = fields.Integer(related="employee.id", string='Employee ID')
     visitor_name = fields.Char(string='Visitor Name')
     nationality = fields.Many2one('res.country', "Nationality")
@@ -46,6 +46,7 @@ class IncidentPersonRecord(models.Model):
                                               string="Severity Consequence", required=True, help='Severity Consequence')
     location = fields.Many2one("x.location", string="Incident Location")
     experience = fields.Integer(string="Experience")
+    company_id = fields.Many2one(related="incident_id.company_id")
 
     @api.depends('person_category', 'employee', 'visitor_name')
     def _compute_name(self):

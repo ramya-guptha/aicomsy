@@ -52,13 +52,13 @@
                     <notebook>
                         <page string="Investigation Team">
                             <group>
-                                <field name="hse_officer" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
-                                <field name="field_executive" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
-                                <field name="hr_administration" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
-                                <field name="finance" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
+                                <field name="hse_officer" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="field_executive" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="hr_administration" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="finance" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
                             </group>
                             <group name="Investigation Team">
-                                <field name="investigation_team" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}"/>
+                                <field name="investigation_team" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
                             </group>
                         </page>
                         <page string="Investigation Details" states="in_progress,closed">
@@ -85,6 +85,7 @@
                         <page string="Review Action &amp; Closure" states="in_progress,closed">
                             <field name="actions_review_ids"/>
                         </page>
+                        <field name="company_id"/>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -101,6 +102,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="employee" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="company_id"/>
             </tree>
         </field>
     </record>

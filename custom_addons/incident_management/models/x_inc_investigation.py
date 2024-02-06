@@ -42,13 +42,13 @@ class IncInvestigation(models.Model):
     description = fields.Html(related="incident_id.description")
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     # Investigation Team Details
-    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True, tracking=True)
+    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
-    field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True, tracking=True)
+    field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")
-    hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True, tracking=True)
+    hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
     hr_administration_id = fields.Integer(related="hr_administration.id", string="ID Number")
-    finance = fields.Many2one('hr.employee', string="Finance", required=True, tracking=True)
+    finance = fields.Many2one('hr.employee', string="Finance", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
     finance_id = fields.Integer(related="finance.id", string="ID Number")
     investigation_team = fields.One2many("x.inc.investigation.team", "investigation_id",
                                          string="Investigation Team", required=True, tracking=True)
@@ -127,7 +127,7 @@ class InvestigationTeam(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
     employee = fields.Many2one('hr.employee', string='Team Members')
-
+    company_id = fields.Many2one(related="investigation_id.company_id", domain="[('company_id', '=', company_id)]")
 
 class IncidentPeopleInterviewed(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
@@ -137,7 +137,7 @@ class IncidentPeopleInterviewed(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
-    employee = fields.Many2one('hr.employee', string='Employee Name')
+    employee = fields.Many2one('hr.employee', string='Employee Name', domain="[('company_id', '=', company_id)]")
     employee_id = fields.Integer(related="employee.id", string='Id Number')
     person_employer = fields.Char(string='If Contractor,Name of the Employer',
                                   help="If Contractor,Name of the Employer")
@@ -189,6 +189,8 @@ class IncidentPeopleInterviewed(models.Model):
         [('yes', 'Yes'), ('no', 'No')],
         string='Q 8: Did the victim or person involved have a previous history of incidents?'
     )
+    company_id = fields.Many2one(related="investigation_id.company_id")
+
 
     @api.depends('person_category', 'employee', 'visitor_name')
     def _compute_name(self):
@@ -360,8 +362,8 @@ class CorrectiveAction(models.Model):
     action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type", help='Action Type')
     hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control",
                                            help='Hierarchy of Control')
-    action_party = fields.Many2one('hr.employee', string="Action Party", help='Action Party')
-    assigner = fields.Many2one('hr.employee', string="Assigner", help='Assigner')
+    action_party = fields.Many2one('hr.employee', string="Action Party", help='Action Party', domain="[('company_id', '=', company_id)]")
+    assigner = fields.Many2one('hr.employee', string="Assigner", help='Assigner', domain="[('company_id', '=', company_id)]")
     target_date = fields.Date(string="Target Date of Completion", help='Target Date of Completion')
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
@@ -378,6 +380,7 @@ class CorrectiveAction(models.Model):
         string="Status",
         copy=False, help='Status'
     )
+    company_id = fields.Many2one(related="investigation_id.company_id")
 
     def action_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_corrective_action')

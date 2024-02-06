@@ -15,6 +15,7 @@
                 <field name="relation_to_incident"/>
                 <field name="details_of_interview" string="Details of Interview"/>
                 <field name="remarks"/>
+                <field name="company_id"/>
             </tree>
         </field>
     </record>
@@ -30,7 +31,7 @@
                         <group colspan="2">
                             <field name="person_category" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="employee"
-                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}"/>
+                                   attrs="{'invisible': [('selected_category', 'not in', ('Employee','Contractor'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="visitor_name"
                                    attrs="{'invisible': [('selected_category', 'not in', ('Visitor','Others'))]}"/>
                             <field name="person_employer"
@@ -38,6 +39,7 @@
                             <field name="relation_to_incident"/>
                             <field name="details_of_interview"/>
                             <field name="remarks"/>
+                            <field name="company_id"/>
                         </group>
                         <label for="Question_1"/>
                         <field name="Question_1"/>
