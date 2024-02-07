@@ -15,7 +15,7 @@
                 <field name="relation_to_incident"/>
                 <field name="details_of_interview" string="Details of Interview"/>
                 <field name="remarks"/>
-                <field name="company_id"/>
+                <field name="company_id" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -39,7 +39,7 @@
                             <field name="relation_to_incident"/>
                             <field name="details_of_interview"/>
                             <field name="remarks"/>
-                            <field name="company_id"/>
+                            <field name="company_id" invisible="1"/>
                         </group>
                         <label for="Question_1"/>
                         <field name="Question_1"/>

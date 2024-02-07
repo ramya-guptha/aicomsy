@@ -37,7 +37,7 @@
                                attrs="{'invisible': [('state', '=', 'new')], 'readonly': [('state', '=', 'completed')]}"/>
                         <field name="attachment_ids" widget="many2many_binary"
                                attrs="{'invisible': [('state', '=', 'new')]}"/>
-                        <field name="company_id"/>
+                        <field name="company_id" invisible="1"/>
                     </group>
                 </sheet>
             </form>
@@ -62,7 +62,7 @@
                 <field name="state"/>
                 <button name="review_action_tree" type="object" string="Review" class="btn-primary" states="in_progress, returned"
                         groups="aicomsy_base.access_zonal_manager" confirm="Are you sure to go ahead with Action Review?" />
-                <field name="company_id"/>
+                <field name="company_id" invisible="1"/>
             </tree>
         </field>
     </record>

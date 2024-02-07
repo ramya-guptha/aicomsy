@@ -24,7 +24,7 @@
                 <field name="immediate_response"/>
                 <field name="visited_hospital" optional="hide"/>
                 <field name="person_days_off" optional="hide"/>
-                <field name="company_id"/>
+                <field name="company_id" invisible="1"/>
             </tree>
 
         </field>
@@ -71,7 +71,7 @@
                             <field name="oh_severity_consequence" options= "{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
                             <field name="selected_category" invisible="1"/>
                             <field name="person_name" invisible="1"/>
-                            <field name="company_id"/>
+                            <field name="company_id" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
