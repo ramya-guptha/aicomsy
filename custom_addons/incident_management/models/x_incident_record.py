@@ -34,7 +34,7 @@ class IncidentRecord(models.Model):
     type = fields.Many2many("x.inc.type", string="Type of Incident", required=True, tracking=True)
     location = fields.Many2one("x.location", string="Location of Incident", required=True, tracking=True)
     description = fields.Html(string="Description", required=True, tracking=True)
-    notified_by = fields.Many2one('hr.employee', string="Notified By")
+    notified_by = fields.Many2one('hr.employee', string="Notified By", domain="[('company_id', '=', company_id)]")
     notified_by_id = fields.Integer(related="notified_by.id", string="Notified By ID")
     notified_by_type = fields.Selection(related="notified_by.employee_type")
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)

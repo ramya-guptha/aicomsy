@@ -81,7 +81,7 @@ class NcrReport(models.Model):
             if self.ncr_initiator_id.employee_id:
                 manager = self.ncr_initiator_id.employee_id.parent_id.user_id if self.ncr_initiator_id.employee_id.parent_id else False
                 self.ncr_approver_id = manager
-                if manager.employee_id:
+                if manager and manager.employee_id:
                     self.approver_job_title = manager.employee_id.job_id.name if manager.employee_id.job_id else "No Job Title"
             else:
                 self.ncr_approver_id = False
@@ -91,10 +91,10 @@ class NcrReport(models.Model):
         self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id
 
     def _is_initiator(self):
-        self.is_initiator = self.env.user == self.ncr_initiator_id.user_id
+        self.is_initiator = self.env.user == self.ncr_initiator_id
 
     def _is_approver(self):
-        self.is_approver = self.env.user == self.ncr_approver_id.user_id
+        self.is_approver = self.env.user == self.ncr_approver_id
 
     def _check_nc_table(self):
         for record in self:
@@ -118,10 +118,10 @@ class NcrReport(models.Model):
 
     def save_and_forward(self):
         self._check_nc_table()
-        if self.ncr_approver_id.user_id.id != False:
+        if self.ncr_approver_id.id != False:
             # Your logic for save_and_forward
             self.state = "approval_pending"
-            self.create_activity('Approval Pending', 'To Do', self.ncr_approver_id.user_id.id, self.due_date)
+            self.create_activity('Approval Pending', 'To Do', self.ncr_approver_id.id, self.due_date)
         else:
             raise ValidationError('Approver needs to be assigned. Initiator\'s manager is set as the default Approver')
 

@@ -43,7 +43,7 @@ class ActionReview(models.Model):
     job_hazard_analysis_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="JHAs Reviewed?",
                                                     help="Job Hazard Analysis reviewed?")
     report_closed_by = fields.Many2one('hr.employee', string="Report Closed by", compute='_compute_report_closed_by',
-                                       store=True, help='Report Closed by')
+                                       store=True, help='Report Closed by', domain="[('company_id', '=', company_id)]")
     closure_date = fields.Date(string="Closure Date")
     comments = fields.Text(string="Comments", help='Comments')
     action_follow_up_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Action Follow-up Required",
@@ -66,6 +66,7 @@ class ActionReview(models.Model):
         copy=False,
         default="new", help='Status'
     )
+    company_id = fields.Many2one(related="investigation_id.company_id")
 
     @api.depends('reviewer')
     def _compute_report_closed_by(self):

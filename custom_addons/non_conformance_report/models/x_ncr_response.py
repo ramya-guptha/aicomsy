@@ -25,7 +25,7 @@ class NcrResponse(models.Model):
             ncr = self.env['x.ncr.report'].browse(ncr_id)
             ncr.write({'state': 'awaiting_vendor_response'})
 
-        response.create_activity('Prepare Response for NCR', 'To Do', response.prepared_by_id.user_id.id, (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d'))
+        response.create_activity('Prepare Response for NCR', 'To Do', response.prepared_by_id.id, (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d'))
         return response
 
     name = fields.Char(string="NCR Reference", default='New', readonly=True)
@@ -35,28 +35,28 @@ class NcrResponse(models.Model):
     project_number = fields.Char(related="ncr_id.project_number", string='Project Number')
     project_name_title = fields.Char(related="ncr_id.project_name_title", string='Project Name / Title')
     supplier_response = fields.Text(string='Supplier Response', tracking=True)
-    prepared_by_id = fields.Many2one('hr.employee', string='Prepared by', domain="[('company_id', '=', company_id)]", required=True, tracking=True)
-    reviewed_and_approved_by_id = fields.Many2one('hr.employee', string='Reviewed & Approved by', domain="[('company_id', '=', company_id)]", required=True,
+    prepared_by_id = fields.Many2one('res.users', string='Prepared by', domain="[('company_id', '=', company_id)]", required=True, tracking=True)
+    reviewed_and_approved_by_id = fields.Many2one('res.users', string='Reviewed & Approved by', domain="[('company_id', '=', company_id)]", required=True,
                                                   tracking=True)
     prepared_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only',
                                              tracking=True)
     reviewed_by_signature_date = fields.Char(string='Signature With Date', help='Maximum 30 character only',
                                              tracking=True)
-    prepared_by_title = fields.Char(related='prepared_by_id.job_id.name', string='Title')
-    reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.job_id.name', string='Title')
+    prepared_by_title = fields.Char(related='prepared_by_id.employee_id.job_id.name', string='Title')
+    reviewed_by_title = fields.Char(related='reviewed_and_approved_by_id.employee_id.job_id.name', string='Title')
     manual_total_cost_rework = fields.Float(string='Total Cost for Rework')
     total_cost_for_rework = fields.Float(string='Total Cost for Rework', compute='_compute_total_cost_for_rework', inverse="_inverse_total_cost_rework_editable")
-    rca_approver_id = fields.Many2one('hr.employee', string='RCA Approver Name', related="ncr_id.ncr_approver_id", tracking=True)
+    rca_approver_id = fields.Many2one('res.users', string='RCA Approver Name', related="ncr_id.ncr_approver_id", tracking=True)
     ncr_completion_status = fields.Char(string='NCR Completion Status', compute='_compute_ncr_completion_status')
     manual_total_backcharge = fields.Float(string='Total Backcharge Amount')
     total_backcharge_amount = fields.Float(string='Total Backcharge Amount', compute='_compute_total_backcharge', inverse="_inverse_total_backcharge" )
-    title = fields.Char(related='rca_approver_id.job_id.name', string='Title')
+    title = fields.Char(related='rca_approver_id.employee_id.job_id.name', string='Title')
     ncr_closed_date = fields.Date(string='NCR Closed Date', tracking=True)
     ncr_nc_ids = fields.One2many('x.ncr.nc', 'ncr_response_id', string='NCR NC')
     show_approve_button = fields.Boolean("Show Approve Button", default=False, store=False)
     to_reinspect = fields.Boolean(" Items in Reinspect", default=False, store=False, compute='_compute_to_reinspect')
     to_reject = fields.Boolean(" Items in Reject", default=False, store=False, compute='_compute_to_reject')
-    assigned_to_id = fields.Many2one('hr.employee', string='Assigned to', compute='_compute_assignee')
+    assigned_to_id = fields.Many2one('res.users', string='Assigned to', compute='_compute_assignee')
     state = fields.Selection(
         selection=[("draft", "Draft"),
                    ("new", "New"),
@@ -87,12 +87,12 @@ class NcrResponse(models.Model):
         self._check_nc_table()
         for nc in nc_records:
             nc.write({'state': 'received_vendor_response'})
-        self.create_activity('Review & Approve', 'To Do', self.reviewed_and_approved_by_id.user_id.id, self.due_date)
+        self.create_activity('Review & Approve', 'To Do', self.reviewed_and_approved_by_id.id, self.due_date)
 
     def review_approve(self):
         # Your logic for review
         self.write({'state': 'approval_pending'})
-        self.create_activity('Approval Pending', 'To Do', self.rca_approver_id.user_id.id, self.due_date)
+        self.create_activity('Approval Pending', 'To Do', self.rca_approver_id.id, self.due_date)
         self.mark_activity_as_done("Review & Approve")
 
     def email_report(self):
@@ -139,7 +139,7 @@ class NcrResponse(models.Model):
         self.show_approve_button = False
         if self.to_reinspect:
             ncr_id.write({'state': 'return_for_further_actions'})
-            ncr_id.create_activity('Reinspect', 'To Do', ncr_id.ncr_initiator_id.user_id.id, ncr_id.due_date)
+            ncr_id.create_activity('Reinspect', 'To Do', ncr_id.ncr_initiator_id.id, ncr_id.due_date)
             self.state = 'closed'
             self.mark_activity_as_done("Approval Pending")
             return {
@@ -180,7 +180,7 @@ class NcrResponse(models.Model):
         for nc in nc_records:
             if nc.disposition_action == 'reject':
                 nc.write({'state': 'rejected'})
-        self.create_activity('Review Reject Items', 'To Do', self.rca_approver_id.user_id.id, self.due_date)
+        self.create_activity('Review Reject Items', 'To Do', self.rca_approver_id.id, self.due_date)
 
     def create_activity(self, summary, activity_type, user_id, date_deadline=None):
         activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id
@@ -218,13 +218,13 @@ class NcrResponse(models.Model):
         for record in self:
             record.rca_approver_id = record.ncr_id.ncr_approver_id
     def _is_reviewer(self):
-        self.is_reviewer = self.env.user == self.reviewed_and_approved_by_id.user_id
+        self.is_reviewer = self.env.user == self.reviewed_and_approved_by_id
 
     def _is_approver(self):
-        self.is_approver = self.env.user == self.rca_approver_id.user_id
+        self.is_approver = self.env.user == self.rca_approver_id
 
     def _is_preparer(self):
-        self.is_preparer = self.env.user == self.prepared_by_id.user_id
+        self.is_preparer = self.env.user == self.prepared_by_id
 
     @api.depends('manual_total_backcharge', 'ncr_nc_ids.nc_part_details_ids.estimated_backcharge_price')
     def _compute_total_backcharge(self):
