@@ -6,7 +6,7 @@
                    ref="incident_management.model_x_incident_record"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.location.location_manager.work_email}},{{object.location.location_alternate_1.work_email}},{{object.location.location_alternate_2.work_email}}
+                {{object.location.location_manager.employee_id.work_email}},{{object.location.location_alternate_1.employee_id.work_email}},{{object.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject">{{object.name}}</field>
             <field name="body_html" type="html">
@@ -58,7 +58,7 @@
                    ref="incident_management.model_x_inc_investigation"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team if employee.employee and employee.employee.work_email]) }},{{object.incident_id.location.location_manager.work_email}},{{object.incident_id.location.location_alternate_1.work_email}},{{object.incident_id.location.location_alternate_2.work_email}}
+                {{object.hse_officer.work_email}},{{object.field_executive.work_email}},{{object.hr_administration.work_email}},{{', '.join([employee.employee.work_email for employee in object.investigation_team if employee.employee and employee.employee.work_email]) }},{{object.incident_id.location.location_manager.employee_id.work_email}},{{object.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject"> Incident {{object.incident_id.name}} - Closed with Severity {{object.severity.name}} </field>
             <field name="body_html" type="html">
@@ -152,7 +152,7 @@
                    ref="incident_management.model_x_inc_root_causes"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.investigation_id.incident_id.location.location_manager.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.work_email}}
+                {{object.investigation_id.incident_id.location.location_manager.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject">Assigned - Root Cause for {{object.investigation_id.name}} - {{object.primary_root_cause_id.name}}</field>
             <field name="body_html" type="html">
@@ -196,7 +196,7 @@
                    ref="incident_management.model_x_inc_inv_corrective_actions"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.investigation_id.incident_id.location.location_manager.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.work_email}}
+                {{object.investigation_id.incident_id.location.location_manager.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject">Assigned - Corrective Action for {{object.investigation_id.name}} - {{object.primary_root_cause_id.name}}</field>
             <field name="body_html" type="html">
@@ -251,7 +251,7 @@
                    ref="incident_management.model_x_inc_inv_corrective_actions"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.investigation_id.incident_id.location.location_manager.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.work_email}}
+                {{object.investigation_id.incident_id.location.location_manager.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject">Review - Corrective Action for {{object.investigation_id.name}} - {{object.primary_root_cause_id.name}}</field>
             <field name="body_html" type="html">
@@ -420,7 +420,7 @@
                    ref="incident_management.model_x_inc_inv_action_review"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.corrective_action_id.action_party.work_email}},{{object.investigation_id.incident_id.location.location_manager.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.work_email}}
+                {{object.corrective_action_id.action_party.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_manager.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.investigation_id.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject">Returned - Corrective Action for {{object.investigation_id.name}} - {{object.corrective_action_id.primary_root_cause_id.name}}</field>
             <field name="body_html" type="html">
@@ -599,9 +599,9 @@
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
                 {{object.investigation_id.hse_officer.work_email}},{{object.investigation_id.field_executive.work_email}},
-                {{object.investigation_id.hr_administration.work_email}},{{object.investigation_id.incident_id.location.location_manager.work_email}},
-                {{object.investigation_id.incident_id.location.location_alternate_1.work_email}},
-                {{object.investigation_id.incident_id.location.location_alternate_2.work_email}}
+                {{object.investigation_id.hr_administration.work_email}},{{object.investigation_id.incident_id.location.location_manager.employee_id.work_email}},
+                {{object.investigation_id.incident_id.location.location_alternate_1.employee_id.work_email}},
+                {{object.investigation_id.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject">Closure of  {{object.investigation_id.name}} - {{object.investigation_id.incident_id.name}}</field>
             <field name="body_html" type="html">
