@@ -88,7 +88,7 @@ class NcrReport(models.Model):
                 self.approver_job_title = False
 
     def _is_location_incharge(self):
-        self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge.user_id
+        self.is_location_incharge = self.env.user == self.tag_no_location.location_incharge
 
     def _is_initiator(self):
         self.is_initiator = self.env.user == self.ncr_initiator_id
@@ -132,8 +132,8 @@ class NcrReport(models.Model):
         # Send approval email and force_send=True ensures the email is sent immediately
         mail_template.send_mail(self.id, force_send=True)
         self.mark_activity_as_done("Approval Pending")
-        if self.tag_no_location.location_incharge.user_id.id:
-            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.user_id.id, self.due_date)
+        if self.tag_no_location.location_incharge.id:
+            self.create_activity('Assign Response Handler', 'To Do', self.tag_no_location.location_incharge.id, self.due_date)
         self.write({'state': 'approved'})
 
         # Update the state of associated Non-Conformance Records to 'ncr_submitted'

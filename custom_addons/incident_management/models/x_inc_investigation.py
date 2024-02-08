@@ -362,8 +362,8 @@ class CorrectiveAction(models.Model):
     action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type", help='Action Type')
     hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control",
                                            help='Hierarchy of Control')
-    action_party = fields.Many2one('hr.employee', string="Action Party", help='Action Party', domain="[('company_id', '=', company_id)]")
-    assigner = fields.Many2one('hr.employee', string="Assigner", help='Assigner', domain="[('company_id', '=', company_id)]")
+    action_party = fields.Many2one('res.users', string="Action Party", help='Action Party', domain="[('company_id', '=', company_id)]")
+    assigner = fields.Many2one('res.users', string="Assigner", help='Assigner', domain="[('company_id', '=', company_id)]")
     target_date = fields.Date(string="Target Date of Completion", help='Target Date of Completion')
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")

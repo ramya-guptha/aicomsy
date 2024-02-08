@@ -58,10 +58,10 @@ class Location(models.Model):
         'res.company', 'Company',
         default=lambda self: self.env.company, index=True,
         help='Let this field empty if this location is shared between companies')
-    location_incharge = fields.Many2one('hr.employee', string="Location Incharge", required=True)
-    location_manager = fields.Many2one('hr.employee', string="Location Manager", required=True)
-    location_alternate_1 = fields.Many2one('hr.employee', string="Alternative Location Manager 1")
-    location_alternate_2 = fields.Many2one('hr.employee', string="Alternative Location Manager 2")
+    location_incharge = fields.Many2one('res.users', string="Location Incharge", required=True, domain="[('company_id', '=', company_id)]")
+    location_manager = fields.Many2one('res.users', string="Location Manager", required=True, domain="[('company_id', '=', company_id)]")
+    location_alternate_1 = fields.Many2one('res.users', string="Alternative Location Manager 1", domain="[('company_id', '=', company_id)]")
+    location_alternate_2 = fields.Many2one('res.users', string="Alternative Location Manager 2", domain="[('company_id', '=', company_id)]")
     parent_path = fields.Char(index=True, unaccent=False)
 
     @api.depends('name', 'location_id.complete_name')

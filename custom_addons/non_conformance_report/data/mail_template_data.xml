@@ -6,7 +6,7 @@
                    ref="non_conformance_report.model_x_ncr_report"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.tag_no_location.location_incharge.work_email}}
+                {{object.tag_no_location.location_incharge.employee_id.work_email}}
             </field>
             <field name="subject">{{object.name}}</field>
             <field name="body_html" type="html">
@@ -23,7 +23,7 @@
                    ref="non_conformance_report.model_x_ncr_report"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.ncr_initiator_id.work_email}},{{object.ncr_approver_id.work_email}}
+                {{object.ncr_initiator_id.work_email}},{{object.ncr_approver_id.employee_id.work_email}}
             </field>
             <field name="subject">{{object.name}}</field>
             <field name="body_html" type="html">
@@ -71,7 +71,7 @@
                    ref="non_conformance_report.model_x_ncr_response"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.prepared_by_id.work_email}},{{object.reviewed_and_approved_by_id.work_email}}
+                {{object.prepared_by_id.work_email}},{{object.reviewed_and_approved_by_id.employee_id.work_email}}
             </field>
             <field name="subject">{{object.name}}</field>
             <field name="body_html" type="html">
