@@ -36,13 +36,13 @@ class ActionReview(models.Model):
 
     investigation_id = fields.Many2one("x.inc.investigation")
     corrective_action_id = fields.Many2one("x.inc.inv.corrective.actions")
-    reviewer = fields.Many2one('hr.employee', string="Reviewer", help='Reviewer')
+    reviewer = fields.Many2one('res.users', string="Reviewer", help='Reviewer')
     review_completion_date = fields.Date(string="Review Completion Date")
     risks_and_opportunities_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                         string="Risks and Opportunities Reviewed?", help='Risks and Opportunities Reviewed?')
     job_hazard_analysis_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="JHAs Reviewed?",
                                                     help="Job Hazard Analysis reviewed?")
-    report_closed_by = fields.Many2one('hr.employee', string="Report Closed by", compute='_compute_report_closed_by',
+    report_closed_by = fields.Many2one('res.users', string="Report Closed by", compute='_compute_report_closed_by',
                                        store=True, help='Report Closed by', domain="[('company_id', '=', company_id)]")
     closure_date = fields.Date(string="Closure Date")
     comments = fields.Text(string="Comments", help='Comments')
