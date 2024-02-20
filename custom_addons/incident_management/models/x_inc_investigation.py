@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from datetime import datetime, timedelta
 
 
 class IncInvestigation(models.Model):
@@ -23,7 +24,10 @@ class IncInvestigation(models.Model):
         if incident_id:
             incident = self.env['x.incident.record'].browse(incident_id)
             incident.write({'state': 'investigation_assigned'})
+            incident.mark_activity_as_done('Assign Investigation Team')
         investigation.action_send_investigation_email()
+        investigation.create_activity('Start Investigation', 'To Do', investigation.hse_officer.id, investigation.due_date)
+
         return investigation
 
     def write(self, vals):
@@ -42,13 +46,13 @@ class IncInvestigation(models.Model):
     description = fields.Html(related="incident_id.description")
     severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     # Investigation Team Details
-    hse_officer = fields.Many2one("hr.employee", string="HSE Officer", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
+    hse_officer = fields.Many2one("res.users", string="HSE Officer", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
     hse_officer_id = fields.Integer(related="hse_officer.id", string="ID Number")
-    field_executive = fields.Many2one('hr.employee', string="Field Executive", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
+    field_executive = fields.Many2one('res.users', string="Field Executive", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
     field_executive_id = fields.Integer(related="field_executive.id", string="ID Number")
-    hr_administration = fields.Many2one('hr.employee', string="HR / Administration", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
+    hr_administration = fields.Many2one('res.users', string="HR / Administration", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
     hr_administration_id = fields.Integer(related="hr_administration.id", string="ID Number")
-    finance = fields.Many2one('hr.employee', string="Finance", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
+    finance = fields.Many2one('res.users', string="Finance", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
     finance_id = fields.Integer(related="finance.id", string="ID Number")
     investigation_team = fields.One2many("x.inc.investigation.team", "investigation_id",
                                          string="Investigation Team", required=True, tracking=True)
@@ -86,11 +90,14 @@ class IncInvestigation(models.Model):
         copy=False,
 
     )
+    due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
 
     def start_investigation(self):
         self.write({'state': 'in_progress'})
         incident_id = self.incident_id
         incident_id.write({'state': 'investigation_in_progress'})
+
+        self.mark_activity_as_done('Start Investigation')
 
     # Computed field to gather attachments from corrective actions
     def _compute_corrective_action_attachments(self):
@@ -117,6 +124,39 @@ class IncInvestigation(models.Model):
             if not record.investigation_team:
                 raise ValidationError('At least one member is required in Investigation Team')
 
+    def create_activity(self, summary, activity_type, user_id, date_deadline=None):
+        activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id
+        if not activity_type_id:
+            # Handle the case where 'To Do' activity type is not found
+            return
+        else:
+            # Create a new activity
+            activity = self.env['mail.activity'].create({
+                'activity_type_id': activity_type_id,
+                'summary': summary,
+                'date_deadline': date_deadline,
+                'res_model_id': self.env['ir.model']._get('x.inc.investigation').id,
+                'res_id': self.id,
+                'user_id': user_id,
+
+            })
+
+            return activity
+
+    def mark_activity_as_done(self, summary):
+
+        domain = [
+            ('res_name', '=', self.name),
+            ('user_id', '=', self.env.user.id),
+            ('summary', '=', summary),
+        ]
+
+        activity = self.env['mail.activity'].search(domain, limit=1)
+
+        if activity:
+            # Mark the activity as done
+            activity.action_feedback()
+
 
 class InvestigationTeam(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
@@ -126,7 +166,7 @@ class InvestigationTeam(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
-    employee = fields.Many2one('hr.employee', string='Team Members', domain="[('company_id', '=', company_id)]")
+    employee = fields.Many2one('res.users', string='Team Members', domain="[('company_id', '=', company_id)]")
     company_id = fields.Many2one(related="investigation_id.company_id")
 
 class IncidentPeopleInterviewed(models.Model):
@@ -137,7 +177,7 @@ class IncidentPeopleInterviewed(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     investigation_id = fields.Many2one('x.inc.investigation', 'Investigation Id', readonly=True)
-    employee = fields.Many2one('hr.employee', string='Employee Name', domain="[('company_id', '=', company_id)]")
+    employee = fields.Many2one('res.users', string='Employee Name', domain="[('company_id', '=', company_id)]")
     employee_id = fields.Integer(related="employee.id", string='Id Number')
     person_employer = fields.Char(string='If Contractor,Name of the Employer',
                                   help="If Contractor,Name of the Employer")
@@ -381,6 +421,7 @@ class CorrectiveAction(models.Model):
         copy=False, help='Status'
     )
     company_id = fields.Many2one(related="investigation_id.company_id")
+    due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
 
     def action_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_corrective_action')
@@ -400,7 +441,7 @@ class CorrectiveAction(models.Model):
             'context': {
                 'default_investigation_id': self.investigation_id.id,
                 'default_corrective_action_id': self.id,
-                'default_reviewer': self.investigation_id.hse_officer.id
+                'default_reviewer': self.investigation_id.hse_officer
             },
 
         }
@@ -421,13 +462,14 @@ class CorrectiveAction(models.Model):
             'context': {
                 'default_investigation_id': self.investigation_id.id,
                 'default_corrective_action_id': self.id,
-                'default_reviewer': self.investigation_id.hse_officer.id
+                'default_reviewer': self.investigation_id.hse_officer
             },
 
         }
 
     def send_zonal_review_action(self):
         self._notify_assigner_send_email()
+        self.investigation_id.create_activity('Review Corrective Action', 'To Do', self.assigner.id, self.due_date)
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -458,6 +500,40 @@ class CorrectiveAction(models.Model):
     def _notify_assigner_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_corrective_action_notify_assigner')
         mail_template.send_mail(self.id, force_send=True)
+
+
+
+    def create_activity(self, summary, activity_type, user_id, date_deadline=None):
+            activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id
+            if not activity_type_id:
+                # Handle the case where 'To Do' activity type is not found
+                return
+            else:
+                # Create a new activity
+                activity = self.env['mail.activity'].create({
+                    'activity_type_id': activity_type_id,
+                    'summary': summary,
+                    'date_deadline': date_deadline,
+                    'res_model_id': self.env['ir.model']._get('x.inc.investigation').id,
+                    'res_id': self.id,
+                    'user_id': user_id,
+                })
+
+                return activity
+
+    def mark_activity_as_done(self, summary):
+
+            domain = [
+                ('res_name', '=', self.name),
+                ('user_id', '=', self.env.user.id),
+                ('summary', '=', summary),
+            ]
+
+            activity = self.env['mail.activity'].search(domain, limit=1)
+
+            if activity:
+                # Mark the activity as done
+                activity.action_feedback()
 
 
 class ActionType(models.Model):

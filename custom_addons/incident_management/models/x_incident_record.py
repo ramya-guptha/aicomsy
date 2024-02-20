@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
+from datetime import datetime, timedelta
 
 
 class IncidentRecord(models.Model):
@@ -23,6 +24,7 @@ class IncidentRecord(models.Model):
         incident = super().create(vals_list)
         # Call the send_email method
         incident.action_send_email()
+        incident.create_activity('Assign Investigation Team', 'To Do', incident.location.location_manager.id, self.due_date)
         return incident
 
     # --------------------------------------- Fields Declaration ----------------------------------
@@ -63,6 +65,7 @@ class IncidentRecord(models.Model):
         copy=False,
 
     )
+    due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
 
     def action_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_incident')
@@ -84,6 +87,39 @@ class IncidentRecord(models.Model):
 
     def save(self):
         return True
+
+    def create_activity(self, summary, activity_type, user_id, date_deadline=None):
+        activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id
+        if not activity_type_id:
+            # Handle the case where 'To Do' activity type is not found
+            return
+        else:
+            # Create a new activity
+            activity = self.env['mail.activity'].create({
+                'activity_type_id': activity_type_id,
+                'summary': summary,
+                'date_deadline': date_deadline,
+                'res_model_id': self.env['ir.model']._get('x.incident.record').id,
+                'res_id': self.id,
+                'user_id': user_id,
+
+            })
+
+            return activity
+
+    def mark_activity_as_done(self, summary):
+
+        domain = [
+            ('res_name', '=', self.name),
+            ('user_id', '=', self.env.user.id),
+            ('summary', '=', summary),
+        ]
+
+        activity = self.env['mail.activity'].search(domain, limit=1)
+
+        if activity:
+            # Mark the activity as done
+            activity.action_feedback()
 
 
 class IncidentType(models.Model):
