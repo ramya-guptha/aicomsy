@@ -24,8 +24,8 @@ class IncInvestigation(models.Model):
         if incident_id:
             incident = self.env['x.incident.record'].browse(incident_id)
             incident.write({'state': 'investigation_assigned'})
-            investigation.action_send_investigation_email()
-            incident.mark_activity_as_done('Ready to go Investigation')
+        investigation.action_send_investigation_email()
+        incident.mark_activity_as_done('Assign Investigation Team')
         investigation.create_activity('Start Investigation', 'To Do', investigation.hse_officer.id, investigation.due_date)
 
         return investigation

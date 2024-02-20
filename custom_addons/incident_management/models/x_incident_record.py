@@ -24,7 +24,7 @@ class IncidentRecord(models.Model):
         incident = super().create(vals_list)
         # Call the send_email method
         incident.action_send_email()
-        incident.create_activity('Ready to go Investigation', 'To Do', incident.location.location_manager.id, self.due_date)
+        incident.create_activity('Assign Investigation Team', 'To Do', incident.location.location_manager.id, self.due_date)
         return incident
 
     # --------------------------------------- Fields Declaration ----------------------------------
