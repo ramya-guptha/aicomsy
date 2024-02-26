@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem id="legal_register_menu" name="Legal Compliance" groups="base.group_user">
+        <menuitem id="legal_register" name="Legal Register" sequence="1">
+            <menuitem id="legal_register_menu_action" action="id_act_server" sequence="1"/>
+            <menuitem id="legal_register_tree_action" action="legal_register_action" sequence="2"/>
+        </menuitem>
+        <menuitem id="legal_regulation" name="Legal Regulation Register (LR)" sequence="2">
+            <menuitem id="legal_regulation_menu_action" action="legal_regulation_action" sequence="1"/>
+        </menuitem>
+        <menuitem id="monitoring_measurement" name="Monitoring and Measurement Programme" sequence="3">
+            <menuitem id="monitoring_measurement_menu_action" action="monitoring_measurement_action" sequence="1"/>
+        </menuitem>
+        <menuitem id="legal_compliance" name="Legal Compliance" sequence="4">
+            <menuitem id="legal_compliance_menu_action" action="legal_compliance_action"  sequence="1"/>
+        </menuitem>
+    </menuitem>
+</odoo>

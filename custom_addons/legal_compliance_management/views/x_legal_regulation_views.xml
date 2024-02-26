@@ -1,0 +1,51 @@
+<odoo>
+    <record id="legal_regulation_action" model="ir.actions.act_window">
+        <field name="name">Legal Regulation Register (LR)</field>
+        <field name="res_model">x.legal.regulation</field>
+        <field name="view_mode">tree,form</field>
+         <field name="context">{'create': False, 'search_default_current_company':1, 'search_default_classification_id':1}</field>
+    </record>
+
+    <record id="legal_regulation_search_view" model="ir.ui.view">
+        <field name="name">legal.regulation.search</field>
+        <field name="model">x.legal.regulation</field>
+        <field name="arch" type="xml">
+            <search string="Legal Regulation Search">
+                <field name="company_id"/>
+                <filter string="Current Company" name="current_company" domain="[('company_id', '=', context['allowed_company_ids'][0])]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Classification Type" name="classification_id" context="{'group_by':'classification_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="legal_regulation_tree_view" model="ir.ui.view">
+        <field name="name">Legal Regulation Register (LR)</field>
+        <field name="model">x.legal.regulation</field>
+        <field name="arch" type="xml">
+            <tree expand="1">
+                <field name="company_id" optional="hide"/>
+                <field name="lr_number"/>
+                <field name="description_lrs"/>
+                <field name="upload_requirements"/>
+                <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+            </tree>
+        </field>
+    </record>
+     <record id="legal_regulation_form_view" model="ir.ui.view">
+        <field name="name">legal.regulation.form</field>
+        <field name="model">x.legal.regulation</field>
+        <field name="arch" type="xml">
+            <form name="Legal Regulation Register">
+                <group>
+                    <field name="company_id" optional="hide"/>
+                    <field name="lr_number"/>
+                    <field name="description_lrs"/>
+                    <field name="upload_requirements"/>
+                    <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+                </group>
+            </form>
+        </field>
+     </record>
+</odoo>

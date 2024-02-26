@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mhr1" model="x.legal.mhrs">
+            <field name="classification_id" ref="c3"/>
+            <field name="name">Labor Law</field>
+        </record>
+        <record id="mhr2" model="x.legal.mhrs">
+            <field name="classification_id" ref="c3"/>
+            <field name="name">Regulations on Leaves</field>
+        </record>
+        <record id="mhr3" model="x.legal.mhrs">
+            <field name="classification_id" ref="c3"/>
+            <field name="name">Nitaqat Mutawar Program</field>
+        </record>
+        <record id="mhr4" model="x.legal.mhrs">
+            <field name="classification_id" ref="c3"/>
+            <field name="name">Financial Rights and Benefits Regulations</field>
+        </record>
+        <record id="mhr5" model="x.legal.mhrs">
+            <field name="classification_id" ref="c3"/>
+            <field name="name">Regulatory Frameworks for Implementing Regulations for Human Resources</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,148 @@
+<odoo>
+    <record model="ir.actions.server" id="id_act_server">
+        <field name="name">Legal</field>
+        <field name="model_id" ref="legal_compliance_management.model_x_legal_register"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.sudo().view_current_company_form_action()
+        </field>
+    </record>
+    <record id="legal_register_tree_view" model="ir.ui.view">
+        <field name="name">Legal Register</field>
+        <field name="model">x.legal.register</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id"/>
+                <field name="mhrs_ids"/>
+            </tree>
+        </field>
+    </record>
+    <record id="legal_register_action" model="ir.actions.act_window">
+        <field name="name">Legal Regulation Register (LR)</field>
+        <field name="res_model">x.legal.register</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="legal_compliance_management.legal_register_tree_view"/>
+    </record>
+
+    <record id="legal_register_form_view" model="ir.ui.view">
+        <field name="name">legal.register.form</field>
+        <field name="model">x.legal.register</field>
+        <field name="arch" type="xml">
+            <form name="Legal Register">
+                <header>
+                    <button name="change_company" type="object" string="View All" class="btn-primary"
+                            confirm="Are you sure to choose a different Company? "/>
+                </header>
+                <h2>
+                    <field name="company_id" readonly="True"/>
+                </h2>
+                <group>
+                    <field name="state" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <div colspan="12"><label for="selected_year" states="new"/></div>
+                </group>
+
+                    <field name="selected_year" states="new"/>
+
+                <group string="I Environment System Regulations">
+                    <div colspan="12">Choose applicable Legal Regulations</div>
+                    <div class="oe_value" colspan="12">
+                        <field name="system_regulations_ids" widget="many2many_checkboxes"/>
+                    </div>
+                </group>
+                <button string="Add New Regulation" type="object" class="oe_highlight" name="add_system_regulations"/>
+                <group string="II Saudi Standards, Metrology and Quality Organization (SASO)">
+                    <div colspan="12">Choose applicable Legal Regulations</div>
+                    <div class="oe_value" colspan="12">
+                        <field name="saso_ids" widget="many2many_checkboxes"/>
+                    </div>
+                </group>
+                <button string="Add New Regulation" type="object" class="oe_highlight" name="add_saso"/>
+                <group string="III Ministry of Human Resource and Social Development">
+                    <div colspan="12">Choose applicable Legal Regulations</div>
+                    <div class="oe_value" colspan="12">
+                        <field name="mhrs_ids" widget="many2many_checkboxes"/>
+                    </div>
+
+                </group>
+                <button string="Add New Regulation" type="object" class="oe_highlight" name="add_mhrs"/>
+                <group string="IV Other Legal Regulations from Local Bodies and Customers">
+                    <div colspan="12">Choose applicable Legal Regulations</div>
+                    <div class="oe_value" colspan="12">
+                        <field name="other_legal_regulations_ids" widget="many2many_checkboxes"/>
+                    </div>
+
+
+                </group>
+
+                <button string="Add New Regulation" type="object" class="oe_highlight"
+                        name="add_other_legal_regulations"/>
+
+            </form>
+        </field>
+    </record>
+    <record id="environment_regulation_form_view" model="ir.ui.view">
+        <field name="name">environment.regulation.form</field>
+        <field name="model">x.legal.environment.regulation</field>
+        <field name="arch" type="xml">
+            <form name="Environment System Regulations">
+                <group>
+                    <field name="description"/>
+                    <field name="date"/>
+                    <field name="version"/>
+                    <field name="classification_id"
+                           options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="saso_form_form_view" model="ir.ui.view">
+        <field name="name">saso.form</field>
+        <field name="model">x.legal.saso</field>
+        <field name="arch" type="xml">
+            <form name="Saudi Standards, Metrology and Quality Organization (SASO)">
+                <group>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="date"/>
+                    <field name="version"/>
+                    <field name="classification_id"
+                           options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="mhrs_form_view" model="ir.ui.view">
+        <field name="name">mhrs.form</field>
+        <field name="model">x.legal.mhrs</field>
+        <field name="arch" type="xml">
+            <form name="Ministry of Human Resource and Social Development">
+                <group>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="date"/>
+                    <field name="version"/>
+                    <field name="classification_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="other_legal_form_view" model="ir.ui.view">
+        <field name="name">other.legal.form</field>
+        <field name="model">x.legal.other</field>
+        <field name="arch" type="xml">
+            <form name="Other Legal Regulations from Local Bodies &amp; Customers">
+                <group>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="date"/>
+                    <field name="version"/>
+                    <field name="classification_id"/>
+
+                </group>
+
+
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,104 @@
+<odoo>
+    <record id="monitoring_measurement_action" model="ir.actions.act_window">
+        <field name="name">Monitoring Measurement</field>
+        <field name="res_model">x.monitoring.measurement</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+
+    <record id="monitoring_measurement_form_view" model="ir.ui.view">
+        <field name="name">monitoring measurement form</field>
+        <field name="model">x.monitoring.measurement</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <group>
+                    <field name="company_id"/>
+                    <field name="legal_regulations_id" string='OPEN LR S.No'/>
+                    <field name="lr_description"/>
+                    <field name="lr_requirements"/>
+                    <field name="title_of_programme"/>
+                    <field name="acceptance_criteria"/>
+                    <field name="risk_assessment_reference"/>
+                    <field name="frequency_of_measurement"/>
+                    <field name="test_performed_by" widget="radio" options="{'horizontal': true}"/>
+
+
+                </group>
+                <group colspan="2">
+                    <group>
+                        <field name="select_department" attrs="{'required': [('test_performed_by', '=', 'in_house')]}"/>
+                    </group>
+                    <group>
+                        <field name="assign_responsibility" attrs="{'required': [('test_performed_by', '=', 'in_house')]}"/>
+                    </group>
+                </group>
+                <button string="Send Notification" class="oe_highlight" type="object" name="send_notification"/>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="legal_compliance_action" model="ir.actions.act_window">
+        <field name="name">Legal Compliance</field>
+        <field name="res_model">x.legal.compliance</field>
+        <field name="view_mode">tree,form</field>
+         <field name="context">{'create': False, 'search_default_current_company':1}</field>
+    </record>
+
+    <record id="legal_compliance_search_view" model="ir.ui.view">
+        <field name="name">legal.compliance.search</field>
+        <field name="model">x.legal.compliance</field>
+        <field name="arch" type="xml">
+            <search string="compliance.obligation Search">
+                <field name="company_id"/>
+                <filter string="Current Company" name="current_company"
+                        domain="[('company_id', '=', context['allowed_company_ids'][0])]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="legal_compliance_tree_view" model="ir.ui.view">
+        <field name="name">compliance.obligation.tree</field>
+        <field name="model">x.legal.compliance</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id" optional="hide"/>
+                <field name="lr_sno"/>
+                <field name="description_legal_regulation"/>
+                <field name="classification_id"/>
+                <field name="title_of_programme"/>
+                <field name="test_frequency"/>
+                <field name="test_performed_by"/>
+            </tree>
+        </field>
+    </record>
+    <record id="legal_compliance_form_view" model="ir.ui.view">
+        <field name="name">compliance.obligation.form</field>
+        <field name="model">x.legal.compliance</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="company_id"/>
+                    <field name="lr_sno"/>
+                    <field name="description_legal_regulation"/>
+                    <field name="classification_id"/>
+                    <field name="title_of_programme"/>
+                    <field name="test_frequency"/>
+                    <field name="test_performed_by"/>
+                    <field name="date_time"/>
+                    <field name="test_result"/>
+                    <field name="upload_test_report"/>
+                    <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+                </group>
+
+                <button string="Incident" type="object" name="action_open_incident" class="oe_highlight"
+                        attrs="{'invisible': [('test_result', '!=', 'fail')]}"/>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>
