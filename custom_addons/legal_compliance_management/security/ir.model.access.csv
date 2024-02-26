@@ -1,0 +1,11 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_x_legal_register,access_x_legal_register,model_x_legal_register,base.group_user,1,1,1,1
+access_x_legal_environment_regulation,access_x_legal_environment_regulation,model_x_legal_environment_regulation,base.group_user,1,1,1,1
+access_x_legal_saso,access_x_legal_saso,model_x_legal_saso,base.group_user,1,1,1,1
+access_x_legal_mhrs,access_x_legal_mhrs,model_x_legal_mhrs,base.group_user,1,1,1,1
+access_x_legal_regulation,access_x_legal_regulation,model_x_legal_regulation,base.group_user,1,1,1,1
+access_x_monitoring_measurement,access_x_monitoring_measurement,model_x_monitoring_measurement,base.group_user,1,1,1,1
+access_x_legal_other,access_x_legal_other,model_x_legal_other,base.group_user,1,1,1,1
+access_x_legal_classification,access_x_legal_classification,model_x_legal_classification,base.group_user,1,1,1,1
+access_x_legal_compliance,access_x_legal_compliance,model_x_legal_compliance,base.group_user,1,1,1,1

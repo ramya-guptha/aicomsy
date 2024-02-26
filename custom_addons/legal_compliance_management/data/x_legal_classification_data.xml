@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="c1" model="x.legal.classification">
+            <field name="name">Environment System Regulations</field>
+        </record>
+        <record id="c2" model="x.legal.classification">
+            <field name="name">Saudi Standards, Metrology and Quality Organization (SASO)</field>
+        </record>
+        <record id="c3" model="x.legal.classification">
+            <field name="name">Ministry of Human Resource and Social Development</field>
+        </record>
+        <record id="c4" model="x.legal.classification">
+            <field name="name">Other Legal Regulations from Local Bodies &amp; Customers</field>
+        </record>
+
+    </data>
+</odoo>
