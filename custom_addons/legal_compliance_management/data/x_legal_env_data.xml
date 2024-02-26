@@ -3,11 +3,15 @@
     <data noupdate="1">
         <record id="env1" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for environmental inspection and audit of the environmental system</field>
+            <field name="name">Executive regulations for environmental inspection and audit of the environmental
+                system
+            </field>
         </record>
         <record id="env2" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for substances that deplete the ozone layer and hydro fluorocarbons</field>
+            <field name="name">Executive regulations for substances that deplete the ozone layer and hydro
+                fluorocarbons
+            </field>
         </record>
         <record id="env3" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
@@ -39,7 +43,9 @@
         </record>
         <record id="env10" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations of the environmental system for the sustainable management of the marine and coastal environment</field>
+            <field name="name">Executive regulations of the environmental system for the sustainable management of the
+                marine and coastal environment
+            </field>
         </record>
         <record id="env11" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
@@ -47,7 +53,9 @@
         </record>
         <record id="env12" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for controls and procedures related to financial compensation for licenses, permits, and environmental services</field>
+            <field name="name">Executive regulations for controls and procedures related to financial compensation for
+                licenses, permits, and environmental services
+            </field>
         </record>
 
     </data>

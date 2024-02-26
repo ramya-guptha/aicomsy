@@ -8,14 +8,10 @@ class MonitoringMeasurement(models.Model):
 
     @api.model
     def create(self, values):
-        print(">>values",values)
-        print("???>>>", values['assign_responsibility'])
-        print(self.env['res.users'].search([('id', '=', values['assign_responsibility'])], limit=1).department_id)
         assigned_user = self.env['res.users'].search([('id', '=', values['assign_responsibility'])], limit=1)
         monitoring_record = super(MonitoringMeasurement, self).create(values)
         due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
         self.create_activity(monitoring_record, 'Ready to go legal compliance', 'To Do', assigned_user.id, due_date)
-
         compliance = {
             "monitoring_measurement_id": monitoring_record.id
         }

@@ -11,8 +11,7 @@ class LegalRegister(models.Model):
 
     @api.model
     def create(self, values):
-        print("vals", values, self.env.company)
-        values['name'] = 'LR - ' + self.env.company.name + " - "+values['selected_year']
+        values['name'] = 'LR - ' + self.env.company.name + " - " + values['selected_year']
         values['state'] = 'created'
         record = super(LegalRegister, self).create(values)
         self.regulation_standards(record.system_regulations_ids, record.company_id.id, values['selected_year'])
@@ -24,7 +23,6 @@ class LegalRegister(models.Model):
     def write(self, vals):
 
         old_system_regulations_values = self._origin.system_regulations_ids.ids if self._origin else []
-
         old_saso_values = self._origin.saso_ids.ids if self._origin else []
         old_mhrs_values = self._origin.mhrs_ids.ids if self._origin else []
         old_other_legal_regulations_values = self._origin.other_legal_regulations_ids.ids if self._origin else []
@@ -39,32 +37,27 @@ class LegalRegister(models.Model):
     def modify_system_regulations(self, old_system_regulations_values, company_id, selected_year):
 
         new_system_regulations_values = self.system_regulations_ids.ids
-
-        added_records_system_regulations_ids = list(set(new_system_regulations_values) - set(old_system_regulations_values))
-        removed_records_system_regulations_ids = list(set(old_system_regulations_values) - set(new_system_regulations_values))
-
+        added_records_system_regulations_ids = list(
+            set(new_system_regulations_values) - set(old_system_regulations_values))
+        removed_records_system_regulations_ids = list(
+            set(old_system_regulations_values) - set(new_system_regulations_values))
         if added_records_system_regulations_ids:
             regulation_records = self.env['x.legal.environment.regulation'].browse(added_records_system_regulations_ids)
 
             for record in regulation_records:
                 self.regulation_standards(record, company_id, selected_year)
         if removed_records_system_regulations_ids:
-
-            regulation_records = self.env['x.legal.environment.regulation'].browse(removed_records_system_regulations_ids)
-
+            regulation_records = self.env['x.legal.environment.regulation'].browse(
+                removed_records_system_regulations_ids)
             for record in regulation_records:
-                print(">>>removed_records_system_regulations_ids in env regulation", record.name)
-                search_domain = [('company_id', '=', company_id), ('lr_year', '=', selected_year), ('description_lrs', '=', record.name), ('version', '=', record.version)]
+                search_domain = [('company_id', '=', company_id), ('lr_year', '=', selected_year),
+                                 ('description_lrs', '=', record.name), ('version', '=', record.version)]
                 existing_legal_regulation_records = self.env['x.legal.regulation'].search(search_domain)
-                print(">>>>>existing_legal_regulation_records", existing_legal_regulation_records)
 
     def modify_saso(self, old_saso_values, company_id, selected_year):
-
         new_saso_values = self.saso_ids.ids
-
         added_records_saso_ids = list(set(new_saso_values) - set(old_saso_values))
         removed_records_saso_ids = list(set(old_saso_values) - set(new_saso_values))
-
         legal_regulation_records = []
         if added_records_saso_ids:
             regulation_records = self.env['x.legal.saso'].browse(added_records_saso_ids)
@@ -72,12 +65,9 @@ class LegalRegister(models.Model):
                 self.regulation_standards(record, company_id, selected_year)
 
     def modify_mhrs(self, old_mhrs_values, company_id, selected_year):
-
         new_mhrs_values = self.mhrs_ids.ids
-
         added_records_mhrs_ids = list(set(new_mhrs_values) - set(old_mhrs_values))
         removed_records_mhrs_ids = list(set(old_mhrs_values) - set(new_mhrs_values))
-
         legal_regulation_records = []
         if added_records_mhrs_ids:
             regulation_records = self.env['x.legal.mhrs'].browse(added_records_mhrs_ids)
@@ -85,12 +75,11 @@ class LegalRegister(models.Model):
                 self.regulation_standards(record, company_id, selected_year)
 
     def modify_other_legal_regulations(self, old_other_legal_regulations_values, company_id, selected_year):
-
         new_other_legal_regulations_values = self.other_legal_regulations_ids.ids
-
-        added_records_other_legal_regulations_ids = list(set(new_other_legal_regulations_values) - set(old_other_legal_regulations_values))
-        removed_records_other_legal_regulations_ids = list(set(old_other_legal_regulations_values) - set(new_other_legal_regulations_values))
-
+        added_records_other_legal_regulations_ids = list(
+            set(new_other_legal_regulations_values) - set(old_other_legal_regulations_values))
+        removed_records_other_legal_regulations_ids = list(
+            set(old_other_legal_regulations_values) - set(new_other_legal_regulations_values))
         legal_regulation_records = []
         if added_records_other_legal_regulations_ids:
             regulation_records = self.env['x.legal.other'].browse(added_records_other_legal_regulations_ids)
@@ -118,7 +107,7 @@ class LegalRegister(models.Model):
                     'lr_number': sequence_number,
                     'company_id': company_id,
                     'lr_year': year,
-                    })
+                })
                 records.append(record)
         return records
 
@@ -222,7 +211,8 @@ class EnvironmentSystemRegulations(models.Model):
     description = fields.Text(string="Description")
     date = fields.Date(string="Date")
     version = fields.Char(string="Version")
-    classification_id = fields.Many2one("x.legal.classification", string="Classification", default="Environment System Regulations", readonly=True)
+    classification_id = fields.Many2one("x.legal.classification", string="Classification",
+                                        default="Environment System Regulations", readonly=True)
 
 
 class LegalSaso(models.Model):
@@ -236,7 +226,11 @@ class LegalSaso(models.Model):
     description = fields.Text(string="Description")
     date = fields.Date(string="Date")
     version = fields.Char(string="Version")
-    classification_id = fields.Many2one("x.legal.classification", string="Classification", default=lambda self: self.env['x.legal.classification'].search([('name', '=', 'Saudi Standards, Metrology and Quality Organization (SASO)')], limit=1), readonly=True)
+    classification_id = fields.Many2one("x.legal.classification", string="Classification",
+                                        default=lambda self: self.env['x.legal.classification'].search([('name', '=',
+                                                                                                         'Saudi Standards, Metrology and Quality Organization (SASO)')],
+                                                                                                       limit=1),
+                                        readonly=True)
 
 
 class LegalMhrs(models.Model):
@@ -250,7 +244,10 @@ class LegalMhrs(models.Model):
     description = fields.Text(string="Description")
     date = fields.Date(string="Date")
     version = fields.Char(string="Version")
-    classification_id = fields.Many2one("x.legal.classification", string="Classification", default=lambda self: self.env['x.legal.classification'].search([('name', '=', 'Ministry of Human Resource and Social Development')], limit=1), readonly=True)
+    classification_id = fields.Many2one("x.legal.classification", string="Classification",
+                                        default=lambda self: self.env['x.legal.classification'].search(
+                                            [('name', '=', 'Ministry of Human Resource and Social Development')],
+                                            limit=1), readonly=True)
 
 
 class OtherLegalRegulations(models.Model):
@@ -263,7 +260,7 @@ class OtherLegalRegulations(models.Model):
     @api.model
     def create(self, vals_list):
         result = super(OtherLegalRegulations, self).create(vals_list)
-        print(">>> Going to do page relooad")
+
         return result
 
     name = fields.Char(string='Name', required=True)
@@ -271,4 +268,6 @@ class OtherLegalRegulations(models.Model):
     date = fields.Date(string="Date")
     version = fields.Char(string="Version")
     classification_id = fields.Many2one("x.legal.classification", string="Classification",
-                                        default=lambda self: self.env['x.legal.classification'].search([('name', '=', 'Other Legal Regulations from Local Bodies & Customers')], limit=1), readonly=True)
+                                        default=lambda self: self.env['x.legal.classification'].search(
+                                            [('name', '=', 'Other Legal Regulations from Local Bodies & Customers')],
+                                            limit=1), readonly=True)

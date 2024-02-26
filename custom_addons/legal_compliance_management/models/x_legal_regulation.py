@@ -21,7 +21,4 @@ class LegalClassification(models.Model):
     _name = "x.legal.classification"
     _description = "Legal Classification"
 
-
     name = fields.Char(string='Classification', required=True)
-
-

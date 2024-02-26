@@ -3,23 +3,33 @@
     <data noupdate="1">
         <record id="smq1" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (1): Metal and Alloy Sectors for Constructions and Building</field>
+            <field name="name">Technical Regulation for Building Materials: Part (1): Metal and Alloy Sectors for
+                Constructions and Building
+            </field>
         </record>
         <record id="smq2" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (2): Insulation and Building Cladding Materials</field>
+            <field name="name">Technical Regulation for Building Materials: Part (2): Insulation and Building Cladding
+                Materials
+            </field>
         </record>
         <record id="smq3" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (3): Hydraulic Connections and Related Products</field>
+            <field name="name">Technical Regulation for Building Materials: Part (3): Hydraulic Connections and Related
+                Products
+            </field>
         </record>
         <record id="smq4" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (4): Bricks, Tiles, Ceramics, Sanitary Ware and Relevant Products</field>
+            <field name="name">Technical Regulation for Building Materials: Part (4): Bricks, Tiles, Ceramics, Sanitary
+                Ware and Relevant Products
+            </field>
         </record>
         <record id="smq5" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (5): Pipes used in Water, Electricity and Gas Networks</field>
+            <field name="name">Technical Regulation for Building Materials: Part (5): Pipes used in Water, Electricity
+                and Gas Networks
+            </field>
         </record>
         <record id="smq6" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
@@ -71,7 +81,9 @@
         </record>
         <record id="smq18" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Data Registration Procedure and the issuance of energy efficiency</field>
+            <field name="name">Technical Regulation for Data Registration Procedure and the issuance of energy
+                efficiency
+            </field>
         </record>
         <record id="smq19" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
@@ -107,11 +119,15 @@
         </record>
         <record id="smq27" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Machinery Safety – Part 1: Portable and/or Hand-oriented Machines</field>
+            <field name="name">Technical Regulation for Machinery Safety – Part 1: Portable and/or Hand-oriented
+                Machines
+            </field>
         </record>
         <record id="smq28" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Machinery Safety – Part 2: Mobile Machinery and Heavy Duty Equipment</field>
+            <field name="name">Technical Regulation for Machinery Safety – Part 2: Mobile Machinery and Heavy Duty
+                Equipment
+            </field>
         </record>
         <record id="smq29" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
