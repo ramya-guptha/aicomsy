@@ -11,7 +11,9 @@ class MonitoringMeasurement(models.Model):
         assigned_user = self.env['res.users'].search([('id', '=', values['assign_responsibility'])], limit=1)
         monitoring_record = super(MonitoringMeasurement, self).create(values)
         due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
-        self.create_activity(monitoring_record, 'Ready to go legal compliance', 'To Do', assigned_user.id, due_date)
+        if values.get('test_performed_by') != 'third_party':
+            self.create_activity(monitoring_record, 'Ready to go legal compliance', 'To Do', assigned_user.id, due_date)
+
         compliance = {
             "monitoring_measurement_id": monitoring_record.id
         }
@@ -22,12 +24,12 @@ class MonitoringMeasurement(models.Model):
         return monitoring_record
 
     legal_regulations_id = fields.Many2one('x.legal.regulation', string='legal regulations id', required=True)
-    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company,)
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     lr_sno = fields.Char(related='legal_regulations_id.lr_number', string='OPEN LR S.No')
     lr_description = fields.Text(string='LR Description', related='legal_regulations_id.description_lrs')
     lr_requirements = fields.Text(string='LR Requirements', related='legal_regulations_id.upload_requirements')
     title_of_programme = fields.Text(string='Title of Programme', required=True)
-    acceptance_criteria = fields.Text(string='Acceptance Criteria', required=True,)
+    acceptance_criteria = fields.Text(string='Acceptance Criteria', required=True)
     risk_assessment_reference = fields.Char(string='Risk Assessment Reference')
     frequency_of_measurement = fields.Text(string='Frequency of Measurement')
     test_performed_by = fields.Selection(
@@ -38,13 +40,6 @@ class MonitoringMeasurement(models.Model):
     select_department = fields.Many2one('hr.department', string='Select Department')
     assign_responsibility = fields.Many2one('res.users', string='Assign Responsibility', domain="[('department_id', '=', select_department )]")
     _rec_name = 'lr_sno'
-
-
-    def send_notification(self):
-
-        return True
-
-
 
     def create_activity(self,monitoring_record, summary, activity_type, user_id, date_deadline=None):
         activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id
@@ -77,6 +72,31 @@ class MonitoringMeasurement(models.Model):
         if activity:
             # Mark the activity as done
             activity.action_feedback()
+
+    def get_users_with_access_right(self, group_name):
+        group_id = self.env.ref(group_name)
+
+        if group_id:
+            # Retrieve users who have the specified access right
+            users_with_access_right = self.env['res.users'].search([('groups_id', 'in', group_id.id)])
+            mail_list = []
+
+            for user in users_with_access_right:
+                mail_list.append(user.employee_id.work_email)
+            return mail_list
+        else:
+            return []
+
+    def send_notification(self):
+
+        mail_list = self.get_users_with_access_right('aicomsy_base.access_hse_manager')
+        template = self.env.ref('legal_compliance_management.email_template_monitoring_measurement')
+        email_values = {
+            'email_to': ','.join(mail_list)
+        }
+
+        # Update the context before sending the email
+        template = template.with_context(email_values).send_mail(self.id, force_send=True)
 
 
 
@@ -122,3 +142,8 @@ class ComplianceObligation(models.Model):
             }
         }
 
+    def send_notification(self):
+        mail_template = self.env.ref('legal_compliance_management.email_template_legal_compliance')
+        mail_template.send_mail(self.id, force_send=True)
+
+        return True

@@ -1,0 +1,139 @@
+<odoo>
+    <data>
+        <record id="email_template_monitoring_measurement" model="mail.template">
+            <field name="name">EMAIL TEMPLATE NAME</field>
+            <field name="model_id"
+                   ref="legal_compliance_management.model_x_monitoring_measurement"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to"/>
+            <field name="subject">{{object.lr_sno}}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>Request for Monitoring Measurement with ID:
+                                <t t-out="object.lr_sno"/>
+                                with the following details has been created:
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>Open LR.SNO:</strong>
+                                    <t t-out="object.lr_sno"/>
+                                </li>
+                                <li>
+                                    <strong>LR Description:</strong>
+                                    <t t-out="object.lr_description"/>
+                                </li>
+                                <li>
+                                    <strong>LR Requirements:</strong>
+                                    <t t-out="object.lr_requirements"/>
+                                </li>
+                                <li>
+                                    <strong>Title of Programme:</strong>
+                                    <t t-out="object.title_of_programme"/>
+                                </li>
+                                <li>
+                                    <strong>Acceptance Criteria:</strong>
+                                    <t t-out="object.acceptance_criteria"/>
+                                </li>
+                                <li>
+                                    <strong>Risk Assessment Reference:</strong>
+                                    <t t-out="object.risk_assessment_reference"/>
+                                </li>
+                                <li>
+                                    <strong>Frequency of Measurement:</strong>
+                                    <t t-out="object.frequency_of_measurement"/>
+                                </li>
+                                <li>
+                                    <strong>Test Performed by:</strong>
+                                    <t t-out="object.test_performed_by"/>
+                                </li>
+                                <li>
+                                    <strong>Select Department:</strong>
+                                    <t t-out="object.select_department"/>
+                                </li>
+                                <li>
+                                    <strong>Assign Responsibility:</strong>
+                                    <t t-out="object.assign_responsibility.name"/>
+                                </li>
+
+                            </ul>
+                            <p>For further details refer Legal Compliance App
+                            </p>
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <record id="email_template_legal_compliance" model="mail.template">
+            <field name="name">Legal Compliance</field>
+            <field name="model_id"
+                   ref="legal_compliance_management.model_x_legal_compliance"/>
+            <field name="email_from">aicomsy.alerts@gmail.com</field>
+            <field name="email_to">
+                madhu04mitha@gmail.com
+            </field>
+            <field name="subject">Legal Compliance</field>
+
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear Team,
+                            <br/>
+                            <br/>
+                            <p>Compliance Obligation
+                                <t t-out="object.lr_sno"/>
+                                with the following details has been created:
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>Monitoring Measurement ID:</strong>
+                                    <t t-out="object.lr_sno"/>
+                                </li>
+                                <li>
+                                    <strong>Title of Programme:</strong>
+                                    <t t-out="object.title_of_programme"/>
+                                </li>
+                                <li>
+                                    <strong>Test Frequency:</strong>
+                                    <t t-out="object.test_frequency"/>
+                                </li>
+                                <li>
+                                    <strong>Test Performed by:</strong>
+                                    <t t-out="object.test_performed_by"/>
+                                </li>
+                                <li>
+                                    <strong>Test Performed on:</strong>
+                                    <t t-out="object.date_time"/>
+                                </li>
+                                <li>
+                                    <strong>Test Result:</strong>
+                                    <t t-out="object.test_result"/>
+                                </li>
+                                <li>
+                                    <strong>Test Report:</strong>
+                                    <t t-out="object.upload_test_report"/>
+                                </li>
+
+                            </ul>
+                            <p>For further details refer Legal Compliance App
+                            </p>
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

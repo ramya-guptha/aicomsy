@@ -93,10 +93,11 @@
                     <field name="upload_test_report"/>
                     <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
                 </group>
-
-                <button string="Incident" type="object" name="action_open_incident" class="oe_highlight"
-                        attrs="{'invisible': [('test_result', '!=', 'fail')]}"/>
-
+                <group>
+                    <button string="Incident" type="object" name="action_open_incident" class="oe_highlight"
+                            attrs="{'invisible': [('test_result', '!=', 'fail')]}"/>
+                    <button string="Send Notification" class="oe_highlight" type="object" name="send_notification"/>
+                </group>
             </form>
         </field>
     </record>
