@@ -15,6 +15,11 @@
         <field name="name">HSE Manager</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
+    <record id="aicomsy_base.access_qa_qc_manager" model="res.groups">
+        <field name="name">QA/QC Manager</field>
+        <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
+    </record>
+
     <record id="aicomsy_base.access_zonal_manager" model="res.groups">
         <field name="name">Location Manager</field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
