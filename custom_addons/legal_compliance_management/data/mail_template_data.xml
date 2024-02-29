@@ -77,10 +77,8 @@
             <field name="model_id"
                    ref="legal_compliance_management.model_x_legal_compliance"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
-            <field name="email_to">
-                madhu04mitha@gmail.com
-            </field>
-            <field name="subject">Legal Compliance</field>
+            <field name="email_to"/>
+            <field name="subject">Legal Complaince -{{object.lr_sno}}- Submitted</field>
 
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">

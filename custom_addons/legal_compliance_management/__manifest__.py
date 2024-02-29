@@ -3,7 +3,7 @@
 {
     'name': 'Legal Register',
     'category': 'Aicomsy/Aicomsy',
-    'depends': ['base', 'aicomsy_base', 'hr'],
+    'depends': ['base', 'aicomsy_base', 'hr', 'incident_management'],
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
