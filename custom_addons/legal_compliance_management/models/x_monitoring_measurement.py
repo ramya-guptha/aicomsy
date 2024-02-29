@@ -88,11 +88,16 @@ class MonitoringMeasurement(models.Model):
             return []
 
     def send_notification(self):
+        hse_mail_list = self.get_users_with_access_right('aicomsy_base.access_hse_manager')
+        qa_qc_mail_list = self.get_users_with_access_right('aicomsy_base.access_qa_qc_manager')
 
-        mail_list = self.get_users_with_access_right('aicomsy_base.access_hse_manager')
+
+        managers_mail_list = hse_mail_list + qa_qc_mail_list
+
         template = self.env.ref('legal_compliance_management.email_template_monitoring_measurement')
         email_values = {
-            'email_to': ','.join(mail_list)
+            'email_to': ','.join(str(email) for email in managers_mail_list if isinstance(email, str))
+
         }
 
         # Update the context before sending the email
