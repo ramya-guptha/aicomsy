@@ -88,10 +88,11 @@
                     <field name="title_of_programme"/>
                     <field name="test_frequency"/>
                     <field name="test_performed_by"/>
-                    <field name="date_time"/>
-                    <field name="test_result"/>
-                    <field name="upload_test_report"/>
-                    <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+                    <field name="assign_responsibility_id"/>
+                    <field name="test_performed_on" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}" required="True"/>
+                    <field name="test_result" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}"/>
+                    <field name="test_report" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}" required="True"/>
+                    <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}"/>
                 </group>
                 <group>
                     <button string="Incident" type="object" name="action_open_incident" class="oe_highlight"
