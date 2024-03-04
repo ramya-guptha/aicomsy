@@ -3,14 +3,14 @@
 
 
     <menuitem id="legal_register_menu" name="Legal Compliance" groups="base.group_user">
-        <menuitem id="legal_register" name="Legal Register" sequence="1">
+        <menuitem id="legal_register" name="Legal Register" sequence="1" groups="aicomsy_base.access_hse_manager,aicomsy_base.access_qa_qc_manager">
             <menuitem id="legal_register_menu_action" action="id_act_server" sequence="1"/>
             <menuitem id="legal_register_tree_action" action="legal_register_action" sequence="2"/>
         </menuitem>
-        <menuitem id="legal_regulation" name="Legal Regulation Register (LR)" sequence="2">
+        <menuitem id="legal_regulation" name="Legal Regulation Register (LR)" sequence="2" groups="aicomsy_base.access_hse_manager,aicomsy_base.access_qa_qc_manager">
             <menuitem id="legal_regulation_menu_action" action="legal_regulation_action" sequence="1"/>
         </menuitem>
-        <menuitem id="monitoring_measurement" name="Monitoring and Measurement Programme" sequence="3">
+        <menuitem id="monitoring_measurement" name="Monitoring and Measurement Programme" sequence="3" groups="aicomsy_base.access_hse_manager,aicomsy_base.access_qa_qc_manager">
             <menuitem id="monitoring_measurement_menu_action" action="monitoring_measurement_action" sequence="1"/>
         </menuitem>
         <menuitem id="legal_compliance" name="Legal Compliance" sequence="4">
