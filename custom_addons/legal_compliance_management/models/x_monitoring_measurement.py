@@ -132,7 +132,7 @@ class ComplianceObligation(models.Model):
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Upload ', help='Attachment')
     assign_responsibility_id = fields.Many2one('res.users', string='Assign To', related='monitoring_measurement_id.assign_responsibility',
                                             domain="[('department_id', '=', select_department )]")
-
+    is_assign = fields.Boolean(compute="_is_assign")
     def action_open_incident(self):
         return {
             'name': 'All Incident',
@@ -177,3 +177,5 @@ class ComplianceObligation(models.Model):
         # Update the context before sending the email
         template.send_mail(self.id, force_send=True, email_values=email_values)
 
+    def _is_assign(self):
+        self.is_assign = self.env.user == self.assign_responsibility_id

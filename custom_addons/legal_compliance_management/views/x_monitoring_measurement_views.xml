@@ -31,7 +31,8 @@
                         <field name="select_department" attrs="{'required': [('test_performed_by', '=', 'in_house')]}"/>
                     </group>
                     <group>
-                        <field name="assign_responsibility" attrs="{'required': [('test_performed_by', '=', 'in_house')]}"/>
+                        <field name="assign_responsibility"
+                               attrs="{'required': [('test_performed_by', '=', 'in_house')]}"/>
                     </group>
                 </group>
                 <button string="Send Notification" class="oe_highlight" type="object" name="send_notification"/>
@@ -45,7 +46,7 @@
         <field name="name">Legal Compliance</field>
         <field name="res_model">x.legal.compliance</field>
         <field name="view_mode">tree,form</field>
-         <field name="context">{'create': False, 'search_default_current_company':1}</field>
+        <field name="context">{'create': False, 'search_default_current_company':1}</field>
     </record>
 
     <record id="legal_compliance_search_view" model="ir.ui.view">
@@ -89,10 +90,12 @@
                     <field name="test_frequency"/>
                     <field name="test_performed_by"/>
                     <field name="assign_responsibility_id"/>
-                    <field name="test_performed_on" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}" required="True"/>
-                    <field name="test_result" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}"/>
-                    <field name="test_report" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}" required="True"/>
-                    <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}" attrs="{'readonly': [('assign_responsibility_id', '=', False)]}"/>
+                    <field name="test_performed_on" attrs="{'readonly': [('is_assign', '=', False)]}"/>
+                    <field name="test_result" attrs="{'readonly': [('is_assign', '=', False)]}"/>
+                    <field name="test_report" attrs="{'readonly': [('is_assign', '=', False)]}"/>
+                    <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"
+                           attrs="{'readonly': [('is_assign', '=', False)]}"/>
+                    <field name="is_assign" invisible="True"/>
                 </group>
                 <group>
                     <button string="Incident" type="object" name="action_open_incident" class="oe_highlight"
