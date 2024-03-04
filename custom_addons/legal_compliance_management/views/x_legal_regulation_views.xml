@@ -3,7 +3,7 @@
         <field name="name">Legal Regulation Register (LR)</field>
         <field name="res_model">x.legal.regulation</field>
         <field name="view_mode">tree,form</field>
-         <field name="context">{'create': False, 'search_default_current_company':1, 'search_default_classification_id':1}</field>
+        <field name="context">{'create': False, 'search_default_current_company':1, 'search_default_classification_id':1}</field>
     </record>
 
     <record id="legal_regulation_search_view" model="ir.ui.view">
@@ -30,6 +30,7 @@
                 <field name="description_lrs"/>
                 <field name="upload_requirements"/>
                 <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+                <field name="active"/>
             </tree>
         </field>
     </record>
@@ -41,9 +42,12 @@
                 <group>
                     <field name="company_id" optional="hide"/>
                     <field name="lr_number"/>
+                    <field name="lr_year"/>
+                    <field name="version"/>
                     <field name="description_lrs"/>
                     <field name="upload_requirements"/>
                     <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+
                 </group>
             </form>
         </field>

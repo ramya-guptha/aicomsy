@@ -14,6 +14,7 @@ class LegalRegulation(models.Model):
     version = fields.Char(string="Version")
     lr_year = fields.Char(string="Year")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Browse', help='Attachment')
+    active = fields.Boolean(default=True)
     _rec_name = 'lr_number'
 
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="legal_incident_record" model="ir.ui.view">
+        <field name="name">legal.compliance.incident.record</field>
+        <field name="model">x.incident.record</field>
+        <field name="inherit_id" ref="incident_management.incident_form_view" />
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='company_id']" position="after">
+                <field name="legal_compliance_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

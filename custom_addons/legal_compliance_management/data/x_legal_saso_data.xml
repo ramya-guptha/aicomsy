@@ -3,139 +3,139 @@
     <data noupdate="1">
         <record id="smq1" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (1): Metal and Alloy Sectors for
+            <field name="description">Technical Regulation for Building Materials: Part (1): Metal and Alloy Sectors for
                 Constructions and Building
             </field>
         </record>
         <record id="smq2" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (2): Insulation and Building Cladding
+            <field name="description">Technical Regulation for Building Materials: Part (2): Insulation and Building Cladding
                 Materials
             </field>
         </record>
         <record id="smq3" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (3): Hydraulic Connections and Related
+            <field name="description">Technical Regulation for Building Materials: Part (3): Hydraulic Connections and Related
                 Products
             </field>
         </record>
         <record id="smq4" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (4): Bricks, Tiles, Ceramics, Sanitary
+            <field name="description">Technical Regulation for Building Materials: Part (4): Bricks, Tiles, Ceramics, Sanitary
                 Ware and Relevant Products
             </field>
         </record>
         <record id="smq5" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Building Materials: Part (5): Pipes used in Water, Electricity
+            <field name="description">Technical Regulation for Building Materials: Part (5): Pipes used in Water, Electricity
                 and Gas Networks
             </field>
         </record>
         <record id="smq6" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Water Rationalization Tools</field>
+            <field name="description">Technical Regulation for Water Rationalization Tools</field>
         </record>
         <record id="smq7" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for doors, windows, and accessories</field>
+            <field name="description">Technical Regulation for doors, windows, and accessories</field>
         </record>
         <record id="smq8" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Glue and Adhesive Materials</field>
+            <field name="description">Technical Regulation for Glue and Adhesive Materials</field>
         </record>
         <record id="smq9" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Paper and Cardboard</field>
+            <field name="description">Technical Regulation for Paper and Cardboard</field>
         </record>
         <record id="smq10" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for lubricating oils</field>
+            <field name="description">Technical Regulation for lubricating oils</field>
         </record>
         <record id="smq11" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Degradable Plastic Products</field>
+            <field name="description">Technical Regulation for Degradable Plastic Products</field>
         </record>
         <record id="smq12" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Paints (Dyes) and Varnish</field>
+            <field name="description">Technical Regulation for Paints (Dyes) and Varnish</field>
         </record>
         <record id="smq13" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Food Safety of Tools and Appliances Used in the Kitchen</field>
+            <field name="description">Technical Regulation for Food Safety of Tools and Appliances Used in the Kitchen</field>
         </record>
         <record id="smq14" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulations for Detergents</field>
+            <field name="description">Technical Regulations for Detergents</field>
         </record>
         <record id="smq15" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Fireworks</field>
+            <field name="description">Technical Regulation for Fireworks</field>
         </record>
         <record id="smq16" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Front, Rear and Side Barriers for Trucks and Trailers</field>
+            <field name="description">Technical Regulation for Front, Rear and Side Barriers for Trucks and Trailers</field>
         </record>
         <record id="smq17" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Gas Appliances and their Accessories</field>
+            <field name="description">Technical Regulation for Gas Appliances and their Accessories</field>
         </record>
         <record id="smq18" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Data Registration Procedure and the issuance of energy
+            <field name="description">Technical Regulation for Data Registration Procedure and the issuance of energy
                 efficiency
             </field>
         </record>
         <record id="smq19" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Trailers and Semi-Trailers</field>
+            <field name="description">Technical Regulation for Trailers and Semi-Trailers</field>
         </record>
         <record id="smq20" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Auto Spare parts</field>
+            <field name="description">Technical Regulation for Auto Spare parts</field>
         </record>
         <record id="smq21" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Classification of Vehicle Maintenance and Repair Centers</field>
+            <field name="description">Technical Regulation for Classification of Vehicle Maintenance and Repair Centers</field>
         </record>
         <record id="smq22" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical regulations for Amusement park games and devices</field>
+            <field name="description">Technical regulations for Amusement park games and devices</field>
         </record>
         <record id="smq23" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical regulations for modified vehicles and limited Production Models</field>
+            <field name="description">Technical regulations for modified vehicles and limited Production Models</field>
         </record>
         <record id="smq24" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Fire Control Materials and Equipment</field>
+            <field name="description">Technical Regulation for Fire Control Materials and Equipment</field>
         </record>
         <record id="smq25" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Tanks - Part 1: Petroleum Products Transportation Tanks</field>
+            <field name="description">Technical Regulation for Tanks - Part 1: Petroleum Products Transportation Tanks</field>
         </record>
         <record id="smq26" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulations for Motorcycles</field>
+            <field name="description">Technical Regulations for Motorcycles</field>
         </record>
         <record id="smq27" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Machinery Safety – Part 1: Portable and/or Hand-oriented
+            <field name="description">Technical Regulation for Machinery Safety – Part 1: Portable and/or Hand-oriented
                 Machines
             </field>
         </record>
         <record id="smq28" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Machinery Safety – Part 2: Mobile Machinery and Heavy Duty
+            <field name="description">Technical Regulation for Machinery Safety – Part 2: Mobile Machinery and Heavy Duty
                 Equipment
             </field>
         </record>
         <record id="smq29" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Machinery Safety – Part 3: Lifting Equipment</field>
+            <field name="description">Technical Regulation for Machinery Safety – Part 3: Lifting Equipment</field>
         </record>
         <record id="smq30" model="x.legal.saso">
             <field name="classification_id" ref="c2"/>
-            <field name="name">Technical Regulation for Machinery Safety – Part 4: Cutting and Sawing Machines</field>
+            <field name="description">Technical Regulation for Machinery Safety – Part 4: Cutting and Sawing Machines</field>
         </record>
     </data>
 </odoo>

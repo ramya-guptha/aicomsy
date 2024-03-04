@@ -10,6 +10,7 @@
         'views/x_legal_register_views.xml',
         'views/x_legal_regulation_views.xml',
         'views/x_monitoring_measurement_views.xml',
+        'views/incident_record_views.xml',
         'views/legal_register_menu.xml',
         'data/mail_template_data.xml',
         'data/x_legal_classification_data.xml',

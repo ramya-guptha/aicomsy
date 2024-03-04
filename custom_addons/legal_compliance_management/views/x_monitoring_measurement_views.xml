@@ -2,8 +2,7 @@
     <record id="monitoring_measurement_action" model="ir.actions.act_window">
         <field name="name">Monitoring Measurement</field>
         <field name="res_model">x.monitoring.measurement</field>
-        <field name="view_mode">form</field>
-        <field name="context">{'create': False}</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
 
@@ -12,7 +11,6 @@
         <field name="model">x.monitoring.measurement</field>
         <field name="arch" type="xml">
             <form>
-
                 <group>
                     <field name="company_id"/>
                     <field name="legal_regulations_id" string='OPEN LR S.No'/>
@@ -23,8 +21,6 @@
                     <field name="risk_assessment_reference"/>
                     <field name="frequency_of_measurement"/>
                     <field name="test_performed_by" widget="radio" options="{'horizontal': true}"/>
-
-
                 </group>
                 <group colspan="2">
                     <group>
@@ -92,6 +88,7 @@
                     <field name="test_result"/>
                     <field name="upload_test_report"/>
                     <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
+                    <field name="incident_id"/>
                 </group>
                 <group>
                     <button string="Incident" type="object" name="action_open_incident" class="oe_highlight"

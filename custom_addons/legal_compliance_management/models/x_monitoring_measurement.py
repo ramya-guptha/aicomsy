@@ -121,13 +121,15 @@ class ComplianceObligation(models.Model):
         [('in_house', 'In-house'),
          ('third_party', 'Third Party Agency')],
         string='Test Performed by', readonly=True, related='monitoring_measurement_id.test_performed_by')
-    date_time = fields.Datetime(string="Test Performed on", required=True, tracking=True)
+    date_time = fields.Datetime(string="Test Performed on", tracking=True)
     test_result = fields.Selection(
         [('pass', 'Pass'),
          ('fail', 'Fail')],
         string='Test Result'
     )
-
+    incident_id = fields.One2many(
+        'x.incident.record', 'legal_compliance_id', string='Incident Id'
+    )
     upload_test_report = fields.Text(string='Test report')
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Upload ', help='Attachment')
 
@@ -143,6 +145,7 @@ class ComplianceObligation(models.Model):
             'context': {
                 'default_description': self.description_legal_regulation,
                 'default_inc_date_time': self.date_time,
+                'default_legal_compliance_id': self.id
 
             }
         }

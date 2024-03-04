@@ -3,57 +3,57 @@
     <data noupdate="1">
         <record id="env1" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for environmental inspection and audit of the environmental
+            <field name="description">Executive regulations for environmental inspection and audit of the environmental
                 system
             </field>
         </record>
         <record id="env2" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for substances that deplete the ozone layer and hydro
+            <field name="description">Executive regulations for substances that deplete the ozone layer and hydro
                 fluorocarbons
             </field>
         </record>
         <record id="env3" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for environmental rehabilitation</field>
+            <field name="description">Executive regulations for environmental rehabilitation</field>
         </record>
         <record id="env4" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">List of environmental permits for establishing and operating activities</field>
+            <field name="description">List of environmental permits for establishing and operating activities</field>
         </record>
         <record id="env5" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for preventing and treating soil pollution</field>
+            <field name="description">Executive regulations for preventing and treating soil pollution</field>
         </record>
         <record id="env6" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Air quality executive regulations</field>
+            <field name="description">Air quality executive regulations</field>
         </record>
         <record id="env7" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Adopting the executive regulations to control violations and impose penalties</field>
+            <field name="description">Adopting the executive regulations to control violations and impose penalties</field>
         </record>
         <record id="env8" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Noise executive regulations</field>
+            <field name="description">Noise executive regulations</field>
         </record>
         <record id="env9" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for environmental service providers</field>
+            <field name="description">Executive regulations for environmental service providers</field>
         </record>
         <record id="env10" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations of the environmental system for the sustainable management of the
+            <field name="description">Executive regulations of the environmental system for the sustainable management of the
                 marine and coastal environment
             </field>
         </record>
         <record id="env11" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations to protect aquatic environments from pollution</field>
+            <field name="description">Executive regulations to protect aquatic environments from pollution</field>
         </record>
         <record id="env12" model="x.legal.environment.regulation">
             <field name="classification_id" ref="c1"/>
-            <field name="name">Executive regulations for controls and procedures related to financial compensation for
+            <field name="description">Executive regulations for controls and procedures related to financial compensation for
                 licenses, permits, and environmental services
             </field>
         </record>

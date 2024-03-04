@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="company_id"/>
-                <field name="mhrs_ids"/>
+                <field name="selected_year" string="Year of Legal Register"/>
             </tree>
         </field>
     </record>
@@ -30,8 +30,8 @@
         <field name="arch" type="xml">
             <form name="Legal Register">
                 <header>
-                    <button name="change_company" type="object" string="View All" class="btn-primary"
-                            confirm="Are you sure to choose a different Company? "/>
+                    <button name="view_all" type="object" string="View All" class="btn-primary"
+                            confirm="Are you sure to view all Company's records? "/>
                 </header>
                 <h2>
                     <field name="company_id" readonly="True"/>
@@ -39,11 +39,13 @@
                 <group>
                     <field name="state" invisible="1"/>
                     <field name="active" invisible="1"/>
-                    <div colspan="12"><label for="selected_year" states="new"/></div>
+                    <div colspan="12"><label for="selected_year" /></div>
                 </group>
-
-                    <field name="selected_year" states="new"/>
-
+                <p>
+                    <field name="selected_year" attrs="{'readonly': [('state', '!=', 'new')]}"/>
+                </p>
+                <button name="onYearChange" type="object" string="Change Year" class="btn-primary"
+                            confirm="The current year Legal Regulation Records will get Archived, Are you sure you want to Proceed? "/>
                 <group string="I Environment System Regulations">
                     <div colspan="12">Choose applicable Legal Regulations</div>
                     <div class="oe_value" colspan="12">
@@ -102,7 +104,6 @@
         <field name="arch" type="xml">
             <form name="Saudi Standards, Metrology and Quality Organization (SASO)">
                 <group>
-                    <field name="name"/>
                     <field name="description"/>
                     <field name="date"/>
                     <field name="version"/>
@@ -118,7 +119,6 @@
         <field name="arch" type="xml">
             <form name="Ministry of Human Resource and Social Development">
                 <group>
-                    <field name="name"/>
                     <field name="description"/>
                     <field name="date"/>
                     <field name="version"/>
@@ -133,12 +133,10 @@
         <field name="arch" type="xml">
             <form name="Other Legal Regulations from Local Bodies &amp; Customers">
                 <group>
-                    <field name="name"/>
                     <field name="description"/>
                     <field name="date"/>
                     <field name="version"/>
                     <field name="classification_id"/>
-
                 </group>
 
 

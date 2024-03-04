@@ -9,3 +9,4 @@ access_x_monitoring_measurement,access_x_monitoring_measurement,model_x_monitori
 access_x_legal_other,access_x_legal_other,model_x_legal_other,base.group_user,1,1,1,1
 access_x_legal_classification,access_x_legal_classification,model_x_legal_classification,base.group_user,1,1,1,1
 access_x_legal_compliance,access_x_legal_compliance,model_x_legal_compliance,base.group_user,1,1,1,1
+access_x_incident_record,access_x_incident_record,model_x_incident_record,base.group_user,1,1,1,1

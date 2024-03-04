@@ -3,23 +3,23 @@
     <data noupdate="1">
         <record id="mhr1" model="x.legal.mhrs">
             <field name="classification_id" ref="c3"/>
-            <field name="name">Labor Law</field>
+            <field name="description">Labor Law</field>
         </record>
         <record id="mhr2" model="x.legal.mhrs">
             <field name="classification_id" ref="c3"/>
-            <field name="name">Regulations on Leaves</field>
+            <field name="description">Regulations on Leaves</field>
         </record>
         <record id="mhr3" model="x.legal.mhrs">
             <field name="classification_id" ref="c3"/>
-            <field name="name">Nitaqat Mutawar Program</field>
+            <field name="description">Nitaqat Mutawar Program</field>
         </record>
         <record id="mhr4" model="x.legal.mhrs">
             <field name="classification_id" ref="c3"/>
-            <field name="name">Financial Rights and Benefits Regulations</field>
+            <field name="description">Financial Rights and Benefits Regulations</field>
         </record>
         <record id="mhr5" model="x.legal.mhrs">
             <field name="classification_id" ref="c3"/>
-            <field name="name">Regulatory Frameworks for Implementing Regulations for Human Resources</field>
+            <field name="description">Regulatory Frameworks for Implementing Regulations for Human Resources</field>
         </record>
     </data>
 </odoo>
