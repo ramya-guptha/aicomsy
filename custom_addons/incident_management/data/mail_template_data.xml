@@ -554,7 +554,7 @@
                                 with the following details has been returned for further action:
                                 <h4>Returned for further action from Management Team</h4>
                                 <p>
-                                    <t t-out="object.reviewed_comments"/>
+                                    <t t-out="object.management_reviewed_comments"/>
                                 </p>
                                 <ul>
                                     <li>

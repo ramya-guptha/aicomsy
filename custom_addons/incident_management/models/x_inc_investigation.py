@@ -443,7 +443,7 @@ class CorrectiveAction(models.Model):
         # Call the send_email method
         corrective_action.action_send_email()
         # Create Task for Action Party
-        corrective_action.investigation_id.create_activity('Execute CA and Upload evidence', 'To Do', corrective_action.action_party.id, corrective_action.due_date)
+        corrective_action.investigation_id.create_activity('Execute CA and Upload evidence: %s' % self.name, 'To Do', corrective_action.action_party.id, corrective_action.due_date)
         return corrective_action
 
     # --------------------------------------- Fields Declaration ----------------------------------
@@ -497,7 +497,6 @@ class CorrectiveAction(models.Model):
 
     def review_action(self):
         self.investigation_id.mark_activity_as_done('Review Corrective Action: %s' % self.name)
-        self.investigation_id.mark_activity_as_done('Review Corrective action again based on comments: %s' % self.name)
         return {
             'name': 'Action Review & Closure',
             'res_model': 'x.inc.inv.action.review',
@@ -536,7 +535,7 @@ class CorrectiveAction(models.Model):
 
     def notify_assigner(self):
         self._notify_assigner_send_email()
-        self.investigation_id.mark_activity_as_done('Execute CA and Upload evidence')
+        self.investigation_id.mark_activity_as_done('Execute CA and Upload evidence: %s' % self.name)
         self.investigation_id.create_activity('Review Corrective Action: %s' % self.name, 'To Do', self.assigner.id, self.due_date)
         return {
             'type': 'ir.actions.client',
@@ -550,20 +549,20 @@ class CorrectiveAction(models.Model):
         }
 
     def resend_review_action(self):
-        existing_record = self.env['x.inc.inv.action.review'].search([
-            ('investigation_id', '=', self.investigation_id.id),
-            ('corrective_action_id', '=', self.id)]
-        )
-        if existing_record:
-            self.state = 'completed'
-            return {
-                'name': 'Action Review & Closure',
-                'res_model': 'x.inc.inv.action.review',
-                'type': 'ir.actions.act_window',
-                'view_mode': 'form',
-                'res_id': existing_record.id,
-                'target': 'new',
+        self.investigation_id.mark_activity_as_done('Review Corrective action again based on comments: %s' % self.name)
+        if self.action_review_ids:
+            first_reviewer_id = self.action_review_ids[0].reviewer.id
+            self.investigation_id.create_activity('Action Review & Closure: %s' % self.name, 'To Do', self.action_review_ids[0].reviewer.id, self.due_date)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'type': 'success',
+                'message': 'Notification has been sent to QHSE Manager for further Action',
+                'next': {'type': 'ir.actions.client',
+                         'tag': 'soft_reload', },
             }
+        }
 
     def _notify_assigner_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_corrective_action_notify_assigner')

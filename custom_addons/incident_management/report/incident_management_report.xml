@@ -896,7 +896,7 @@
                                                                     </span>
                                                                 </td>
                                                                 <td colspan="99">
-                                                                    <span t-field="ac.reviewed_comments"/>
+                                                                    <span t-field="ac.management_reviewed_comments"/>
                                                                 </td>
                                                             </tr>
                                                             <tr>

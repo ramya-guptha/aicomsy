@@ -55,7 +55,7 @@ class ActionReview(models.Model):
                                                     string="Review by CEO/VP/GM Required", default="no")
     justification = fields.Text(string="If no, give justification")
     reviewed_by_ceo_vp_gm = fields.Text(string="Reviewed by CEO/VP/GM")
-    reviewed_comments = fields.Text(string="Comments")
+    management_reviewed_comments = fields.Text(string="Comments")
     closure_comments = fields.Text(string="Closure Comments")
     followup_comments = fields.Text(string="Followup Comments", help='Comments')
     followup_feedback_comments = fields.Text(string="Followup Feedback Comments", help='Comments')
@@ -88,7 +88,14 @@ class ActionReview(models.Model):
     company_id = fields.Many2one(related="investigation_id.company_id")
     due_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
     consequences_ids = fields.One2many("x.inc.consequences", related="investigation_id.consequences_ids")
+    is_followup_adviser = fields.Boolean(string="Is Followup Adviser", compute="_is_followup_adviser")
+    is_reviewer = fields.Boolean(string="Is Followup Adviser", compute="_is_reviewer")
 
+    def _is_reviewer(self):
+        self.is_reviewer = self.reviewer == self.env.user
+
+    def _is_followup_adviser(self):
+        self.is_followup_adviser = self.quality_control_user_id == self.env.user
 
     @api.depends('reviewer')
     def _compute_report_closed_by(self):
@@ -101,9 +108,9 @@ class ActionReview(models.Model):
 
     def action_submit(self):
         if self.next_step == "close_ca":
-            self.action_close()
+            self._action_close()
         if self.next_step == "return_to_production_manager":
-            self.action_return()
+            self._action_return()
         if self.next_step == "followup_quality_control_inspector":
             self._action_followup_qualitycontrol()
         if self.next_step == "send_for_management_review":
@@ -112,15 +119,21 @@ class ActionReview(models.Model):
 
     def _action_followup_qualitycontrol(self):
         self.write({'state': 'followup'})
+        self.investigation_id.create_activity(
+            'Guidance & Advice Production Manager on : %s' % self.corrective_action_id.name, 'To Do',
+            self.quality_control_user_id.id,
+            self.due_date)
+        self.investigation_id.add_log_note(self.followup_comments)
 
-    def action_return(self):
+    def _action_return(self):
         self.write({'state': 'review'})
         self.investigation_id.add_log_note(self.resend_ca_comments)
         self.corrective_action_id.write({'state': 'returned'})
         self._return_to_action_party()
 
-    def action_close(self):
+    def _action_close(self):
         self.write({'state': 'closed'})
+        self.investigation_id.add_log_note(self.closure_comments)
         self._update_investigation_state()
         return {
             'type': 'ir.actions.client',
@@ -151,10 +164,13 @@ class ActionReview(models.Model):
 
     def action_resubmit_for_review(self):
         self.write({'state': 'review'})
+        self.investigation_id.mark_activity_as_done('Guidance & Advice Production Manager on : %s' % self.corrective_action_id.name)
+        self.investigation_id.add_log_note(self.followup_feedback_comments)
         self._resubmit_for_review_email()
 
     def action_return_further_action(self):
         self.write({'state': 'review'})
+        self.investigation_id.add_log_note(self.management_reviewed_comments)
         self.investigation_id.create_activity('Action Review & Closure: %s' % self.corrective_action_id.name, 'To Do', self.reviewer.id,
                                           self.due_date)
         self._return_for_further_action_email()
@@ -183,7 +199,8 @@ class ActionReview(models.Model):
 
     def action_submit_for_management_review(self):
         self.write({'state': 'management'})
-        self.investigation_id.create_activity('Management Approval:  %s' % self.corrective_action_id.name, 'To Do', self.investigation_id.hr_administration.id,
+        self.investigation_id.add_log_note(self.send_management_comments)
+        self.investigation_id.create_activity('Management Approval: %s' % self.corrective_action_id.name, 'To Do', self.investigation_id.hr_administration.id,
                                          self.due_date)
         return True
 

@@ -21,25 +21,26 @@
                     </group>
                     <group col="2" string="Action Review">
                         <group>
-                            <field name="reviewer" attrs="{'readonly': [('state', 'in', ['followup', 'management','closed'])]}"
+                            <field name="is_reviewer" invisible="1"/>
+                            <field name="reviewer" attrs="{'readonly': ['|', ('state', 'in', ['followup', 'management','closed']), ('is_reviewer', '=', False)]}"
                                    options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="review_completion_date"
                                    attrs="{'invisible': [('state', 'not in', ('review', 'followup', 'management','closed'))],
-                                   'readonly': [('state', '!=', 'review')], 'required': [('state', '=', 'review')]}"/>
-                            <field name="closure_date" attrs="{'invisible': [('next_step','!=','close_ca')], 'readonly': [('state','!=','review')]}"/>
-                            <field name="resend_ca_comments" attrs="{'invisible': [('next_step','!=','return_to_production_manager')], 'readonly': [('state','!=','review')]}"/>
-                            <field name="job_position_id" attrs="{'invisible': [('next_step','!=','followup_quality_control_inspector')], 'readonly': [('state','!=','review')]}"/>
-                            <field name="followup_comments" attrs="{'invisible': [('next_step','!=','followup_quality_control_inspector')], 'readonly': [('state','!=','review')]}"/>
-                            <field name="send_management_comments" attrs="{'invisible': [('next_step','!=','send_for_management_review')], 'readonly': [('state','!=','review')]}"/>
-                            <field name="next_step" attrs="{'invisible': [('state','=','new')], 'readonly': [('state','!=','review')]}"/>
+                                   'readonly': ['|', ('state', '!=', 'review'), ('is_reviewer', '=', False)], 'required': [('state', '=', 'review')]}"/>
+                            <field name="closure_date" attrs="{'invisible': [('next_step','!=','close_ca')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
+                            <field name="resend_ca_comments" attrs="{'invisible': [('next_step','!=','return_to_production_manager')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
+                            <field name="job_position_id" attrs="{'invisible': [('next_step','!=','followup_quality_control_inspector')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
+                            <field name="followup_comments" attrs="{'invisible': [('next_step','!=','followup_quality_control_inspector')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
+                            <field name="send_management_comments" attrs="{'invisible': [('next_step','!=','send_for_management_review')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
+                            <field name="next_step" attrs="{'invisible': [('state','=','new')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
                         </group>
                         <group>
                             <field name="risks_and_opportunities_reviewed" widget="radio" options="{'horizontal': true}"
-                                   attrs="{'invisible': [('state', 'not in', ('review', 'followup', 'management','closed'))], 'readonly': [('state', '!=', 'review')], 'required': [('state', '=', 'review')]}"/>
+                                   attrs="{'invisible': [('state', 'not in', ('review', 'followup', 'management','closed'))], 'readonly': ['|', ('state', '!=', 'review'), ('is_reviewer', '=', False)], 'required': [('state', '=', 'review')]}"/>
                             <field name="job_hazard_analysis_reviewed" widget="radio" options="{'horizontal': true}"
-                                   attrs="{'invisible': [('state', 'not in', ('review', 'followup', 'management','closed'))], 'readonly': [('state', '!=', 'review')], 'required': [('state', '=', 'review')]}"/>
-                            <field name="closure_comments" attrs="{'invisible': [('next_step','!=','close_ca')], 'readonly': [('state','!=','review')]}"/>
-                            <field name="quality_control_user_id" string="Followup User" attrs="{'invisible': [('next_step','!=','followup_quality_control_inspector')], 'readonly': [('state','!=','review')]}"/>
+                                   attrs="{'invisible': [('state', 'not in', ('review', 'followup', 'management','closed'))], 'readonly': ['|', ('state', '!=', 'review'), ('is_reviewer', '=', False)], 'required': [('state', '=', 'review')]}"/>
+                            <field name="closure_comments" attrs="{'invisible': [('next_step','!=','close_ca')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
+                            <field name="quality_control_user_id" string="Followup User" attrs="{'invisible': [('next_step','!=','followup_quality_control_inspector')], 'readonly': ['|', ('state','!=','review'), ('is_reviewer', '=', False)]}"/>
                         </group>
                     </group>
 
@@ -53,17 +54,18 @@
                     </group>
 
                     <br/>
+                    <field name="is_followup_adviser" invisible="1"/>
                     <group col="3" string="Followup"
                            attrs="{'invisible': [('state', 'in', ('new', 'review'))]}">
                             <group>
-                                <field colspan='3' name="followup_feedback_comments" attrs="{'required': [('state', '=', 'followup')], 'readonly': [('state', 'in', ('management', 'closed'))]}"/>
+                                <field colspan='3' name="followup_feedback_comments" attrs="{'required': [('state', '=', 'followup')], 'readonly': ['|',('state', 'in', ('management', 'closed')), ('is_followup_adviser','=', False)]}"/>
                             </group>
                     </group>
                     <group col="6" attrs="{'invisible': [('state', 'in', ('new','review', 'management', 'closed'))]}">
                         <group colspan="2">
                                 <button name="action_resubmit_for_review" colspan="2" type="object"
                                         string="Resubmit for Review"
-                                        class="btn-primary" confirm="Are you sure you want to Resubmit for Review?" />
+                                        class="btn-primary" confirm="Are you sure you want to Resubmit for Review?"  attrs="{'invisible': [('is_followup_adviser','=', False)]}"/>
                         </group>
                     </group>
                     <!-- <group col="3" string="Followup &amp; Closure"
@@ -120,7 +122,7 @@
                                    attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
-                            <field name="reviewed_comments"
+                            <field name="management_reviewed_comments"
                                    attrs="{'required': [('state', '=', 'management')], 'readonly': [('state', '=', 'closed')]}"/>
                         </group>
                         <group>
