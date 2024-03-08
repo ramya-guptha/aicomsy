@@ -27,7 +27,7 @@ class MonitoringMeasurement(models.Model):
     company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     lr_sno = fields.Char(related='legal_regulations_id.lr_number', string='OPEN LR S.No')
     lr_description = fields.Text(string='LR Description', related='legal_regulations_id.description_lrs')
-    lr_requirements = fields.Text(string='LR Requirements', related='legal_regulations_id.upload_requirements')
+    lr_requirements = fields.Text(string='LR Requirements', related='legal_regulations_id.lr_requirements')
     title_of_programme = fields.Text(string='Title of Programme', required=True)
     acceptance_criteria = fields.Text(string='Acceptance Criteria', required=True)
     risk_assessment_reference = fields.Char(string='Risk Assessment Reference')
@@ -101,7 +101,7 @@ class MonitoringMeasurement(models.Model):
         }
 
         # Update the context before sending the email
-        template = template.with_context(email_values).send_mail(self.id, force_send=True)
+        template.send_mail(self.id, force_send=True, email_values=email_values)
 
 
 
@@ -121,7 +121,7 @@ class ComplianceObligation(models.Model):
         [('in_house', 'In-house'),
          ('third_party', 'Third Party Agency')],
         string='Test Performed by', readonly=True, related='monitoring_measurement_id.test_performed_by')
-    date_time = fields.Datetime(string="Test Performed on", tracking=True)
+    test_performed_on = fields.Datetime(string="Test Performed on", tracking=True)
     test_result = fields.Selection(
         [('pass', 'Pass'),
          ('fail', 'Fail')],
@@ -130,10 +130,11 @@ class ComplianceObligation(models.Model):
     incident_id = fields.One2many(
         'x.incident.record', 'legal_compliance_id', string='Incident Id'
     )
-    upload_test_report = fields.Text(string='Test report')
+    test_report = fields.Text(string='Test report')
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Upload ', help='Attachment')
-
-
+    assign_responsibility_id = fields.Many2one('res.users', string='Assign To', related='monitoring_measurement_id.assign_responsibility',
+                                            domain="[('department_id', '=', select_department )]")
+    is_assign = fields.Boolean(compute="_is_assign")
     def action_open_incident(self):
         return {
             'name': 'All Incident',
@@ -150,8 +151,34 @@ class ComplianceObligation(models.Model):
             }
         }
 
-    def send_notification(self):
-        mail_template = self.env.ref('legal_compliance_management.email_template_legal_compliance')
-        mail_template.send_mail(self.id, force_send=True)
+    def get_users_with_access_right(self, group_name):
+        group_id = self.env.ref(group_name)
 
-        return True
+        if group_id:
+            # Retrieve users who have the specified access right
+            users_with_access_right = self.env['res.users'].search([('groups_id', 'in', group_id.id)])
+            mail_list = []
+
+            for user in users_with_access_right:
+                mail_list.append(user.employee_id.work_email)
+            return mail_list
+        else:
+            return []
+
+    def send_notification(self):
+        hse_mail_list = self.get_users_with_access_right('aicomsy_base.access_hse_manager')
+        qa_qc_mail_list = self.get_users_with_access_right('aicomsy_base.access_qa_qc_manager')
+
+        managers_mail_list = hse_mail_list + qa_qc_mail_list
+
+        template = self.env.ref('legal_compliance_management.email_template_legal_compliance')
+        email_values = {
+            'email_to': ','.join(str(email) for email in managers_mail_list if isinstance(email, str))
+
+        }
+
+        # Update the context before sending the email
+        template.send_mail(self.id, force_send=True, email_values=email_values)
+
+    def _is_assign(self):
+        self.is_assign = self.env.user == self.assign_responsibility_id

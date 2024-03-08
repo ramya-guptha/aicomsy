@@ -110,7 +110,7 @@
                                 </li>
                                 <li>
                                     <strong>Test Performed on:</strong>
-                                    <t t-out="object.date_time"/>
+                                    <t t-out="object.test_performed_on"/>
                                 </li>
                                 <li>
                                     <strong>Test Result:</strong>
@@ -118,7 +118,7 @@
                                 </li>
                                 <li>
                                     <strong>Test Report:</strong>
-                                    <t t-out="object.upload_test_report"/>
+                                    <t t-out="object.test_report"/>
                                 </li>
 
                             </ul>

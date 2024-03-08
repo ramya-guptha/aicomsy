@@ -28,7 +28,7 @@
                 <field name="company_id" optional="hide"/>
                 <field name="lr_number"/>
                 <field name="description_lrs"/>
-                <field name="upload_requirements"/>
+                <field name="lr_requirements"/>
                 <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
                 <field name="active"/>
             </tree>
@@ -45,7 +45,7 @@
                     <field name="lr_year"/>
                     <field name="version"/>
                     <field name="description_lrs"/>
-                    <field name="upload_requirements"/>
+                    <field name="lr_requirements"/>
                     <field name="attachment_ids" widget="many2many_binary" options="{'no_open': True}"/>
 
                 </group>
