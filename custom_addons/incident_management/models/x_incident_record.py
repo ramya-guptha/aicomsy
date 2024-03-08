@@ -3,6 +3,7 @@
 from odoo import api, fields, models
 from datetime import datetime, timedelta
 
+from odoo.exceptions import ValidationError
 
 class IncidentRecord(models.Model):
     # ---------------------------------------- Private Attributes ---------------------------------
@@ -19,19 +20,39 @@ class IncidentRecord(models.Model):
 
     @api.model
     def create(self, vals_list):
+        # Check if inc_reported_date is prior to inc_date_time
+        if 'inc_reported_date' in vals_list and 'inc_date_time' in vals_list:
+            reported_date = fields.Date.from_string(vals_list['inc_reported_date'])
+            date_time = fields.Datetime.from_string(vals_list['inc_date_time'])
+            if reported_date < date_time.date():
+                raise ValidationError("Date Reported cannot be prior to Incident Date & Time")
+            if reported_date > fields.Date.today():
+                raise ValidationError("Date Reported cannot be greater than today's date")
+
         vals_list['name'] = self.env['ir.sequence'].next_by_code("x.incident.record")
         vals_list['state'] = 'new'
         incident = super().create(vals_list)
         # Call the send_email method
         incident.action_send_email()
-        incident.create_activity('Assign Investigation Team', 'To Do', incident.location.location_manager.id, self.due_date)
+        incident.create_activity('Review & Approve', 'To Do', incident.location.location_manager.id, self.due_date)
         return incident
+
+    def write(self, vals_list):
+        # Check if inc_reported_date is prior to inc_date_time
+        reported_date = fields.Date.from_string(vals_list.get('inc_reported_date', self.inc_reported_date))
+        date_time = fields.Datetime.from_string(vals_list.get('inc_date_time', self.inc_date_time))
+        if reported_date < date_time.date():
+            raise ValidationError("Date Reported cannot be prior to Incident Date & Time")
+        if reported_date > fields.Date.today():
+            raise ValidationError("Date Reported cannot be greater than today's date")
+
+        return super().write(vals_list)
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
     name = fields.Char(string="Incident Reference", default='New', readonly=True)
     inc_reported_date = fields.Date(string="Date Reported", default=lambda self: fields.Date.today(), required=True)
-    inc_date_time = fields.Datetime(string="Date & Time", required=True, tracking=True)
+    inc_date_time = fields.Datetime(string="Incident Date & Time", required=True, tracking=True)
     shift = fields.Many2one("x.inc.shift", required=True, tracking=True)
     type = fields.Many2many("x.inc.type", string="Type of Incident", required=True, tracking=True)
     location = fields.Many2one("x.location", string="Location of Incident", required=True, tracking=True)
@@ -54,6 +75,7 @@ class IncidentRecord(models.Model):
     state = fields.Selection(
         selection=[
             ("new", "New"),
+            ("reviewed", "Reviewed"),
             ("investigation_assigned", "Assigned"),
             ("investigation_in_progress", "In Progress"),
             ("action_review", "Action Review"),
@@ -85,8 +107,20 @@ class IncidentRecord(models.Model):
 
         }
 
-    def save(self):
-        return True
+    def review_approve(self):
+        self.state = "reviewed"
+        self.mark_activity_as_done("Review & Approve")
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'type': 'success',
+                'message': 'The Incident is forwarded to HSE Manager for further Action',
+                'sticky': True,
+                'next': {'type': 'ir.actions.client',
+                         'tag': 'soft_reload', },
+            }
+        }
 
     def create_activity(self, summary, activity_type, user_id, date_deadline=None):
         activity_type_id = self.env['mail.activity.type'].search([('name', '=', activity_type)], limit=1).id

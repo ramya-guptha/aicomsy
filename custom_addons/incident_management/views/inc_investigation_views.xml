@@ -38,13 +38,20 @@
                 <header>
                     <button name="start_investigation" type="object" string="Start Investigation" states="assigned"
                             class="btn-primary" groups="aicomsy_base.access_hse_manager"/>
+                    <button name="send_inv_review" type="object" string="Send For Review"
+                            class="btn-primary" attrs="{'invisible': [('is_send_review_enabled','=',False)]}" />
+                    <button name="send_for_ca" type="object" string="Send For Corrective Action" states="investigation_review"
+                            class="btn-primary" groups="aicomsy_base.access_hse_manager"/>
                     <field name="state" widget="statusbar" statusbar_visible="assigned,in_progress,closed"/>
+
                 </header>
                 <sheet>
                     <h1>
                         <field name="name"/>
                     </h1>
                     <group>
+                        <field name="is_investigation_team_member" invisible="True"/>
+                        <field name="is_send_review_enabled" invisible="True"/>
                         <field name="incident_id" default="context.get('default_incident_id', False)" domain="[('id', '=', context.get('default_incident_id', False))]" />
                         <field name="description"/>
                         <field name="severity" attrs="{'invisible': [('state', '!=', 'closed')]}" options="{'no_create': True, 'no_create_edit': True}"/>
@@ -53,36 +60,36 @@
                         <page string="Investigation Team">
                             <group>
                                 <field name="hse_officer" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                                <field name="field_executive" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="field_executive" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}" invisible="True"/>
                                 <field name="hr_administration" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
-                                <field name="finance" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="finance" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}" invisible="True"/>
                             </group>
                             <group name="Investigation Team">
                                 <field name="investigation_team" attrs="{'readonly': [('state', 'in', ('assigned', 'in_progress', 'closed'))]}" options="{'no_create': True, 'no_create_edit':True}"/>
                             </group>
                         </page>
-                        <page string="Investigation Details" states="in_progress,closed">
+                        <page string="Investigation Details" states="in_progress,investigation_review,corrective_action,closed">
                             <group name="Investigation Details">
                                 <field name="investigation_details"
-                                       attrs="{'required': [('state', '=', 'in_progress')]}"/>
+                                       attrs="{'required': [('state', '=', 'in_progress')], 'readonly': [('is_investigation_team_member', '=', False),('state', 'in', ('in_progress', 'investigation_review'))]}"/>
                             </group>
-                            <group name="People Interviewed" states="in_progress,closed">
-                                <field name="people_interviewed_ids"/>
+                            <group name="People Interviewed" states="in_progress,investigation_review,corrective_action,closed" >
+                                <field name="people_interviewed_ids" attrs="{'readonly': [('is_investigation_team_member', '=', False),('state', 'in', ('in_progress', 'investigation_review'))]}"/>
                             </group>
                         </page>
-                        <page string="Consequences" states="in_progress,closed">
-                            <field name="consequences_ids"/>
+                        <page string="Consequences" states="in_progress,investigation_review,corrective_action,closed">
+                            <field name="consequences_ids" attrs="{'readonly': [('is_investigation_team_member', '=', False),('state', 'in', ('in_progress', 'investigation_review'))]}"/>
                         </page>
-                        <page string="Root Causes" states="in_progress,closed">
-                            <field name="root_causes_ids"/>
+                        <page string="Root Causes" states="in_progress,investigation_review,corrective_action,closed">
+                            <field name="root_causes_ids" attrs="{'readonly': [('is_investigation_team_member', '=', False),('state', 'in', ('in_progress', 'investigation_review'))]}"/>
                         </page>
-                        <page string="Corrective Actions" states="in_progress,closed">
+                        <page string="Corrective Actions" states="corrective_action,closed">
                             <field name="corrective_actions_ids"/>
                             <group string="Corrective Action Attachments">
                                 <field name="corrective_action_attachments" widget="many2many_binary"/>
                             </group>
                         </page>
-                        <page string="Review Action &amp; Closure" states="in_progress,closed">
+                        <page string="Review Action &amp; Closure" states="corrective_action,closed">
                             <field name="actions_review_ids"/>
                         </page>
                         <field name="company_id" invisible="1"/>
@@ -101,7 +108,8 @@
         <field name="model">x.inc.investigation.team</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="employee" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="job_position_id"/>
+                <field name="user_id" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="company_id" invisible="1"/>
             </tree>
         </field>

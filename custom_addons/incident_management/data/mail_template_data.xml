@@ -58,7 +58,7 @@
                    ref="incident_management.model_x_inc_investigation"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.hse_officer.employee_id.work_email}},{{object.field_executive.employee_id.work_email}},{{object.hr_administration.employee_id.work_email}},{{', '.join([employee.employee.employee_id.work_email for employee in object.investigation_team if employee.employee and employee.employee.work_email]) }},{{object.incident_id.location.location_manager.employee_id.work_email}},{{object.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.incident_id.location.location_alternate_2.employee_id.work_email}}
+                {{object.hse_officer.employee_id.work_email}},{{object.field_executive.employee_id.work_email}},{{object.hr_administration.employee_id.work_email}},{{', '.join([usr.user_id.employee_id.work_email for usr in object.investigation_team if usr.user_id and usr.user_id.work_email]) }},{{object.incident_id.location.location_manager.employee_id.work_email}},{{object.incident_id.location.location_alternate_1.employee_id.work_email}},{{object.incident_id.location.location_alternate_2.employee_id.work_email}}
             </field>
             <field name="subject"> Incident {{object.incident_id.name}} - Closed with Severity {{object.severity.name}} </field>
             <field name="body_html" type="html">
@@ -104,7 +104,7 @@
                    ref="incident_management.model_x_inc_investigation"/>
             <field name="email_from">aicomsy.alerts@gmail.com</field>
             <field name="email_to">
-                {{object.hse_officer.employee_id.work_email}},{{object.field_executive.employee_id.work_email}},{{object.hr_administration.employee_id.work_email}},{{', '.join([employee.employee.employee_id.work_email for employee in object.investigation_team if employee.employee and employee.employee.work_email]) }}
+                {{object.hse_officer.employee_id.work_email}},{{object.field_executive.employee_id.work_email}},{{object.hr_administration.employee_id.work_email}},{{', '.join([usr.user_id.employee_id.work_email for usr in object.investigation_team if usr.user_id and usr.user_id.work_email]) }}
             </field>
             <field name="subject">Investigation ({{object.name}} ) for Incident {{object.incident_id.name}}</field>
             <field name="body_html" type="html">
@@ -493,7 +493,7 @@
                                 with the following details has been resubmitted for review:
                                 <h4>Reason for resubmission of review</h4>
                                 <p>
-                                    <t t-out="object.comments"/>
+                                    <t t-out="object.followup_comments"/>
                                 </p>
                                 <ul>
                                     <li>

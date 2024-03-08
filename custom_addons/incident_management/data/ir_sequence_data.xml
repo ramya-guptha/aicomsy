@@ -7,6 +7,7 @@
             <field name="code">x.incident.record</field>
             <field name="prefix">INC</field>
             <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
             <field name="number_increment">1</field>
         </record>
         <record id="ir_sequence_investigation" model="ir.sequence">
@@ -14,6 +15,7 @@
             <field name="code">x.inc.investigation</field>
             <field name="prefix">INV</field>
             <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
             <field name="number_increment">1</field>
         </record>
         <record id="ir_sequence_corrective_action" model="ir.sequence">
@@ -21,6 +23,7 @@
             <field name="code">x.inc.inv.corrective.actions</field>
             <field name="prefix">CA</field>
             <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
             <field name="number_increment">1</field>
         </record>
     </data>

@@ -48,5 +48,9 @@
         <field name="name">Apps Specific User </field>
         <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
     </record>
+    <record id="aicomsy_base.access_production_manager" model="res.groups">
+        <field name="name">Production Manager</field>
+        <field name="category_id" ref="aicomsy_base.aicomsy_category"/>
+    </record>
 
 </odoo>

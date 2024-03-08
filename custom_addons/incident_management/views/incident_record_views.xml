@@ -40,8 +40,10 @@
         <field name="arch" type="xml">
             <form name="Incident Details">
                 <header>
-                    <button name="assign_team" type="object" string="Assign Team" states="new" class="btn-primary"
-                            confirm="Are you sure to go ahead with Investigation Team Assignment? " groups="aicomsy_base.access_zonal_manager"/>
+                    <button name="review_approve" type="object" string="Review &amp; Approve" states="new" class="btn-primary"
+                            confirm="Do you want approve the Incident for further Investigation? " groups="aicomsy_base.access_zonal_manager"/>
+                    <button name="assign_team" type="object" string="Assign Team" states="reviewed" class="btn-primary"
+                            confirm="Are you sure to go ahead with Investigation Team Assignment? " groups="aicomsy_base.access_hse_manager"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="new,investigation_assigned,investigation_in_progress,action_review,closed"/>
                 </header>
