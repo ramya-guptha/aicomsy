@@ -18,60 +18,60 @@ class IncidentPersonRecord(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     incident_id = fields.Many2one('x.incident.record', required=True)
-    person_category = fields.Many2one("x.inc.person.category", required=True, help='Person Category')
+    person_category_id = fields.Many2one("x.inc.person.category", required=True, help='Person Category')
     selected_category = fields.Char(compute='_compute_selected_category')
     person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly=True, help='Name')
-    employee = fields.Many2one('hr.employee', string='Employee Name', domain="[('company_id', '=', company_id)]")
-    employee_id = fields.Integer(related="employee.id", string='Employee ID')
+    employee_id = fields.Many2one('hr.employee', string='Employee Name', domain="[('company_id', '=', company_id)]")
+
     visitor_name = fields.Char(string='Visitor Name')
-    nationality = fields.Many2one('res.country', "Nationality")
+    nationality_id = fields.Many2one('res.country', "Nationality")
     manual_age = fields.Integer(string="Age", default=0)
     age = fields.Integer(string="Age", compute="_compute_age", inverse="_inverse_age")
     # experience = fields.Integer(string="Experience", related="employee.experience")
-    job_title = fields.Char(related='employee.job_id.name', string="Job Title")
+    job_title = fields.Char(related='employee_id.job_id.name', string="Job Title")
     involved_victim = fields.Selection(
         string="Involved/ Victim",
         selection=[('involved', "Involved"), ('victim', "Victim"), ('both', 'Both')], required=True, help='Involved/ Victim')
     person_task = fields.Text(string="Task being done at the time of incident")
     person_employer = fields.Char(string="Employer")
-    incident_injured_body_parts = fields.Many2many("x.inc.injured.body.parts", string="Injured Body Part", help='Injured Body Part')
-    incident_type_of_illness = fields.Many2many("x.inc.injury.type", string="Nature of Injury", help='Nature of Injury')
+    incident_injured_body_parts_ids = fields.Many2many("x.inc.injured.body.parts", string="Injured Body Part", help='Injured Body Part')
+    incident_type_of_illness_ids = fields.Many2many("x.inc.injury.type", string="Nature of Injury", help='Nature of Injury')
     visited_hospital = fields.Char(string="Name of the Hospital Visited")
     person_days_off = fields.Integer(string="Days Off")
     is_visitor = fields.Boolean(string='Is Visitor', compute='_compute_is_visitor')
-    immediate_response = fields.Many2one('x.inc.person.immediate.response', string="Immediate Response", help='Immediate Response')
-    oh_incident_classification = fields.Many2one("x.inc.oh.classification", string="OH Incident Classification",
+    immediate_response_id = fields.Many2one('x.inc.person.immediate.response', string="Immediate Response", help='Immediate Response')
+    oh_incident_classification_id = fields.Many2one("x.inc.oh.classification", string="OH Incident Classification",
                                                  required=True, help='OH Incident Classification')
-    oh_severity_consequence = fields.Many2one("x.inc.oh.severity.consequence",
+    oh_severity_consequence_id = fields.Many2one("x.inc.oh.severity.consequence",
                                               string="Severity Consequence", required=True, help='Severity Consequence')
-    location = fields.Many2one("x.location", string="Incident Location")
+    location_id = fields.Many2one("x.location", string="Incident Location")
     experience = fields.Integer(string="Experience")
     company_id = fields.Many2one(related="incident_id.company_id")
 
-    @api.depends('person_category', 'employee', 'visitor_name')
+    @api.depends('person_category_id', 'employee_id', 'visitor_name')
     def _compute_name(self):
         for person in self:
-            if person.person_category.name in ("Employee", "Contractor") and person.employee:
-                person.person_name = person.employee.name
-                person.nationality = person.employee.country_id
-            elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
+            if person.person_category_id.name in ("Employee", "Contractor") and person.employee_id:
+                person.person_name = person.employee_id.name
+                person.nationality_id = person.employee_id.country_id
+            elif person.person_category_id.name in ("Visitor", "Others") and person.visitor_name:
                 person.person_name = person.visitor_name
             else:
                 person.person_name = False
 
-    @api.depends('person_category')
+    @api.depends('person_category_id')
     def _compute_selected_category(self):
         for record in self:
-            record.selected_category = record.person_category.name
+            record.selected_category = record.person_category_id.name
 
-    @api.onchange('person_category', 'employee', 'visitor_name', 'manual_age')
+    @api.onchange('person_category_id', 'employee_id', 'visitor_name', 'manual_age')
     def _compute_age(self):
         for record in self:
             if record.manual_age != 0:
                 record.age = record.manual_age
                 record.manual_age = 0
-            elif record.employee is not None:
-                dob = record.employee.birthday
+            elif record.employee_id is not None:
+                dob = record.employee_id.birthday
                 if dob:
                     dob_datetime = fields.Date.from_string(dob)
                     today = datetime.now().date()
@@ -83,8 +83,6 @@ class IncidentPersonRecord(models.Model):
     def _inverse_age(self):
         for record in self:
             record.manual_age = record.age
-
-
 
 
 class IncPersonCategory(models.Model):

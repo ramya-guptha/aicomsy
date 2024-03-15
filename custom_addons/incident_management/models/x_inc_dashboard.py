@@ -182,7 +182,7 @@ class NormalDays(models.Model):
                 count(s.name) as severity_count from x_company_monthly_metrics as x
                 left join x_incident_record  ON EXTRACT(MONTH from inc_date_time) = x.month
                         AND EXTRACT(YEAR from inc_date_time) = x.year AND x.company_id = x_incident_record.company_id          
-                left join x_inc_severity as s on s.id = severity 
+                left join x_inc_severity as s on s.id = severity_id
 
                 """
 

@@ -11,7 +11,7 @@ class IncidentRecord(models.Model):
     _name = "x.incident.record"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "To Report Incidents"
-    _order = "location"
+    _order = "location_id"
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'Incident Id must be unique !'),
     ]
@@ -34,7 +34,7 @@ class IncidentRecord(models.Model):
         incident = super().create(vals_list)
         # Call the send_email method
         incident.action_send_email()
-        incident.create_activity('Review & Approve', 'To Do', incident.location.location_manager.id, self.due_date)
+        incident.create_activity('Review & Approve : %s' % incident.name, 'To Do', incident.location_id.location_manager.id, self.due_date)
         return incident
 
     def write(self, vals_list):
@@ -53,14 +53,14 @@ class IncidentRecord(models.Model):
     name = fields.Char(string="Incident Reference", default='New', readonly=True)
     inc_reported_date = fields.Date(string="Date Reported", default=lambda self: fields.Date.today(), required=True)
     inc_date_time = fields.Datetime(string="Incident Date & Time", required=True, tracking=True)
-    shift = fields.Many2one("x.inc.shift", required=True, tracking=True)
-    type = fields.Many2many("x.inc.type", string="Type of Incident", required=True, tracking=True)
-    location = fields.Many2one("x.location", string="Location of Incident", required=True, tracking=True)
+    shift_id = fields.Many2one("x.inc.shift", required=True, tracking=True)
+    type_id = fields.Many2many("x.inc.type", string="Type of Incident", required=True, tracking=True)
+    location_id = fields.Many2one("x.location", string="Location of Incident", required=True, tracking=True, domain="[('company_id', '=', company_id)]")
     description = fields.Html(string="Description", required=True, tracking=True)
-    notified_by = fields.Many2one('hr.employee', string="Notified By", domain="[('company_id', '=', company_id)]")
-    notified_by_id = fields.Integer(related="notified_by.id", string="Notified By ID")
-    notified_by_type = fields.Selection(related="notified_by.employee_type")
-    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
+    notified_by_id = fields.Many2one('hr.employee', string="Notified By", domain="[('company_id', '=', company_id)]")
+
+    notified_by_type = fields.Selection(related="notified_by_id.employee_type")
+    severity_id = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.company)
     incident_person_ids = fields.One2many(
         'x.inc.person.record', 'incident_id', string='People'
@@ -109,7 +109,7 @@ class IncidentRecord(models.Model):
 
     def review_approve(self):
         self.state = "reviewed"
-        self.mark_activity_as_done("Review & Approve")
+        self.mark_activity_as_done("Review & Approve : %s" % self.name)
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -196,7 +196,7 @@ class IncSeverity(models.Model):
     # --------------------------------------- Fields Declaration ----------------------------------
 
     name = fields.Char(string="Severity Classification")
-    notification_ids = fields.One2many('x.inc.notification', 'severity', string='Notification Team')
+    notification_ids = fields.One2many('x.inc.notification', 'severity_id', string='Notification Team')
 
 
 class NotificationTeam(models.Model):
@@ -207,5 +207,5 @@ class NotificationTeam(models.Model):
 
     # --------------------------------------- Fields Declaration ----------------------------------
     name = fields.Char(string='Employee Name', related='officer_id.name', readonly=True)
-    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=True)
+    severity_id = fields.Many2one("x.inc.severity", string="Severity Classification", required=True)
     officer_id = fields.Many2one('hr.employee', string="Officer", required=True)

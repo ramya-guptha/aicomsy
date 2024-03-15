@@ -68,30 +68,12 @@
                                                 </span>
                                             </td>
                                             <td style="width: 30%;">
-                                                <span t-field="o.shift"/>
+                                                <span t-field="o.shift_id"/>
                                             </td>
 
                                             <td style="background-color: lightblue; width: 30%;">
                                                 <span style="font-size: 15px; font-weight: bold;  margin-bottom: 10px;">
                                                     <strong>Notified_By</strong>
-                                                </span>
-                                            </td>
-                                            <td style="width: 30%;">
-                                                <span t-field="o.notified_by"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="background-color: lightblue; width: 30%;">
-                                                <span style="font-size: 15px; font-weight: bold; margin-bottom: 10px;">
-                                                    <strong>Location of Incident</strong>
-                                                </span>
-                                            </td>
-                                            <td style="width: 30%;">
-                                                <span t-field="o.location"/>
-                                            </td>
-                                            <td style="background-color: lightblue; width: 30%;">
-                                                <span style="font-size: 15px; font-weight: bold; margin-bottom: 10px;">
-                                                    <strong>Notified By ID</strong>
                                                 </span>
                                             </td>
                                             <td style="width: 30%;">
@@ -101,11 +83,29 @@
                                         <tr>
                                             <td style="background-color: lightblue; width: 30%;">
                                                 <span style="font-size: 15px; font-weight: bold; margin-bottom: 10px;">
+                                                    <strong>Location of Incident</strong>
+                                                </span>
+                                            </td>
+                                            <td style="width: 30%;">
+                                                <span t-field="o.location_id"/>
+                                            </td>
+                                            <td style="background-color: lightblue; width: 30%;">
+                                                <span style="font-size: 15px; font-weight: bold; margin-bottom: 10px;">
+                                                    <strong>Notified By ID</strong>
+                                                </span>
+                                            </td>
+                                            <td style="width: 30%;">
+                                                <span t-field="o.notified_by_id.id"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="background-color: lightblue; width: 30%;">
+                                                <span style="font-size: 15px; font-weight: bold; margin-bottom: 10px;">
                                                     <strong>Type of Incident</strong>
                                                 </span>
                                             </td>
                                             <td style="width: 30%;">
-                                                <span t-field="o.type"/>
+                                                <span t-field="o.type_id"/>
                                             </td>
 
                                             <td style="background-color: lightblue; width: 30%;">
@@ -135,7 +135,7 @@
                                                     </span>
                                                 </td>
                                                 <td style="width: 30%;">
-                                                    <span t-field="o.severity"/>
+                                                    <span t-field="o.severity_id"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -173,7 +173,7 @@
                                                     <strong>Person Category</strong>
                                                 </td>
                                                 <td>
-                                                    <span t-field="record.person_category"/>
+                                                    <span t-field="record.person_category_id"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -190,7 +190,7 @@
                                                 </td>
 
                                                 <td>
-                                                    <span t-field="record.nationality"/>
+                                                    <span t-field="record.nationality_id"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -225,7 +225,7 @@
                                                     <span t-field="record.person_task"/>
                                                 </td>
                                             </tr>
-                                            <tr t-if="record.person_category.name in ['Contractor']">
+                                            <tr t-if="record.person_category_id.name in ['Contractor']">
                                                 <td style="font-size: 15px; font-weight: bold; background-color: lightblue; width: 30%;">
                                                     <strong>Employer</strong>
                                                 </td>
@@ -238,7 +238,7 @@
                                                     <strong>Nature of Injury</strong>
                                                 </td>
                                                 <td>
-                                                    <span t-field="record.incident_type_of_illness"/>
+                                                    <span t-field="record.incident_type_of_illness_ids"/>
                                                 </td>
                                             </tr>
                                             <tr t-if="record.involved_victim in ['victim', 'both']">
@@ -262,7 +262,7 @@
                                                     <strong>Immediate Response</strong>
                                                 </td>
                                                 <td>
-                                                    <span t-field="record.immediate_response"/>
+                                                    <span t-field="record.immediate_response_id"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -270,7 +270,7 @@
                                                     <strong>OH Incident Classification</strong>
                                                 </td>
                                                 <td>
-                                                    <span t-field="record.oh_incident_classification"/>
+                                                    <span t-field="record.oh_incident_classification_id"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -278,7 +278,7 @@
                                                     <strong>Severity Consequence</strong>
                                                 </td>
                                                 <td>
-                                                    <span t-field="record.oh_severity_consequence"/>
+                                                    <span t-field="record.oh_severity_consequence_id"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -291,7 +291,7 @@
                                             </tr>
                                         </table>
                                     </t>
-                                    <t t-foreach="o.type" t-as="type">
+                                    <t t-foreach="o.type_id" t-as="type">
                                         <span t-field="type.name" t-if="type.name in ['Environmental (ENV)', 'Asset']"
                                               style="font-size: 30px; font-weight: bold;"/>
                                         <td>
@@ -324,22 +324,22 @@
                                                     <t t-foreach="o.incident_spill_ids" t-as="record">
                                                         <tr t-if="type.name in ['Environmental (ENV)']">
                                                             <td>
-                                                                <span t-field="record.env_incident_classification"/>
+                                                                <span t-field="record.env_incident_classification_id"/>
                                                             </td>
                                                             <td>
                                                                 <span t-field="record.qty"/>
                                                             </td>
                                                             <td>
-                                                                <span t-field="record.unit"/>
+                                                                <span t-field="record.unit_id"/>
                                                             </td>
                                                             <td>
-                                                                <span t-field="record.env_impact"/>
+                                                                <span t-field="record.env_impact_id"/>
                                                             </td>
                                                             <td>
-                                                                <span t-field="record.immediate_response"/>
+                                                                <span t-field="record.immediate_response_id"/>
                                                             </td>
                                                             <td>
-                                                                <span t-field="record.env_severity_consequence"/>
+                                                                <span t-field="record.env_severity_consequence_id"/>
                                                             </td>
                                                         </tr>
                                                     </t>
@@ -526,7 +526,7 @@
                                                             </span>
                                                         </td>
                                                         <td>
-                                                            <span t-field="team.employee"/>
+                                                            <span t-field="team.user_id"/>
                                                         </td>
                                                     </tr>
                                                 </t>
@@ -851,7 +851,7 @@
                                                                                 </span>
                                                                             </td>
                                                                             <td colspan="99">
-                                                                                <span t-field="ac.comments"/>
+                                                                                <span t-field="ac.followup_comments"/>
                                                                             </td>
                                                                         </tr>
                                                                         <tr t-if="ac.action_follow_up_required in ['no']">

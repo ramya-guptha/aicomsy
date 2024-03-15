@@ -24,9 +24,8 @@ class IncInvestigation(models.Model):
         if incident_id:
             incident = self.env['x.incident.record'].browse(incident_id)
             incident.write({'state': 'investigation_assigned'})
-            incident.mark_activity_as_done('Assign Investigation Team')
         investigation.action_send_investigation_email()
-        investigation.create_activity('Start Investigation', 'To Do', investigation.hse_officer.id, investigation.due_date)
+        investigation.create_activity('Start Investigation: %s' % investigation.name, 'To Do', investigation.hse_officer.id, investigation.due_date)
 
         return investigation
 
@@ -110,13 +109,13 @@ class IncInvestigation(models.Model):
 
     def send_inv_review(self):
         #Create Activity for HSE Manager to review the details submitted by Investigation Team members
-        self.mark_activity_as_done('Complete Initial Investigation')
-        self.create_activity("Review Investigation Details", 'To Do', self.hse_officer.id, self.due_date)
+        self.mark_activity_as_done('Complete Initial Investigation: %s' % self.name)
+        self.create_activity("Review Investigation Details: %s" % self.name, 'To Do', self.hse_officer.id, self.due_date)
         self.state = "investigation_review"
 
     def send_for_ca(self):
         # Mark HSE Officer action to review investigation details as Done
-        self.mark_activity_as_done('Review Investigation Details')
+        self.mark_activity_as_done('Review Investigation Details: %s' % self.name)
         self.state = "corrective_action"
         return {
             'type': 'ir.actions.client',
@@ -134,9 +133,9 @@ class IncInvestigation(models.Model):
         incident_id = self.incident_id
         incident_id.write({'state': 'investigation_in_progress'})
 
-        self.mark_activity_as_done('Start Investigation')
+        self.mark_activity_as_done('Start Investigation: %s' % self.name)
         for usr in self.investigation_team:
-            self.create_activity("Complete Initial Investigation", 'To Do', usr.user_id.id, self.due_date)
+            self.create_activity("Complete Initial Investigation: %s" % self.name, 'To Do', usr.user_id.id, self.due_date)
 
     # Computed field to gather attachments from corrective actions
     def _compute_corrective_action_attachments(self):
@@ -147,7 +146,7 @@ class IncInvestigation(models.Model):
 
     @api.onchange('severity')
     def _update_inc_severity_classification(self):
-        self.incident_id.severity = self.severity
+        self.incident_id.severity_id = self.severity
 
     def _email_on_severity_change(self):
         mail_template = self.env.ref('incident_management.email_template_incident_severity')
@@ -443,7 +442,7 @@ class CorrectiveAction(models.Model):
         # Call the send_email method
         corrective_action.action_send_email()
         # Create Task for Action Party
-        corrective_action.investigation_id.create_activity('Execute CA and Upload evidence: %s' % self.name, 'To Do', corrective_action.action_party.id, corrective_action.due_date)
+        corrective_action.investigation_id.create_activity('Execute CA and Upload evidence: %s' % corrective_action.name, 'To Do', corrective_action.action_party.id, corrective_action.due_date)
         return corrective_action
 
     # --------------------------------------- Fields Declaration ----------------------------------
