@@ -25,7 +25,7 @@ class ActionReview(models.Model):
             corrective_action = self.env['x.inc.inv.corrective.actions'].browse(corrective_action_id)
             corrective_action.write({'state': 'completed'})
             self.action_completion_send_email()
-        action_review.investigation_id.create_activity('Action Review & Closure: %s' % action_review.corrective_action_id.name, 'To Do', action_review.reviewer.id, action_review.due_date)
+        action_review.investigation_id.create_activity('Action Review & Closure: %s' % action_review.corrective_action_id.name, 'To Do', action_review.reviewer_id.id, action_review.due_date)
         return action_review
 
     def write(self, vals):
@@ -39,7 +39,7 @@ class ActionReview(models.Model):
 
     investigation_id = fields.Many2one("x.inc.investigation")
     corrective_action_id = fields.Many2one("x.inc.inv.corrective.actions")
-    reviewer = fields.Many2one('res.users', string="Reviewer", help='Reviewer')
+    reviewer_id = fields.Many2one('res.users', string="Reviewer", help='Reviewer')
     review_completion_date = fields.Date(string="Review Completion Date")
     risks_and_opportunities_reviewed = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                         string="Risks and Opportunities Reviewed?", help='Risks and Opportunities Reviewed?')
@@ -92,15 +92,15 @@ class ActionReview(models.Model):
     is_reviewer = fields.Boolean(string="Is Followup Adviser", compute="_is_reviewer")
 
     def _is_reviewer(self):
-        self.is_reviewer = self.reviewer == self.env.user
+        self.is_reviewer = self.reviewer_id == self.env.user
 
     def _is_followup_adviser(self):
         self.is_followup_adviser = self.quality_control_user_id == self.env.user
 
-    @api.depends('reviewer')
+    @api.depends('reviewer_id')
     def _compute_report_closed_by(self):
         for record in self:
-            record.report_closed_by = record.reviewer
+            record.report_closed_by = record.reviewer_id
 
     def start_review(self):
         self.state = 'review'
@@ -171,7 +171,7 @@ class ActionReview(models.Model):
     def action_return_further_action(self):
         self.write({'state': 'review'})
         self.investigation_id.add_log_note(self.management_reviewed_comments)
-        self.investigation_id.create_activity('Action Review & Closure: %s' % self.corrective_action_id.name, 'To Do', self.reviewer.id,
+        self.investigation_id.create_activity('Action Review & Closure: %s' % self.corrective_action_id.name, 'To Do', self.reviewer_id.id,
                                           self.due_date)
         self._return_for_further_action_email()
 
@@ -183,7 +183,7 @@ class ActionReview(models.Model):
 
     def _return_to_action_party(self):
         self.investigation_id.create_activity('Review Corrective action again based on comments: %s' % self.corrective_action_id.name, 'To Do',
-                                              self.corrective_action_id.assigner.id,
+                                              self.corrective_action_id.assigner_id.id,
                                               self.due_date)
         mail_template = self.env.ref('incident_management.email_template_return_to_corrective_action')
         mail_template.send_mail(self.id, force_send=True)

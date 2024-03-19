@@ -19,7 +19,7 @@ class IncidentAssetRecord(models.Model):
     asset_title = fields.Char(related="asset_id.name")
     asset_type = fields.Selection([('owned', 'Owned'), ('rental', 'Rental')], help='Asset Type')
     description = fields.Text(string="Description of the Damage", help='Description of the Damage')
-    immediate_response = fields.Many2one("x.inc.asset.immediate.response", help='Immediate Response')
+    immediate_response_id = fields.Many2one("x.inc.asset.immediate.response", help='Immediate Response')
     others_asset_category = fields.Char(string="Others")
     asset_name = fields.Char(string="Asset Name", compute="_compute_asset_name", store=True, help='Asset Name')
 

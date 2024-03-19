@@ -25,13 +25,13 @@ class IncInvestigation(models.Model):
             incident = self.env['x.incident.record'].browse(incident_id)
             incident.write({'state': 'investigation_assigned'})
         investigation.action_send_investigation_email()
-        investigation.create_activity('Start Investigation: %s' % investigation.name, 'To Do', investigation.hse_officer.id, investigation.due_date)
+        investigation.create_activity('Start Investigation: %s' % investigation.name, 'To Do', investigation.hse_officer_id.id, investigation.due_date)
 
         return investigation
 
     def write(self, vals):
         result = super(IncInvestigation,self).write(vals)
-        if 'severity' in vals:
+        if 'severity_id' in vals:
             self._email_on_severity_change()
 
         return result
@@ -43,13 +43,13 @@ class IncInvestigation(models.Model):
         string="Investigation", readonly=True, default='New')
     incident_id = fields.Many2one("x.incident.record", string="Incident Id")
     description = fields.Html(related="incident_id.description")
-    severity = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
+    severity_id = fields.Many2one("x.inc.severity", string="Severity Classification", required=False)
     # Investigation Team Details
-    hse_officer = fields.Many2one("res.users", string="HSE Officer", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
-    field_executive = fields.Many2one('res.users', string="Field Executive", tracking=True,domain="[('company_id', '=', company_id)]")
-    hr_administration = fields.Many2one('res.users', string="HR / Administration", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
-    finance = fields.Many2one('res.users', string="Finance", tracking=True,domain="[('company_id', '=', company_id)]")
-    investigation_team = fields.One2many("x.inc.investigation.team", "investigation_id",
+    hse_officer_id = fields.Many2one("res.users", string="HSE Officer", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
+    field_executive_id = fields.Many2one('res.users', string="Field Executive", tracking=True,domain="[('company_id', '=', company_id)]")
+    hr_administration_id = fields.Many2one('res.users', string="HR / Administration", required=True, tracking=True,domain="[('company_id', '=', company_id)]")
+    finance_id = fields.Many2one('res.users', string="Finance", tracking=True,domain="[('company_id', '=', company_id)]")
+    investigation_team_ids = fields.One2many("x.inc.investigation.team", "investigation_id",
                                          string="Investigation Team", required=True, tracking=True)
 
     # Investigation Details Tab
@@ -67,7 +67,7 @@ class IncInvestigation(models.Model):
                                              string="Corrective Actions")
 
     # Related field to fetch attachments from corrective actions
-    corrective_action_attachments = fields.One2many('ir.attachment', compute='_compute_corrective_action_attachments',
+    corrective_action_attachments_ids = fields.One2many('ir.attachment', compute='_compute_corrective_action_attachments',
                                                     string='Related Attachments')
 
     # Actions Review & Closure Tab
@@ -93,7 +93,7 @@ class IncInvestigation(models.Model):
 
     def _is_inv_team_member(self):
         check = False
-        for team_member in self.investigation_team:
+        for team_member in self.investigation_team_ids:
             check = self.env.user == team_member.user_id
 
             if check:
@@ -110,7 +110,7 @@ class IncInvestigation(models.Model):
     def send_inv_review(self):
         #Create Activity for HSE Manager to review the details submitted by Investigation Team members
         self.mark_activity_as_done('Complete Initial Investigation: %s' % self.name)
-        self.create_activity("Review Investigation Details: %s" % self.name, 'To Do', self.hse_officer.id, self.due_date)
+        self.create_activity("Review Investigation Details: %s" % self.name, 'To Do', self.hse_officer_id.id, self.due_date)
         self.state = "investigation_review"
 
     def send_for_ca(self):
@@ -134,7 +134,7 @@ class IncInvestigation(models.Model):
         incident_id.write({'state': 'investigation_in_progress'})
 
         self.mark_activity_as_done('Start Investigation: %s' % self.name)
-        for usr in self.investigation_team:
+        for usr in self.investigation_team_ids:
             self.create_activity("Complete Initial Investigation: %s" % self.name, 'To Do', usr.user_id.id, self.due_date)
 
     # Computed field to gather attachments from corrective actions
@@ -142,11 +142,11 @@ class IncInvestigation(models.Model):
         for investigation in self:
             attachments = self.env['ir.attachment'].search([('res_model', '=', 'x.inc.inv.corrective.actions'),
                                                             ('res_id', 'in', investigation.corrective_actions_ids.ids)])
-            investigation.corrective_action_attachments = [(6, 0, attachments.ids)]
+            investigation.corrective_action_attachments_ids = [(6, 0, attachments.ids)]
 
-    @api.onchange('severity')
+    @api.onchange('severity_id')
     def _update_inc_severity_classification(self):
-        self.incident_id.severity_id = self.severity
+        self.incident_id.severity_id = self.severity_id
 
     def _email_on_severity_change(self):
         mail_template = self.env.ref('incident_management.email_template_incident_severity')
@@ -156,10 +156,10 @@ class IncInvestigation(models.Model):
         mail_template = self.env.ref('incident_management.email_template_investigation')
         mail_template.send_mail(self.id, force_send=True)
 
-    @api.constrains('investigation_team')
+    @api.constrains('investigation_team_ids')
     def _check_investigation_team(self):
         for record in self:
-            if not record.investigation_team:
+            if not record.investigation_team_ids:
                 raise ValidationError('At least one member is required in Investigation Team')
 
     def create_activity(self, summary, activity_type, user_id, date_deadline=None):
@@ -242,7 +242,7 @@ class IncidentPeopleInterviewed(models.Model):
     details_of_interview = fields.Text(string='Details of Interview(If Required)',
                                        help="Details of Interview(If Required)")
     remarks = fields.Text(string='Remarks', help='Remarks')
-    person_category = fields.Many2one("x.inc.person.category", required="True", help='Person Category')
+    person_category_id = fields.Many2one("x.inc.person.category", required="True", help='Person Category')
     selected_category = fields.Char(compute='_compute_selected_category')
     person_name = fields.Char(string='Name', compute='_compute_name', store=True, readonly="True", help='Name')
     visitor_name = fields.Char(string='Visitor Name')
@@ -285,20 +285,20 @@ class IncidentPeopleInterviewed(models.Model):
     company_id = fields.Many2one(related="investigation_id.company_id")
 
 
-    @api.depends('person_category', 'employee_id', 'visitor_name')
+    @api.depends('person_category_id', 'employee_id', 'visitor_name')
     def _compute_name(self):
         for person in self:
-            if person.person_category.name in ("Employee", "Contractor") and person.employee_id:
+            if person.person_category_id.name in ("Employee", "Contractor") and person.employee_id:
                 person.person_name = person.employee_id.name
-            elif person.person_category.name in ("Visitor", "Others") and person.visitor_name:
+            elif person.person_category_id.name in ("Visitor", "Others") and person.visitor_name:
                 person.person_name = person.visitor_name
             else:
                 person.person_name = False
 
-    @api.depends('person_category')
+    @api.depends('person_category_id')
     def _compute_selected_category(self):
         for record in self:
-            record.selected_category = record.person_category.name
+            record.selected_category = record.person_category_id.name
 
 
 class IncidentConsequences(models.Model):
@@ -310,7 +310,7 @@ class IncidentConsequences(models.Model):
     actions_damages = fields.Many2one('x.inc.action.damage', string="Actions/ Damages", required=True,
                                       help='Actions/ Damages')
     quantity = fields.Float(string="Quantity", help='Quantity')
-    unit = fields.Many2one('x.inc.unit', string="Units", help='Units')
+    unit_id = fields.Many2one('x.inc.unit', string="Units", help='Units')
     unit_rate = fields.Float(string="Unit Rate", help='Unit Rate')
     total_cost = fields.Float(string="Total Cost", compute='_compute_total_cost', store=True, help='Total Cost')
     impact = fields.Selection([('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], string="Impact", help='Impact')
@@ -442,7 +442,7 @@ class CorrectiveAction(models.Model):
         # Call the send_email method
         corrective_action.action_send_email()
         # Create Task for Action Party
-        corrective_action.investigation_id.create_activity('Execute CA and Upload evidence: %s' % corrective_action.name, 'To Do', corrective_action.action_party.id, corrective_action.due_date)
+        corrective_action.investigation_id.create_activity('Execute CA and Upload evidence: %s' % corrective_action.name, 'To Do', corrective_action.action_party_id.id, corrective_action.due_date)
         return corrective_action
 
     # --------------------------------------- Fields Declaration ----------------------------------
@@ -453,12 +453,12 @@ class CorrectiveAction(models.Model):
     secondary_root_cause_ids = fields.Many2many('x.inc.secondary.root.causes',
                                                 domain="[('primary_root_causes_id', '=', primary_root_cause_id)]",
                                                 required=True, readonly=True)
-    action_type = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type", help='Action Type')
-    hierarchy_of_control = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control",
+    action_type_id = fields.Many2one('x.inc.inv.ca.action.type', string="Action Type", help='Action Type')
+    hierarchy_of_control_id = fields.Many2one('x.inc.inv.ca.hierarchy.control', string="Hierarchy of Control",
                                            help='Hierarchy of Control')
     action_party_department_id = fields.Many2one('hr.department', string="Action Party Department", help='Action Party Department', domain="[('company_id', '=', company_id)]", placeholder="Choose the Action Party Department")
-    action_party = fields.Many2one('res.users', string="Action Party", help='Action Party', domain="[('company_id', '=', company_id), ('employee_id.department_id','=', action_party_department_id)]")
-    assigner = fields.Many2one('res.users', string="Assigner", help='Assigner', domain="[('company_id', '=', company_id)]")
+    action_party_id = fields.Many2one('res.users', string="Action Party", help='Action Party', domain="[('company_id', '=', company_id), ('employee_id.department_id','=', action_party_department_id)]")
+    assigner_id = fields.Many2one('res.users', string="Assigner", help='Assigner', domain="[('company_id', '=', company_id)]")
     target_date = fields.Date(string="Target Date of Completion", help='Target Date of Completion')
     remarks = fields.Text(string="Remarks")
     attachment_ids = fields.One2many('ir.attachment', 'res_id', string="Attachments")
@@ -480,12 +480,12 @@ class CorrectiveAction(models.Model):
     is_action_party = fields.Boolean(string="Is Action Party", compute="_is_action_party")
 
     def _is_action_party(self):
-        self.is_action_party = self.action_party == self.env.user
+        self.is_action_party = self.action_party_id == self.env.user
 
     @api.onchange('action_party_department_id')
     def _onchange_action_party_department_id(self):
         # Clear the user field when changing the action_party_department_id
-        self.action_party = False
+        self.action_party_id = False
 
     def action_send_email(self):
         mail_template = self.env.ref('incident_management.email_template_corrective_action')
@@ -506,7 +506,7 @@ class CorrectiveAction(models.Model):
             'context': {
                 'default_investigation_id': self.investigation_id.id,
                 'default_corrective_action_id': self.id,
-                'default_reviewer': self.investigation_id.hse_officer.id
+                'default_reviewer': self.investigation_id.hse_officer_id.id
             },
 
         }
@@ -514,7 +514,7 @@ class CorrectiveAction(models.Model):
     def review_action_tree(self):
         for record in self:
             # Check if all required fields are set
-            if not record.action_type or not record.hierarchy_of_control or not record.target_date or not record.proposed_action:
+            if not record.action_type_id or not record.hierarchy_of_control_id or not record.target_date or not record.proposed_action:
                 raise ValidationError("Please fill in all required fields by clicking on the record before proceeding.")
 
         return {
@@ -527,7 +527,7 @@ class CorrectiveAction(models.Model):
             'context': {
                 'default_investigation_id': self.investigation_id.id,
                 'default_corrective_action_id': self.id,
-                'default_reviewer': self.investigation_id.hse_officer
+                'default_reviewer': self.investigation_id.hse_officer_id
             },
 
         }
@@ -535,7 +535,7 @@ class CorrectiveAction(models.Model):
     def notify_assigner(self):
         self._notify_assigner_send_email()
         self.investigation_id.mark_activity_as_done('Execute CA and Upload evidence: %s' % self.name)
-        self.investigation_id.create_activity('Review Corrective Action: %s' % self.name, 'To Do', self.assigner.id, self.due_date)
+        self.investigation_id.create_activity('Review Corrective Action: %s' % self.name, 'To Do', self.assigner_id.id, self.due_date)
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -550,8 +550,8 @@ class CorrectiveAction(models.Model):
     def resend_review_action(self):
         self.investigation_id.mark_activity_as_done('Review Corrective action again based on comments: %s' % self.name)
         if self.action_review_ids:
-            first_reviewer_id = self.action_review_ids[0].reviewer.id
-            self.investigation_id.create_activity('Action Review & Closure: %s' % self.name, 'To Do', self.action_review_ids[0].reviewer.id, self.due_date)
+            first_reviewer_id = self.action_review_ids[0].reviewer_id.id
+            self.investigation_id.create_activity('Action Review & Closure: %s' % self.name, 'To Do', self.action_review_ids[0].reviewer_id.id, self.due_date)
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
